@@ -4,7 +4,12 @@
     "description": "",
     "main": "webpack.conflig.js",
     "scripts": {
-        "test": "echo \"Error: no test specified\" && exit 1"
+        "start": "npm run build & node server",
+        "build": "webpack --mode=production",
+        "start:dev": "npm run start-server & npm run build-watch",
+        "build-watch": "webpack -w --mode=development",
+        "start-server": "nodemon server --ignore public",
+        "test": "mocha \"**/*.spec.js\""
     },
     "repository": {
         "type": "git",
@@ -20,6 +25,14 @@
     "dependencies": {
         "express": "^4.17.1",
         "pg": "^8.6.0",
+        "react": "^17.0.2",
+        "react-dom": "^17.0.2",
+        "react-redux": "^7.2.4",
+        "react-router": "^5.2.0",
+        "react-router-dom": "^5.2.0",
+        "redux": "^4.1.0",
+        "redux-logger": "^3.0.6",
+        "redux-thunk": "^2.3.0",
         "sequelize": "^6.6.2"
     },
     "devDependencies": {
