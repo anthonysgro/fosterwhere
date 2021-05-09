@@ -5,9 +5,12 @@ import ReactDom from "react-dom";
 import { Provider } from "react-redux";
 // import store from "./store";
 
+// Component Imports
+import Homepage from "./components/Homepage.jsx";
+
 ReactDom.render(
     // <Provider store={store}>
-    "Hello World!",
+    <Homepage />,
     // </Provider>,
     document.querySelector("#app"),
 );
