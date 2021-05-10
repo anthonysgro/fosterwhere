@@ -1,16 +1,21 @@
 import React from "react";
 import ReactDom from "react-dom";
 
+// React Router Imports
+import { HashRouter as Router } from "react-router-dom";
+
 // Redux Imports
 import { Provider } from "react-redux";
 import store from "./store";
 
 // Component Imports
-import Homepage from "./components/Homepage.jsx";
+import App from "./components/App.jsx";
 
 ReactDom.render(
     <Provider store={store}>
-        <Homepage />
+        <Router>
+            <App />
+        </Router>
     </Provider>,
     document.querySelector("#app"),
 );

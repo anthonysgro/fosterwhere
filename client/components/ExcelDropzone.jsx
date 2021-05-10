@@ -3,13 +3,16 @@ import { useDropzone } from "react-dropzone";
 import styled from "styled-components";
 import axios from "axios";
 
+// React Router Imports
+import { useHistory } from "react-router-dom";
+
 // Excel Imports
 import * as XLSX from "xlsx";
 import convertToJson from "../helper-functions/convertToJson";
 import convertCommas from "../helper-functions/convertCommas";
 
 // Redux Imports
-import { dropFile, stopLoading } from "../store/action-creators";
+import { dropFile, stopLoading, startLoading } from "../store/action-creators";
 import { useDispatch } from "react-redux";
 
 const getColor = (props) => {
@@ -43,6 +46,8 @@ const Container = styled.div`
 
 function ExcelDropzone() {
     const dispatch = useDispatch();
+    const history = useHistory();
+
     const onDrop = useCallback(async (acceptedFiles) => {
         // Should just be one file
         acceptedFiles.forEach(async (file) => {
@@ -62,13 +67,18 @@ function ExcelDropzone() {
                 const data = XLSX.utils.sheet_to_csv(wsNoCommas, { header: 1 });
                 const jsonData = convertToJson(data);
 
-                // Geocode the data so we get latitude and longitude
-                const { data: jsonGeocodedData } = axios.put("/api/geocode", {
-                    data: jsonData,
-                });
+                dispatch(startLoading());
 
-                dispatch(dropFile(jsonGeocodedData));
-                dispatch(stopLoading());
+                // Geocode the data so we get latitude and longitude
+                axios
+                    .put("/api/geocode", {
+                        data: jsonData,
+                    })
+                    .then(({ data: jsonGeocodedData }) => {
+                        dispatch(dropFile(jsonGeocodedData));
+                        dispatch(stopLoading());
+                        history.push("/map");
+                    });
             };
             reader.readAsBinaryString(file);
         });

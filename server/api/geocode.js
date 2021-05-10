@@ -19,16 +19,18 @@ router.put("/", async (req, res, next) => {
         const geoCoder = nodeGeocoder(openCageOptions);
 
         let geocodedData = [];
+        let i = 0;
         for (const dataItem of data) {
+            i++;
+
             // This now works, but we are going to use fake data for now
             const { latitude, longitude } = (
                 await geoCoder.geocode(dataItem.address)
             )[0];
-            geocodedData.push({ ...dataItem, latitude, longitude });
+            geocodedData.push({ id: i, ...dataItem, latitude, longitude });
         }
 
-        console.log(geocodedData);
-        return geocodedData;
+        res.send(geocodedData);
     } catch (err) {
         console.error(err);
         next(err);

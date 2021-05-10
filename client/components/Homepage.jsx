@@ -2,6 +2,7 @@ import React, { Component } from "react";
 
 // Component Imports
 import ExcelDropzone from "./ExcelDropzone.jsx";
+import Loading from "./Loading.jsx";
 
 // Redux Imports
 import { connect } from "react-redux";
@@ -17,15 +18,7 @@ class Homepage extends Component {
         return (
             <main>
                 <h1>Foster Where</h1>
-                {data ? (
-                    Object.values(data).map((d) => (
-                        <p>
-                            {d.name}, {d.address}
-                        </p>
-                    ))
-                ) : (
-                    <ExcelDropzone />
-                )}
+                {loading ? <Loading /> : <ExcelDropzone />}
             </main>
         );
     }
