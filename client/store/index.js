@@ -1,9 +1,13 @@
 import { createStore, applyMiddleware, combineReducers } from "redux";
 import thunkMiddleware from "redux-thunk";
 import { createLogger } from "redux-logger";
+import { dataReducer, loadingReducer } from "./reducers";
 
-// Combiend Reducer
-const primaryReducer = combineReducers({});
+// Combined Reducer
+const primaryReducer = combineReducers({
+    data: dataReducer,
+    loading: loadingReducer,
+});
 
 // Redux Middleware
 const middleware = applyMiddleware(
@@ -12,5 +16,5 @@ const middleware = applyMiddleware(
 );
 
 // Redux Store
-// const store = createStore(primaryReducer, middleware);
-// export default store;
+const store = createStore(primaryReducer, middleware);
+export default store;

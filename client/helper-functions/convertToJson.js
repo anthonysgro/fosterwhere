@@ -5,16 +5,23 @@ const convertToJson = (csv) => {
     for (let i = 1; i < lines.length; i++) {
         let obj = {};
         const currentline = lines[i].split(",");
-
         for (let j = 0; j < headers.length; j++) {
-            obj[headers[j]] = currentline[j];
+            if (currentline[j]) {
+                obj[headers[j].toLowerCase()] = currentline[j].replaceAll(
+                    "~",
+                    ",",
+                );
+            }
         }
 
-        result.push(obj);
+        if (obj.address && obj.name) {
+            result.push(obj);
+        }
     }
 
     //return result; //JavaScript object
-    return JSON.stringify(result); //JSON
+    // return JSON.stringify(result); //JSON
+    return result;
 };
 
 export default convertToJson;
