@@ -6,6 +6,8 @@ import {
     startLoading,
 } from "./loading";
 
+import { CREATE_TRANSIT_GRAPH, createTransitGraph } from "./createTransitGraph";
+
 export {
     DROP_FILE,
     dropFile,
@@ -13,4 +15,6 @@ export {
     stopLoading,
     START_LOADING,
     startLoading,
+    CREATE_TRANSIT_GRAPH,
+    createTransitGraph,
 };

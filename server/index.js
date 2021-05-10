@@ -7,6 +7,7 @@ const morgan = require("morgan");
 
 // Import api routes
 const geocodeApi = require("./api/geocode");
+const transitApi = require("./api/transit");
 
 // Middleware
 app.use(express.json());
@@ -18,6 +19,7 @@ app.use(morgan("dev"));
 
 // Api Routes
 app.use("/api/geocode", geocodeApi);
+app.use("/api/transit", transitApi);
 
 // Send the app
 app.get("/", (req, res) => {

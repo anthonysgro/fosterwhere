@@ -12,7 +12,12 @@ import convertToJson from "../helper-functions/convertToJson";
 import convertCommas from "../helper-functions/convertCommas";
 
 // Redux Imports
-import { dropFile, stopLoading, startLoading } from "../store/action-creators";
+import {
+    dropFile,
+    stopLoading,
+    startLoading,
+    createTransitGraph,
+} from "../store/action-creators";
 import { useDispatch } from "react-redux";
 
 const getColor = (props) => {
@@ -67,18 +72,29 @@ function ExcelDropzone() {
                 const data = XLSX.utils.sheet_to_csv(wsNoCommas, { header: 1 });
                 const jsonData = convertToJson(data);
 
+                // Show the loading component on screen
                 dispatch(startLoading());
 
                 // Geocode the data so we get latitude and longitude
-                axios
-                    .put("/api/geocode", {
+                const { data: jsonGeocodedData } = await axios.put(
+                    "/api/geocode",
+                    {
                         data: jsonData,
-                    })
-                    .then(({ data: jsonGeocodedData }) => {
-                        dispatch(dropFile(jsonGeocodedData));
-                        dispatch(stopLoading());
-                        history.push("/map");
-                    });
+                    },
+                );
+
+                // Dispatch our geocoded data to redux store
+                dispatch(dropFile(jsonGeocodedData));
+
+                // Create a graph of the routes
+                const { data: transitGraph } = await axios.put("/api/transit", {
+                    data: jsonGeocodedData,
+                });
+
+                // Dispatch our graph to redux store and stop loading, then redirect to map page
+                dispatch(createTransitGraph(transitGraph));
+                dispatch(stopLoading());
+                history.push("/map");
             };
             reader.readAsBinaryString(file);
         });

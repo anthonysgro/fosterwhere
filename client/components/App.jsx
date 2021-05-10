@@ -5,7 +5,7 @@ import { Route, Link, Switch } from "react-router-dom";
 
 // Component Imports
 import Homepage from "./Homepage.jsx";
-import MapPage from "./MapPage.jsx";
+import MapPage from "./Map/MapPage.jsx";
 
 class App extends Component {
     constructor(props) {

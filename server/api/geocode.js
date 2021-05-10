@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const nodeGeocoder = require("node-geocoder");
+require("dotenv").config();
 
 router.put("/", async (req, res, next) => {
     try {
@@ -8,12 +9,12 @@ router.put("/", async (req, res, next) => {
 
         // const googleOptions = {
         //     provider: "google",
-        //     apiKey: "AIzaSyAg3q9ru_1Y0cao5BzS-b5PfFVVa6fUppA",
+        //     apiKey: process.env.GOOGLE_KEY,
         // };
 
         const openCageOptions = {
             provider: "opencage",
-            apiKey: "0efd946069d24aa1a8b194dc6045ebf5",
+            apiKey: process.env.OPENCAGE_KEY,
         };
 
         const geoCoder = nodeGeocoder(openCageOptions);

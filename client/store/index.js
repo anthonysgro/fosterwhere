@@ -1,12 +1,13 @@
 import { createStore, applyMiddleware, combineReducers } from "redux";
 import thunkMiddleware from "redux-thunk";
 import { createLogger } from "redux-logger";
-import { dataReducer, loadingReducer } from "./reducers";
+import { dataReducer, graphReducer, loadingReducer } from "./reducers";
 
 // Combined Reducer
 const primaryReducer = combineReducers({
     data: dataReducer,
     loading: loadingReducer,
+    graph: graphReducer,
 });
 
 // Redux Middleware
