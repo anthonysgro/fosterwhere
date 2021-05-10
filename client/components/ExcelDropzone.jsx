@@ -63,16 +63,12 @@ function ExcelDropzone() {
                 const jsonData = convertToJson(data);
 
                 // Geocode the data so we get latitude and longitude
-                axios
-                    .put("/api/geocode", { data: jsonData })
-                    .then(({ data: jsonGeocodedData }) => {
-                        console.log(jsonGeocodedData);
-                        dispatch(dropFile(jsonGeocodedData));
-                        dispatch(stopLoading());
-                    })
-                    .catch((err) => {
-                        console.error(err);
-                    });
+                const { data: jsonGeocodedData } = axios.put("/api/geocode", {
+                    data: jsonData,
+                });
+
+                dispatch(dropFile(jsonGeocodedData));
+                dispatch(stopLoading());
             };
             reader.readAsBinaryString(file);
         });

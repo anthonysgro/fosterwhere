@@ -5,7 +5,6 @@ const nodeGeocoder = require("node-geocoder");
 router.put("/", async (req, res, next) => {
     try {
         const { data } = req.body;
-        console.log(data);
 
         // const googleOptions = {
         //     provider: "google",
@@ -28,7 +27,7 @@ router.put("/", async (req, res, next) => {
             geocodedData.push({ ...dataItem, latitude, longitude });
         }
 
-        // console.log(geocodedData);
+        console.log(geocodedData);
         return geocodedData;
     } catch (err) {
         console.error(err);
