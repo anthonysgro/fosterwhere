@@ -87,9 +87,12 @@ function ExcelDropzone() {
                 dispatch(dropFile(jsonGeocodedData));
 
                 // Create a graph of the routes
-                const { data: transitGraph } = await axios.put("/api/transit", {
-                    data: jsonGeocodedData,
-                });
+                const { data: transitGraph } = await axios.post(
+                    "/api/transit",
+                    {
+                        data: jsonGeocodedData,
+                    },
+                );
 
                 // Dispatch our graph to redux store and stop loading, then redirect to map page
                 dispatch(createTransitGraph(transitGraph));

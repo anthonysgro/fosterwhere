@@ -7,10 +7,14 @@ const convertToJson = (csv) => {
         const currentline = lines[i].split(",");
         for (let j = 0; j < headers.length; j++) {
             if (currentline[j]) {
-                obj[headers[j].toLowerCase()] = currentline[j].replaceAll(
-                    "~",
-                    ",",
-                );
+                if (currentline[j] === "null") {
+                    obj[headers[j].toLowerCase()] = null;
+                } else {
+                    obj[headers[j].toLowerCase()] = currentline[j].replaceAll(
+                        "~",
+                        ",",
+                    );
+                }
             }
         }
 
