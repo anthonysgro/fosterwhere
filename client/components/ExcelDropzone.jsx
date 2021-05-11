@@ -38,6 +38,27 @@ const getColor = (props) => {
     return "#eeeeee";
 };
 
+const getBackgroundColor = (props) => {
+    if (props.isDragAccept) {
+        return "#d8f3dc";
+    }
+    if (props.isDragReject) {
+        return "#ffb2b2";
+    }
+    if (props.isDragActive) {
+        return "#c1c1c1";
+    }
+
+    return "#fafafa";
+};
+
+const getTextColor = (props) => {
+    if (props.isDragReject) {
+        return "white";
+    }
+    return "#bdbdbd";
+};
+
 const Container = styled.div`
     flex: 1;
     display: flex;
@@ -48,10 +69,11 @@ const Container = styled.div`
     border-radius: 2px;
     border-color: ${(props) => getColor(props)};
     border-style: dashed;
-    background-color: #fafafa;
-    color: #bdbdbd;
+    background-color: ${(props) => getBackgroundColor(props)};
+    color: ${(props) => getTextColor(props)};
+    box-shadow: 0px 7px 11px -8px #000000;
     outline: none;
-    transition: border 0.24s ease-in-out;
+    transition: border 0.24s ease-in-out, background-color 0.5s ease-in-out;
 `;
 
 function ExcelDropzone() {
@@ -129,20 +151,29 @@ function ExcelDropzone() {
         isDragReject,
     } = useDropzone({
         onDrop,
+        accept: [
+            "application/vnd.ms-excel",
+            "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+        ],
     });
 
     return (
-        <div className="container">
+        <div id="excel-dropzone">
             <Container
                 {...getRootProps({ isDragActive, isDragAccept, isDragReject })}
             >
                 <input {...getInputProps()} />
-                {isDragActive ? (
-                    <p>Drop the files here ...</p>
+                {isDragActive && isDragAccept ? (
+                    <p>Drop the file here ...</p>
+                ) : isDragActive && isDragReject ? (
+                    <p>This file is invalid</p>
                 ) : (
-                    <p>
-                        Drag 'n' drop some files here, or click to select files
-                    </p>
+                    <React.Fragment>
+                        <p>
+                            Try dragging an excel file, or click to select file
+                        </p>
+                        <em>(Only *.xls and *.xlsx files will be accepted)</em>
+                    </React.Fragment>
                 )}
             </Container>
         </div>

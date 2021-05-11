@@ -7,7 +7,7 @@ const Marker = ({ role, name, address, show, id, color }) => {
         border: "2px solid black",
         height: 2,
         width: 2,
-        filter: `${role === "employee" ? "saturate(200%)" : "saturate(100%)"}`,
+        filter: `${role === "employee" ? "saturate(100%)" : "opacity(150%)"}`,
         cursor: "pointer",
         zIndex: 10,
         display: "flex",

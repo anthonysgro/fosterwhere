@@ -36,6 +36,7 @@ class ResultList extends Component {
                 {data.map((employee) => (
                     <ul key={employee.id} className="employee-list">
                         <li className="result-headers">
+                            <p></p>
                             <p>Name</p>
                             <p>Commute</p>
                         </li>

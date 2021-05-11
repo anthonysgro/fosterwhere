@@ -31,7 +31,7 @@ class MapPage extends Component {
 
         return (
             <React.Fragment>
-                <h1>Map Page</h1>
+                <h1 className="title">Map Page</h1>
                 <Map />
                 <ResultList />
             </React.Fragment>

@@ -27,7 +27,7 @@ class Homepage extends Component {
 function mapStateToProps(state) {
     return {
         data: state.data,
-        loading: state.loading,
+        loading: state.loading.isLoading,
     };
 }
 

@@ -1,10 +1,20 @@
 import { STOP_LOADING, DROP_FILE, START_LOADING } from "../action-creators";
 
-export const loadingReducer = (state = false, action) => {
+const initialState = {
+    message: "",
+    isLoading: false,
+};
+
+export const loadingReducer = (state = initialState, action) => {
     if (action.type === START_LOADING) {
-        return true;
+        return (state = { message: "Geocoding data...", isLoading: true });
     } else if (action.type === STOP_LOADING) {
-        return false;
+        return (state = { message: "", isLoading: false });
+    } else if (action.type === DROP_FILE) {
+        return (state = {
+            message: "Generating transit graph...",
+            isLoading: true,
+        });
     } else {
         return state;
     }

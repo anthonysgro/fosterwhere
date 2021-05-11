@@ -30,10 +30,10 @@ class SimpleMap extends Component {
 
         let flattenedMap = [];
         for (let i = 0; i < employeeMap.length; i++) {
-            flattenedMap.push({ ...employeeMap[i], color: COLORS[i].employee });
+            flattenedMap.push({ ...employeeMap[i], color: COLORS[i] });
 
             for (const client of employeeMap[i].clients) {
-                flattenedMap.push({ ...client, color: COLORS[i].client });
+                flattenedMap.push({ ...client, color: COLORS[i] });
             }
         }
 

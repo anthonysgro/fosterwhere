@@ -9,6 +9,7 @@ const InfoWindow = (props) => {
         left: "-45px",
         width: 220,
         backgroundColor: "white",
+        color: "#2F4F4F",
         boxShadow: "0 2px 7px 1px rgba(0, 0, 0, 0.3)",
         padding: 10,
         fontSize: 14,
