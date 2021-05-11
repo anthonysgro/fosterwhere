@@ -11,7 +11,16 @@ const Container = styled.div`
     border-radius: 2px;
     padding: 8px;
     margin-bottom: 8px;
-    background-color: grey;
+    background-color: white;
+`;
+
+const Text = styled.p`
+    font-size: 14px;
+    margin: 6px 0px;
+`;
+
+const Small = styled.small`
+    font-size: 10px;
 `;
 
 class Task extends Component {
@@ -30,7 +39,8 @@ class Task extends Component {
                         {...provided.draggableProps}
                         {...provided.dragHandleProps}
                     >
-                        {client.name}
+                        <Text>{client.name}</Text>
+                        <Small>Commute: {client.commute} min.</Small>
                     </Container>
                 )}
             </Draggable>

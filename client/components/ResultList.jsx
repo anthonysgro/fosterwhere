@@ -5,6 +5,7 @@ import { connect } from "react-redux";
 
 // Helper Fn import
 import { dndObjectBuilder } from "../helper-functions";
+import COLORS from "./Map/colors";
 
 // Component Imports
 import { Column } from "./DragNDrop";
@@ -106,21 +107,24 @@ class ResultList extends Component {
         if (loading) return "";
 
         return (
-            <DragDropContext onDragEnd={this.onDragEnd}>
-                {data.employeeOrder.map((employeeId) => {
-                    const column = data.employees[employeeId];
-                    const clients = column.clientIds.map(
-                        (clientId) => data.clients[clientId],
-                    );
-                    return (
-                        <Column
-                            key={column.id}
-                            column={column}
-                            clients={clients}
-                        />
-                    );
-                })}
-            </DragDropContext>
+            <div id="result-container">
+                <DragDropContext onDragEnd={this.onDragEnd}>
+                    {data.employeeOrder.map((employeeId, idx) => {
+                        const column = data.employees[employeeId];
+                        const clients = column.clientIds.map(
+                            (clientId) => data.clients[clientId],
+                        );
+                        return (
+                            <Column
+                                key={column.id}
+                                column={column}
+                                clients={clients}
+                                color={COLORS[idx]}
+                            />
+                        );
+                    })}
+                </DragDropContext>
+            </div>
         );
     }
 }

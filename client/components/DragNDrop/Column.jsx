@@ -11,9 +11,18 @@ const Container = styled.div`
     margin: 8px;
     border: 1px solid grey;
     border-radius: 2px;
+    width: 12rem;
+    background-color: ${({ color }) => color.employee};
 `;
 const Title = styled.h3`
     padding: 8px;
+    text-align: center;
+    background-color: ${({ color }) => color.client};
+`;
+const SubHeader = styled.h4`
+    font-size: 16;
+    margin: 2px;
+    text-align: center;
 `;
 const TaskList = styled.div`
     padding: 8px;
@@ -26,10 +35,11 @@ class Column extends Component {
     }
 
     render() {
-        const { column, clients } = this.props;
+        const { column, clients, color } = this.props;
         return (
-            <Container>
-                <Title>{column.name}</Title>
+            <Container color={color}>
+                <Title color={color}>{column.name}</Title>
+                <SubHeader>{column.totalCommute} min</SubHeader>
                 <Droppable droppableId={column.id}>
                     {(provided) => (
                         <TaskList

@@ -8,6 +8,7 @@ function dndObjectBuilder(employeeMap) {
             id: `employee-${employee.id}`,
             name: employee.name,
             role: "employee",
+            totalCommute: employee.commute,
             clientIds: [],
         };
 
