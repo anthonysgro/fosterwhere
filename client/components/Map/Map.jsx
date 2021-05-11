@@ -7,6 +7,9 @@ import { connect } from "react-redux";
 // Helper Fn
 import centerLatLng from "../../helper-functions/centerLatLng";
 
+// Colors
+import COLORS from "./colors";
+
 // Component Imports
 import Marker from "./Marker.jsx";
 import Loading from "../Loading.jsx";
@@ -23,8 +26,18 @@ class SimpleMap extends Component {
     }
 
     componentDidMount() {
-        const { data } = this.props;
-        const newData = data.map((item) => {
+        const { data, employeeMap } = this.props;
+
+        let flattenedMap = [];
+        for (let i = 0; i < employeeMap.length; i++) {
+            flattenedMap.push({ ...employeeMap[i], color: COLORS[i].employee });
+
+            for (const client of employeeMap[i].clients) {
+                flattenedMap.push({ ...client, color: COLORS[i].client });
+            }
+        }
+
+        const newData = flattenedMap.map((item) => {
             const newItem = { ...item };
             newItem.show = false;
             return newItem;
@@ -86,7 +99,7 @@ class SimpleMap extends Component {
         const center = centerLatLng(latLngArr);
 
         return (
-            <div style={{ height: "50vh", width: "75%" }}>
+            <div style={{ height: "50vh", width: "75%" }} id="map-container">
                 <GoogleMapReact
                     bootstrapURLKeys={{
                         key: "AIzaSyAQbRDbgyBDdsnUi0-jBf8ij2KW_mqlHs8",
@@ -106,6 +119,7 @@ class SimpleMap extends Component {
                             address={entry.address}
                             show={entry.show}
                             id={entry.id}
+                            color={entry.color}
                         />
                     ))}
                 </GoogleMapReact>
@@ -117,6 +131,7 @@ class SimpleMap extends Component {
 function mapStateToProps(state) {
     return {
         data: state.data,
+        employeeMap: state.employeeMap.optimizedMap,
     };
 }
 

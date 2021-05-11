@@ -2,16 +2,20 @@ import React, { Component } from "react";
 
 import InfoWindow from "./InfoWindow.jsx";
 
-const Marker = ({ role, name, address, show, id }) => {
+const Marker = ({ role, name, address, show, id, color }) => {
     const markerStyle = {
-        border: "1px solid white",
+        border: "2px solid black",
         height: 2,
         width: 2,
+        filter: `${role === "employee" ? "saturate(200%)" : "saturate(100%)"}`,
         cursor: "pointer",
         zIndex: 10,
-        color: "white",
-        background: `${role === "client" ? "grey" : "blue"}`,
-        padding: "7px 7px",
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+        color: "black",
+        background: `${color}`,
+        padding: "5px 5px",
         display: "inline-flex",
         textAlign: "center",
         alignItems: "center",

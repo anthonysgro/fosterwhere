@@ -31,17 +31,32 @@ class ResultList extends Component {
 
         // console.log(data);
 
-        return "hi";
-        // <div>
-        //     {data.map((employee) => (
-        //         <ul key={employee.id}>
-        //             <li>{employee.name}</li>
-        //             {employee.clients.map((client) => (
-        //                 <li key={client.id}>{client.name}</li>
-        //             ))}
-        //         </ul>
-        //     ))}
-        // </div>
+        return (
+            <div id="result-container">
+                {data.map((employee) => (
+                    <ul key={employee.id} className="employee-list">
+                        <li className="result-headers">
+                            <p>Name</p>
+                            <p>Commute</p>
+                        </li>
+                        <li className="employee-container">
+                            <p className="employee-name">{employee.name}</p>
+                            <p className="employee-commute">
+                                {parseInt(employee.commute)} min
+                            </p>
+                        </li>
+                        {employee.clients.map((client) => (
+                            <li key={client.id} className="client-container">
+                                <p className="client-name">{client.name}</p>
+                                <p className="client-commute">
+                                    {parseInt(client.thisCommute)} min
+                                </p>
+                            </li>
+                        ))}
+                    </ul>
+                ))}
+            </div>
+        );
     }
 }
 
