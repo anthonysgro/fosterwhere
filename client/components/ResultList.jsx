@@ -4,7 +4,11 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 
 // Helper Fn import
-import { lowestTimeNonBalanced } from "../helper-functions";
+import { dndObjectBuilder } from "../helper-functions";
+
+// Component Imports
+import { Column } from "./DragNDrop";
+import { DragDropContext } from "react-beautiful-dnd";
 
 class ResultList extends Component {
     constructor(props) {
@@ -13,15 +17,87 @@ class ResultList extends Component {
             data: null,
             loading: true,
         };
+
+        this.onDragEnd = this.onDragEnd.bind(this);
     }
 
     componentDidMount() {
         const { data } = this.props;
 
+        const initialData = dndObjectBuilder(data);
+
         this.setState({
-            data: data,
+            data: initialData,
             loading: false,
         });
+    }
+
+    onDragEnd(result) {
+        const { destination, source, draggableId } = result;
+
+        // If user didn't drop in a droppable, or in the same location, do nothing
+        if (!destination) return;
+        if (
+            destination.droppableId === source.droppableId &&
+            destination.index === source.index
+        ) {
+            return;
+        }
+
+        const { data } = this.state;
+
+        // If dropping onto the same employee
+        if (source.droppableId === destination.droppableId) {
+            const employee = data.employees[source.droppableId];
+            let newClientIds = Array.from(employee.clientIds);
+            newClientIds.splice(source.index, 1);
+            newClientIds.splice(destination.index, 0, draggableId);
+
+            const newEmployee = {
+                ...employee,
+                clientIds: newClientIds,
+            };
+
+            this.setState({
+                ...this.state,
+                data: {
+                    ...data,
+                    employees: {
+                        ...data.employees,
+                        [employee.id]: newEmployee,
+                    },
+                },
+            });
+        } else {
+            const fromEmployee = data.employees[source.droppableId];
+            const toEmployee = data.employees[destination.droppableId];
+            let newFromClientIds = Array.from(fromEmployee.clientIds);
+            let newToClientIds = Array.from(toEmployee.clientIds);
+            newFromClientIds.splice(source.index, 1);
+            newToClientIds.splice(destination.index, 0, draggableId);
+
+            const newFromEmployee = {
+                ...fromEmployee,
+                clientIds: newFromClientIds,
+            };
+
+            const newToEmployee = {
+                ...toEmployee,
+                clientIds: newToClientIds,
+            };
+
+            this.setState({
+                ...this.state,
+                data: {
+                    ...data,
+                    employees: {
+                        ...data.employees,
+                        [newFromEmployee.id]: newFromEmployee,
+                        [newToEmployee.id]: newToEmployee,
+                    },
+                },
+            });
+        }
     }
 
     render() {
@@ -29,34 +105,22 @@ class ResultList extends Component {
 
         if (loading) return "";
 
-        // console.log(data);
-
         return (
-            <div id="result-container">
-                {data.map((employee) => (
-                    <ul key={employee.id} className="employee-list">
-                        <li className="result-headers">
-                            <p></p>
-                            <p>Name</p>
-                            <p>Commute</p>
-                        </li>
-                        <li className="employee-container">
-                            <p className="employee-name">{employee.name}</p>
-                            <p className="employee-commute">
-                                {parseInt(employee.commute)} min
-                            </p>
-                        </li>
-                        {employee.clients.map((client) => (
-                            <li key={client.id} className="client-container">
-                                <p className="client-name">{client.name}</p>
-                                <p className="client-commute">
-                                    {parseInt(client.thisCommute)} min
-                                </p>
-                            </li>
-                        ))}
-                    </ul>
-                ))}
-            </div>
+            <DragDropContext onDragEnd={this.onDragEnd}>
+                {data.employeeOrder.map((employeeId) => {
+                    const column = data.employees[employeeId];
+                    const clients = column.clientIds.map(
+                        (clientId) => data.clients[clientId],
+                    );
+                    return (
+                        <Column
+                            key={column.id}
+                            column={column}
+                            clients={clients}
+                        />
+                    );
+                })}
+            </DragDropContext>
         );
     }
 }
