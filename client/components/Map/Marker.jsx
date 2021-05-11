@@ -4,10 +4,12 @@ import InfoWindow from "./InfoWindow.jsx";
 
 const Marker = ({ role, name, address, show, id, color }) => {
     const markerStyle = {
-        border: "2px solid black",
+        border: `${
+            role === "employee" ? "1px solid black" : "1px dotted black"
+        }`,
         height: 2,
         width: 2,
-        filter: `${role === "employee" ? "saturate(100%)" : "opacity(150%)"}`,
+        // filter: `${role === "employee" ? "saturate(200%)" : "saturate(100%)"}`,
         cursor: "pointer",
         zIndex: 10,
         display: "flex",
@@ -15,7 +17,7 @@ const Marker = ({ role, name, address, show, id, color }) => {
         alignItems: "center",
         color: "black",
         background: `${color}`,
-        padding: "5px 5px",
+        padding: `${role === "employee" ? "7px 7px" : "5px 5px"}`,
         display: "inline-flex",
         textAlign: "center",
         alignItems: "center",
@@ -26,7 +28,7 @@ const Marker = ({ role, name, address, show, id, color }) => {
 
     return (
         <React.Fragment>
-            <div style={markerStyle}></div>;
+            <div style={markerStyle}></div>
             {show && (
                 <InfoWindow name={name} role={role} address={address} id={id} />
             )}
