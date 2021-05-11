@@ -2,7 +2,7 @@ import React, { Component } from "react";
 
 import InfoWindow from "./InfoWindow.jsx";
 
-const Marker = ({ role, name, address, show }) => {
+const Marker = ({ role, name, address, show, id }) => {
     const markerStyle = {
         border: "1px solid white",
         height: 2,
@@ -23,7 +23,9 @@ const Marker = ({ role, name, address, show }) => {
     return (
         <React.Fragment>
             <div style={markerStyle}></div>;
-            {show && <InfoWindow name={name} role={role} address={address} />}
+            {show && (
+                <InfoWindow name={name} role={role} address={address} id={id} />
+            )}
         </React.Fragment>
     );
 };

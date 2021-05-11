@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 
 const InfoWindow = (props) => {
-    const { name, text, role, address } = props;
+    const { name, text, role, address, id } = props;
 
     const infoWindowStyle = {
         position: "relative",
@@ -29,6 +29,7 @@ const InfoWindow = (props) => {
                 {casedRole}
             </div>
             <div style={{ fontSize: 12 }}>{address}</div>
+            <div style={{ fontSize: 12 }}>Id #{`${id}`}</div>
         </div>
     );
 };

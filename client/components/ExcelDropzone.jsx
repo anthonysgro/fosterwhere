@@ -11,12 +11,17 @@ import * as XLSX from "xlsx";
 import convertToJson from "../helper-functions/convertToJson";
 import convertCommas from "../helper-functions/convertCommas";
 
+// Helper Fn
+import { graphMaker, optimizeGraphToObject } from "../helper-functions";
+
 // Redux Imports
 import {
     dropFile,
     stopLoading,
     startLoading,
     createTransitGraph,
+    createEmployeeMap,
+    optimizeEmployeeMap,
 } from "../store/action-creators";
 import { useDispatch } from "react-redux";
 
@@ -87,18 +92,31 @@ function ExcelDropzone() {
                 dispatch(dropFile(jsonGeocodedData));
 
                 // Create a graph of the routes
-                const { data: transitGraph } = await axios.post(
-                    "/api/transit",
-                    {
-                        data: jsonGeocodedData,
-                    },
-                );
+                const { data: transitMap } = await axios.post("/api/transit", {
+                    data: jsonGeocodedData,
+                });
+
+                // Keep ahold of our initial employee transit map
+                dispatch(createEmployeeMap(transitMap));
+
+                // Create an initial graph out of the employee transit map
+                const transitGraph = graphMaker(transitMap);
 
                 // Dispatch our graph to redux store and stop loading, then redirect to map page
                 dispatch(createTransitGraph(transitGraph));
+
+                // Optimize the graph and convert to object
+                const optimizedEmployeeMap = optimizeGraphToObject(
+                    jsonGeocodedData,
+                    transitGraph,
+                );
+                dispatch(optimizeEmployeeMap(optimizedEmployeeMap));
+
+                // Stop loading and send to map screen!
                 dispatch(stopLoading());
                 history.push("/map");
             };
+
             reader.readAsBinaryString(file);
         });
     }, []);

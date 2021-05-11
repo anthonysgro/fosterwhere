@@ -105,6 +105,7 @@ class SimpleMap extends Component {
                             role={entry.type}
                             address={entry.address}
                             show={entry.show}
+                            id={entry.id}
                         />
                     ))}
                 </GoogleMapReact>

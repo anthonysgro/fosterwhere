@@ -3,35 +3,51 @@ import React, { Component } from "react";
 // Redux Imports
 import { connect } from "react-redux";
 
+// Helper Fn import
+import { lowestTimeNonBalanced } from "../helper-functions";
+
 class ResultList extends Component {
     constructor(props) {
         super(props);
-        this.state = {};
+        this.state = {
+            data: null,
+            loading: true,
+        };
+    }
+
+    componentDidMount() {
+        const { data } = this.props;
+
+        this.setState({
+            data: data,
+            loading: false,
+        });
     }
 
     render() {
-        const { data } = this.props;
-        const employees = data.filter((item) => item.type === "employee");
-        const clients = data.filter((item) => item.type === "client");
+        const { data, loading } = this.state;
 
-        return (
-            <div>
-                {employees.map((employee) => (
-                    <ul key={employee.id}>
-                        <li>{employee.name}</li>
-                        {clients.map((client) => (
-                            <li key={client.id}>{client.name}</li>
-                        ))}
-                    </ul>
-                ))}
-            </div>
-        );
+        if (loading) return "";
+
+        // console.log(data);
+
+        return "hi";
+        // <div>
+        //     {data.map((employee) => (
+        //         <ul key={employee.id}>
+        //             <li>{employee.name}</li>
+        //             {employee.clients.map((client) => (
+        //                 <li key={client.id}>{client.name}</li>
+        //             ))}
+        //         </ul>
+        //     ))}
+        // </div>
     }
 }
 
 function mapStateToProps(state) {
     return {
-        data: state.data,
+        data: state.employeeMap.optimizedMap,
     };
 }
 

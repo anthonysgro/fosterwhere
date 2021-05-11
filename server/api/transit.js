@@ -23,26 +23,35 @@ router.post("/", async (req, res, next) => {
             }),
         ];
 
-        // Test Data
-        const anthony = employees.map(({ latitude, longitude }) => {
-            return { latitude, longitude };
-        });
-        // .filter((emp) => emp.name === "Anthony");
-
-        const tamanna = clients.map(({ latitude, longitude }) => {
-            return { latitude, longitude };
-        });
-        // .filter((emp) => emp.name === "Tamanna");
-
-        console.log(anthony, tamanna);
-
         // Make api call to bing
-        const { data: response } = await axios.get(
-            `http://dev.virtualearth.net/REST/V1/Routes?wp.0=37.779160067439079,-122.42004945874214&wp.1=32.715685218572617,-117.16172486543655&dateTime=12:00:00&distanceUnit=mi&key=${process.env.BING_MAPS_KEY}`,
-        );
+        let employeeMap = {};
+        for (const employee of employees) {
+            employeeMap[employee.id] = {};
+            for (const client of clients) {
+                const { data: response } = await axios.get(
+                    `http://dev.virtualearth.net/REST/V1/Routes?wp.0=${employee.latitude},${employee.longitude}&wp.1=${client.latitude},${client.longitude}&dateTime=12:00:00&distanceUnit=mi&output=json&key=${process.env.BING_MAPS_KEY}`,
+                );
 
-        console.log(response);
-        res.send(response);
+                // Extract relevant data from request
+                const {
+                    travelDurationTraffic,
+                    travelDuration,
+                    travelDistance,
+                } = response.resourceSets[0].resources[0];
+
+                // Format our return object
+                employeeMap[employee.id][client.id] = {
+                    travelTime: parseFloat((travelDuration / 60).toFixed(2)),
+                    travelTimeTraffic: parseFloat(
+                        (travelDurationTraffic / 60).toFixed(2),
+                    ),
+                    travelDistance: parseFloat(travelDistance.toFixed(2)),
+                };
+            }
+        }
+
+        // Send back the map of employees to clients with travel info
+        res.send(employeeMap);
     } catch (err) {
         console.error(err);
         next(err);
