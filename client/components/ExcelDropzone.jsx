@@ -6,8 +6,6 @@ import axios from "axios";
 // React Router Imports
 import { useHistory } from "react-router-dom";
 
-//
-
 // Excel Imports
 import * as XLSX from "xlsx";
 import convertToJson from "../helper-functions/convertToJson";
@@ -15,7 +13,7 @@ import convertCommas from "../helper-functions/convertCommas";
 
 // Helper Fn
 import { graphMaker, findSubGraphs, graphToJson } from "../helper-functions";
-import FAKE_DATA from "./FAKE_DATA";
+import FAKE_DATA from "../FAKE_DATA";
 
 // Redux Imports
 import {
@@ -83,6 +81,31 @@ function ExcelDropzone() {
     const dispatch = useDispatch();
     const history = useHistory();
 
+    const testData = () => {
+        const { jsonGeocodedData, transitMap } = FAKE_DATA;
+
+        // Dispatch our geocoded data to redux store
+        dispatch(dropFile(jsonGeocodedData));
+
+        // Create graphs and json conversions
+        const fullGraph = graphMaker(transitMap);
+        const fullJson = graphToJson(fullGraph, jsonGeocodedData);
+
+        // Creates subGraphs with json conversions
+        const { subGraphs } = findSubGraphs(fullGraph);
+        let subJson = [];
+        for (const graph of subGraphs) {
+            subJson.push(graphToJson(graph, jsonGeocodedData));
+        }
+
+        // Dispatch our graphs to redux store and stop loading, then redirect to map page
+        dispatch(createTransitGraph(fullGraph, fullJson, subGraphs, subJson));
+
+        // Stop loading and send to map screen!
+        dispatch(stopLoading());
+        history.push("/map");
+    };
+
     const onDrop = useCallback(async (acceptedFiles) => {
         // Should just be one file
         acceptedFiles.forEach(async (file) => {
@@ -106,15 +129,12 @@ function ExcelDropzone() {
                 dispatch(startLoading());
 
                 // Geocode the data so we get latitude and longitude
-                // UNCOMMENT FOR REAL GEOCODING
-                // const { data: jsonGeocodedData } = await axios.put(
-                //     "/api/geocode",
-                //     {
-                //         data: jsonData,
-                //     },
-                // );
-
-                const jsonGeocodedData = FAKE_DATA;
+                const { data: jsonGeocodedData } = await axios.put(
+                    "/api/geocode",
+                    {
+                        data: jsonData,
+                    },
+                );
 
                 // Dispatch our geocoded data to redux store
                 dispatch(dropFile(jsonGeocodedData));
@@ -164,25 +184,39 @@ function ExcelDropzone() {
     });
 
     return (
-        <div id="excel-dropzone">
-            <Container
-                {...getRootProps({ isDragActive, isDragAccept, isDragReject })}
-            >
-                <input {...getInputProps()} />
-                {isDragActive && isDragAccept ? (
-                    <p>Drop the file here ...</p>
-                ) : isDragActive && isDragReject ? (
-                    <p>This file is invalid</p>
-                ) : (
-                    <React.Fragment>
-                        <p>
-                            Try dragging an excel file, or click to select file
-                        </p>
-                        <em>(Only *.xls and *.xlsx files will be accepted)</em>
-                    </React.Fragment>
-                )}
-            </Container>
-        </div>
+        <React.Fragment>
+            <div id="excel-dropzone">
+                <Container
+                    {...getRootProps({
+                        isDragActive,
+                        isDragAccept,
+                        isDragReject,
+                    })}
+                >
+                    <input {...getInputProps()} />
+                    {isDragActive && isDragAccept ? (
+                        <p>Drop the file here ...</p>
+                    ) : isDragActive && isDragReject ? (
+                        <p>This file is invalid</p>
+                    ) : (
+                        <React.Fragment>
+                            <p>
+                                Try dragging an excel file, or click to select
+                                file
+                            </p>
+                            <em>
+                                (Only *.xls and *.xlsx files will be accepted)
+                            </em>
+                        </React.Fragment>
+                    )}
+                </Container>
+            </div>
+            <div id="btn-container">
+                <button onClick={testData} className="primary-btn">
+                    Try With Test Data
+                </button>
+            </div>
+        </React.Fragment>
     );
 }
 

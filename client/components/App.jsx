@@ -15,6 +15,7 @@ class App extends Component {
     render() {
         return (
             <React.Fragment>
+                <h1 className="title-font">FosterWhere</h1>
                 <main className="listing-main">
                     <Switch>
                         <Route exact path="/" component={Homepage} />

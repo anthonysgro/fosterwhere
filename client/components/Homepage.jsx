@@ -17,7 +17,6 @@ class Homepage extends Component {
         const { data, loading } = this.props;
         return (
             <main className="homepage-render">
-                <h1 className="title-font">FosterWhere</h1>
                 {loading ? <Loading /> : <ExcelDropzone />}
             </main>
         );

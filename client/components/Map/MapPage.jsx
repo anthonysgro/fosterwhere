@@ -3,10 +3,14 @@ import React, { Component } from "react";
 // Redux Imports
 import { connect } from "react-redux";
 
+// React Router Imports
+import { useHistory } from "react-router-dom";
+
 // Component Imports
 import Map from "./Map.jsx";
 import ResultList from "../ResultList.jsx";
 import ControlPanel from "../ControlPanel.jsx";
+import InfoPanel from "../InfoPanel.jsx";
 
 class MapPage extends Component {
     constructor(props) {
@@ -32,11 +36,13 @@ class MapPage extends Component {
 
         return (
             <React.Fragment>
-                <h1 className="title">Map Page</h1>
-                <div className="whole-map-container">
-                    <Map />
+                <div className="map-panel-container">
+                    <ControlPanel />
+                    <div className="whole-map-container">
+                        <Map />
+                    </div>
+                    <InfoPanel />
                 </div>
-                <ControlPanel />
                 <ResultList />
             </React.Fragment>
         );

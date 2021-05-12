@@ -109,3 +109,74 @@ li > p {
     font-style: oblique;
     font-size: 400%;
 }
+
+.btn-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 12px;
+}
+
+.primary-btn {
+    display: inline-block;
+    padding: 0.3em 1.2em;
+    margin: 0 0.3em 0.3em 0;
+    border-radius: 0.5rem;
+    box-sizing: border-box;
+    text-decoration: none;
+    font-weight: 300;
+    color: #ffffff;
+    background-color: #46a6dd;
+    text-align: center;
+    outline: none;
+    border: none;
+    transform: translateY(0);
+    transition: all 0.2s ease-in-out;
+}
+
+.primary-btn:hover {
+    transform: translateY(-10%);
+    background-color: #3781ac;
+    cursor: pointer;
+    transition: transform 0.1s ease-in-out;
+}
+
+.primary-btn:active {
+    transform: translateY(10%);
+    transition: transform 0.1s ease-in-out;
+}
+
+/* .primary-btn */
+
+#algo-form {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    align-items: center;
+    width: 100%;
+}
+
+.algo-container {
+    margin: 4px 8px 8px 8px;
+}
+
+.map-panel-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
+
+.info-panel-container {
+    margin: 2rem 0rem 2rem 1rem;
+}
+
+.control-panel-container {
+    margin: 2rem 1rem 2rem 0rem;
+}
+
+.back-btn {
+    margin: 10px;
+}
