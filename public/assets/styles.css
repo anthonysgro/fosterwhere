@@ -180,3 +180,9 @@ li > p {
 .back-btn {
     margin: 10px;
 }
+
+.algo-container:hover,
+.algo-label:hover,
+.algo-input:hover {
+    cursor: pointer;
+}

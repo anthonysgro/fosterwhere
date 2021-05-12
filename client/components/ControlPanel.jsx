@@ -68,11 +68,15 @@ class ControlPanel extends Component {
                     <h3 style={titleStyles}>Algorithms</h3>
                     <form onSubmit={this.handleSubmit} id="algo-form">
                         <div className="algo-container">
-                            <label htmlFor="trueLowestTime">
+                            <label
+                                htmlFor="true-lowest-time"
+                                className="algo-label"
+                            >
                                 True Lowest Time
                             </label>
                             <input
                                 type="radio"
+                                className="algo-input"
                                 id="true-lowest-time"
                                 name="trueLowestTime"
                                 value="trueLowestTime"
@@ -81,8 +85,11 @@ class ControlPanel extends Component {
                             />
                         </div>
                         <div className="algo-container">
-                            <label htmlFor="manual">Manual</label>
+                            <label htmlFor="manual" className="algo-label">
+                                Manual
+                            </label>
                             <input
+                                className="algo-input"
                                 type="radio"
                                 id="manual"
                                 name="manual"
