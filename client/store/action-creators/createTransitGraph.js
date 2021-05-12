@@ -1,5 +1,5 @@
 export const CREATE_TRANSIT_GRAPH = "CREATE_TRANSIT_GRAPH";
-export const UPDATE_TRANSIT_GRAOH = "UPDATE_TRANSIT_GRAOH";
+export const UPDATE_TRANSIT_GRAPH = "UPDATE_TRANSIT_GRAPH";
 
 export const createTransitGraph = (fullGraph, fullJson, subGraphs, subJson) => {
     return {
@@ -17,14 +17,7 @@ export const createTransitGraph = (fullGraph, fullJson, subGraphs, subJson) => {
 
 export const updateTransitGraph = (subJson) => {
     return {
-        type: UPDATE_TRANSIT_GRAOH,
-        // fullGraph: {
-        //     structure: fullGraph,
-        //     json: fullJson,
-        // },
-        // subGraphs: {
-        //     structure: subGraphs,
-        //     json: subJson,
-        // },
+        type: UPDATE_TRANSIT_GRAPH,
+        subJson,
     };
 };

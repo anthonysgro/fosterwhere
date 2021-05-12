@@ -6,7 +6,7 @@ import { updateTransitGraph } from "../store/action-creators";
 
 // Helper Fn import
 import { dndObjectBuilder } from "../helper-functions";
-import cloneDeep from "lodash";
+import { cloneDeep } from "lodash";
 import COLORS from "./Map/colors";
 
 // Component Imports
@@ -29,6 +29,7 @@ class ResultList extends Component {
         const setupSubGraphs = subGraphs.map((arrOfOne) =>
             cloneDeep(arrOfOne[0]),
         );
+
         const initialData = dndObjectBuilder(setupSubGraphs);
 
         this.setState({
@@ -49,74 +50,104 @@ class ResultList extends Component {
             return;
         }
 
-        const { data, subGraphs } = this.props;
+        const { data } = this.props;
+        console.log(this.props.subGraphs);
+        const subGraphs = this.props.subGraphs.map((arrOfOne) =>
+            cloneDeep(arrOfOne[0]),
+        );
+
+        let dataMap = new Map();
+        for (const entry of subGraphs) {
+            dataMap.set(`${entry.id}`, entry);
+            for (const client of entry.clients) {
+                dataMap.set(`${client.id}`, client);
+            }
+        }
 
         // If dropping onto the same employee
         if (source.droppableId === destination.droppableId) {
-            console.log(droppableId);
+            const employee = dataMap.get(source.droppableId);
+            const client = dataMap.get(draggableId);
+
+            let newClients = Array.from(employee.clients);
+            newClients.splice(source.index, 1);
+            newClients.splice(destination.index, 0, client);
+
+            const newEmployee = {
+                ...employee,
+                clients: newClients,
+            };
+
+            const subGraphIndex = subGraphs.indexOf(
+                subGraphs.filter((emp) => emp.id === employee.id)[0],
+            );
+
+            subGraphs.splice(subGraphIndex, 1, newEmployee);
         } else {
+            const { fullGraph } = this.props;
+
+            const fromEmployee = dataMap.get(source.droppableId);
+            const toEmployee = dataMap.get(destination.droppableId);
+            const client = dataMap.get(draggableId);
+
+            // Gets client data form the "toEmployee" pov
+            const toEmployeeClientData = fullGraph
+                .filter((emp) => emp.id === toEmployee.id)[0]
+                .clients.filter((cli) => cli.id === client.id)[0];
+
+            // Replaces the client with this guy
+            const newClient = cloneDeep(toEmployeeClientData);
+
+            let newFromClients = Array.from(fromEmployee.clients);
+            let newToClients = Array.from(toEmployee.clients);
+
+            newFromClients.splice(source.index, 1);
+            newToClients.splice(destination.index, 0, newClient);
+
+            const newFromEmployee = {
+                ...fromEmployee,
+                totalCommute:
+                    parseFloat(fromEmployee.totalCommute) -
+                    parseFloat(client.thisCommute),
+                clients: newFromClients,
+            };
+
+            const newToEmployee = {
+                ...toEmployee,
+                totalCommute:
+                    parseFloat(toEmployee.totalCommute) +
+                    parseFloat(newClient.thisCommute),
+                clients: newToClients,
+            };
+
+            const subGraphIndexFrom = subGraphs.indexOf(
+                subGraphs.filter((emp) => emp.id === fromEmployee.id)[0],
+            );
+            const subGraphIndexTo = subGraphs.indexOf(
+                subGraphs.filter((emp) => emp.id === toEmployee.id)[0],
+            );
+
+            subGraphs.splice(subGraphIndexFrom, 1, newFromEmployee);
+            subGraphs.splice(subGraphIndexTo, 1, newToEmployee);
         }
 
-        // const { data } = this.state;
+        const refitSubGraphs = subGraphs.map((sub) => [sub]);
 
-        // // If dropping onto the same employee
-        // if (source.droppableId === destination.droppableId) {
-        //     const employee = data.employees[source.droppableId];
-        //     let newClientIds = Array.from(employee.clientIds);
-        //     newClientIds.splice(source.index, 1);
-        //     newClientIds.splice(destination.index, 0, draggableId);
+        this.props.updateTransitGraph(refitSubGraphs);
 
-        //     const newEmployee = {
-        //         ...employee,
-        //         clientIds: newClientIds,
-        //     };
+        const newData = dndObjectBuilder(cloneDeep(subGraphs));
 
-        //     this.setState({
-        //         ...this.state,
-        //         data: {
-        //             ...data,
-        //             employees: {
-        //                 ...data.employees,
-        //                 [employee.id]: newEmployee,
-        //             },
-        //         },
-        //     });
-        // } else {
-        //     const fromEmployee = data.employees[source.droppableId];
-        //     const toEmployee = data.employees[destination.droppableId];
-        //     let newFromClientIds = Array.from(fromEmployee.clientIds);
-        //     let newToClientIds = Array.from(toEmployee.clientIds);
-        //     newFromClientIds.splice(source.index, 1);
-        //     newToClientIds.splice(destination.index, 0, draggableId);
-
-        //     const newFromEmployee = {
-        //         ...fromEmployee,
-        //         clientIds: newFromClientIds,
-        //     };
-
-        //     const newToEmployee = {
-        //         ...toEmployee,
-        //         clientIds: newToClientIds,
-        //     };
-
-        //     this.setState({
-        //         ...this.state,
-        //         data: {
-        //             ...data,
-        //             employees: {
-        //                 ...data.employees,
-        //                 [newFromEmployee.id]: newFromEmployee,
-        //                 [newToEmployee.id]: newToEmployee,
-        //             },
-        //         },
-        //     });
-        // }
+        this.setState({
+            data: newData,
+            loading: false,
+        });
     }
 
     render() {
         const { data, loading } = this.state;
 
         if (loading) return "";
+        console.log(data);
 
         return (
             <div id="result-container">
@@ -145,13 +176,15 @@ function mapStateToProps(state) {
     return {
         data: state.data,
         subGraphs: state.graphs.subGraphs.json,
+        fullGraph: state.graphs.fullGraph.json,
     };
 }
 
-function mapDispatchToProps(disaptch) {
+function mapDispatchToProps(dispatch) {
     return {
-        updateTransitGraph: () => dispatch(updateTransitGraph()),
+        updateTransitGraph: (subGraphJson) =>
+            dispatch(updateTransitGraph(subGraphJson)),
     };
 }
 
-export default connect(mapStateToProps)(ResultList);
+export default connect(mapStateToProps, mapDispatchToProps)(ResultList);

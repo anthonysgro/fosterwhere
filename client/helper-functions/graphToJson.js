@@ -42,11 +42,12 @@ function graphToJson(graph, data) {
     }
 
     for (const { val, neighbors } of employeeNodes) {
-        const employeeData = jsonMap.get(val);
+        const employeeData = cloneDeep(jsonMap.get(val));
         employeeData.clients = [];
         let totalCommute = 0;
         for (const [clientNode, weight] of neighbors.entries()) {
-            let clientData = jsonMap.get(clientNode.val);
+            let clientData = cloneDeep(jsonMap.get(clientNode.val));
+
             clientData.thisCommute = weight;
             totalCommute += weight;
             employeeData.clients.push(clientData);

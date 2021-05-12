@@ -15,7 +15,7 @@ import convertCommas from "../helper-functions/convertCommas";
 
 // Helper Fn
 import { graphMaker, findSubGraphs, graphToJson } from "../helper-functions";
-import fakeData from "./FAKE_DATA";
+import FAKE_DATA from "./FAKE_DATA";
 
 // Redux Imports
 import {
@@ -113,7 +113,8 @@ function ExcelDropzone() {
                 //         data: jsonData,
                 //     },
                 // );
-                const jsonGeocodedData = fakeData;
+
+                const jsonGeocodedData = FAKE_DATA;
 
                 // Dispatch our geocoded data to redux store
                 dispatch(dropFile(jsonGeocodedData));
@@ -122,9 +123,6 @@ function ExcelDropzone() {
                 const { data: transitMap } = await axios.post("/api/transit", {
                     data: jsonGeocodedData,
                 });
-
-                // // Keep ahold of our initial employee transit map
-                // dispatch(createEmployeeMap(transitMap));
 
                 // Create graphs and json conversions
                 const fullGraph = graphMaker(transitMap);
@@ -141,17 +139,6 @@ function ExcelDropzone() {
                 dispatch(
                     createTransitGraph(fullGraph, fullJson, subGraphs, subJson),
                 );
-
-                // dispatch(createTransitGraph(transitGraph));
-
-                // Optimize the graph and convert to object
-                // const optimizedEmployeeMap = optimizeGraphToObject(
-                //     jsonGeocodedData,
-                //     transitGraph,
-                // );
-                // const { graph, subGraphs } = dispatch(
-                //     optimizeEmployeeMap(optimizedEmployeeMap),
-                // );
 
                 // Stop loading and send to map screen!
                 dispatch(stopLoading());

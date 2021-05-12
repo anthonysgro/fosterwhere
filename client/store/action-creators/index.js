@@ -9,7 +9,7 @@ import {
 import {
     CREATE_TRANSIT_GRAPH,
     createTransitGraph,
-    UPDATE_TRANSIT_GRAOH,
+    UPDATE_TRANSIT_GRAPH,
     updateTransitGraph,
 } from "./createTransitGraph";
 
@@ -33,6 +33,6 @@ export {
     createEmployeeMap,
     OPTIMIZE_EMPLOYEE_MAP,
     optimizeEmployeeMap,
-    UPDATE_TRANSIT_GRAOH,
+    UPDATE_TRANSIT_GRAPH,
     updateTransitGraph,
 };

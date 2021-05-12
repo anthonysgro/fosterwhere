@@ -18,9 +18,10 @@ module.exports = [
         type: "client",
     },
     {
+        name: "Anthony",
         address: "3707 Highview Rd, Charlotte, North Carolina, 28210",
         clients: [
-            ({
+            {
                 name: "James",
                 address: "2135 Ferncliff Rd, Charlotte, North Carolina, 28211",
                 id: 7,
@@ -47,9 +48,8 @@ module.exports = [
                 longitude: -80.82530469999999,
                 method: null,
                 type: "client",
-            }),
+            },
         ],
-        name: "Anthony",
         id: 3,
         latitude: 35.131711,
         longitude: -80.8278959,
@@ -69,7 +69,7 @@ module.exports = [
         name: "Evan",
         address: "4020 Constable Ct, Charlotte, North Carolina, 28209",
         clients: [
-            ({
+            {
                 name: "Allie",
                 address:
                     "4242 Branch Bend Ln, Charlotte, North Carolina, 28273",
@@ -123,7 +123,7 @@ module.exports = [
                 longitude: -80.83860059999999,
                 method: null,
                 type: "client",
-            }),
+            },
         ],
         id: 5,
         latitude: 35.1809391,
@@ -180,7 +180,7 @@ module.exports = [
         name: "Maria",
         address: "3506 Rindle Ct, Charlotte, North Carolina, 28269",
         clients: [
-            ({
+            {
                 name: "Joe",
                 address: "3201 Tallia Ct, Charlotte, North Carolina, 28269",
                 id: 8,
@@ -216,7 +216,7 @@ module.exports = [
                 longitude: -80.7605397,
                 method: null,
                 type: "client",
-            }),
+            },
         ],
         id: 11,
         latitude: 35.3156337,
