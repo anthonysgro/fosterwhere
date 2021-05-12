@@ -5,6 +5,7 @@ import {
     dataReducer,
     graphReducer,
     loadingReducer,
+    algorithmReducer,
     // employeeMapReducer,
 } from "./reducers";
 
@@ -13,6 +14,7 @@ const primaryReducer = combineReducers({
     data: dataReducer,
     loading: loadingReducer,
     graphs: graphReducer,
+    algorithms: algorithmReducer,
     // employeeMap: employeeMapReducer,
 });
 

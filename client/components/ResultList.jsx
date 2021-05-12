@@ -38,6 +38,22 @@ class ResultList extends Component {
         });
     }
 
+    componentDidUpdate(prevProps) {
+        if (prevProps.subGraphs !== this.props.subGraphs) {
+            const { subGraphs } = this.props;
+            const setupSubGraphs = subGraphs.map((arrOfOne) =>
+                cloneDeep(arrOfOne[0]),
+            );
+
+            const initialData = dndObjectBuilder(setupSubGraphs);
+
+            this.setState({
+                ...this.state,
+                data: initialData,
+            });
+        }
+    }
+
     onDragEnd(result) {
         const { destination, source, draggableId } = result;
 

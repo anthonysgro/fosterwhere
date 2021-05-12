@@ -1,5 +1,16 @@
-import { CREATE_TRANSIT_GRAPH, UPDATE_TRANSIT_GRAPH } from "../action-creators";
-import { jsonToGraph } from "../../helper-functions";
+import {
+    CREATE_TRANSIT_GRAPH,
+    UPDATE_TRANSIT_GRAPH,
+    TRUE_LOWEST_TIME,
+    MANUAL,
+} from "../action-creators";
+
+import {
+    jsonToGraph,
+    lowestTimeNonBalanced,
+    graphToJson,
+} from "../../helper-functions";
+import { cloneDeep } from "lodash";
 
 const initialState = {
     fullGraph: {
@@ -29,6 +40,22 @@ export const graphReducer = (state = initialState, action) => {
             ...state,
             subGraphs: { structure: newSubgraphs, json: subJson },
         });
+    } else if (action.type === TRUE_LOWEST_TIME) {
+        const graph = action.graph;
+        const data = action.data;
+        const { subGraphs } = cloneDeep(lowestTimeNonBalanced(graph));
+
+        let newSubJson = [];
+        for (const graph of subGraphs) {
+            newSubJson.push(graphToJson(graph, data));
+        }
+
+        return (state = {
+            ...state,
+            subGraphs: { structure: subGraphs, json: newSubJson },
+        });
+    } else if (action.type === MANUAL) {
+        return state;
     } else {
         return state;
     }

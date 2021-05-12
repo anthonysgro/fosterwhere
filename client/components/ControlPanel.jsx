@@ -1,5 +1,14 @@
 import React, { Component } from "react";
 
+// Redux Imports
+import { connect } from "react-redux";
+import {
+    trueLowestTime,
+    manual,
+    changeToTLT,
+    changeToManual,
+} from "../store/action-creators";
+
 class ControlPanel extends Component {
     constructor(props) {
         super(props);
@@ -16,14 +25,34 @@ class ControlPanel extends Component {
         });
     }
 
+    componentDidUpdate(prevProps, prevState) {
+        if (prevProps.algorithm !== this.props.algorithm) {
+            this.setState({
+                value: this.props.algorithm,
+            });
+        }
+    }
+
     handleChange(event) {
-        console.log(event.target);
-        this.setState({ value: event.target.value });
+        this.setState({ value: event.target.value }, () => {
+            if (event.target.value === "trueLowestTime") {
+                this.props.changeToTLT();
+            } else if (event.target.value === "manual") {
+                this.props.changeToManual();
+            }
+        });
     }
 
     handleSubmit(event) {
-        alert("A name was submitted: " + this.state.value);
+        // alert("A name was submitted: " + this.state.value);
         event.preventDefault();
+        const { data, fullGraph } = this.props;
+        const { value } = this.state;
+        if (value === "trueLowestTime") {
+            this.props.trueLowestTime(fullGraph, data);
+        } else if (value === "manual") {
+            this.props.manual(data);
+        }
     }
 
     redirectToHomepage() {
@@ -106,4 +135,21 @@ class ControlPanel extends Component {
     }
 }
 
-export default ControlPanel;
+function mapStateToProps(state) {
+    return {
+        data: state.data,
+        fullGraph: state.graphs.fullGraph.structure,
+        algorithm: state.algorithms,
+    };
+}
+function mapDispatchToProps(dispatch) {
+    return {
+        trueLowestTime: (fullGraph, data) =>
+            dispatch(trueLowestTime(fullGraph, data)),
+        manual: (data) => dispatch(manual(data)),
+        changeToTLT: () => dispatch(changeToTLT()),
+        changeToManual: () => dispatch(changeToManual()),
+    };
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(ControlPanel);

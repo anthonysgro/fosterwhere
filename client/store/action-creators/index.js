@@ -20,6 +20,17 @@ import {
     optimizeEmployeeMap,
 } from "./employeeMap";
 
+import {
+    TRUE_LOWEST_TIME,
+    trueLowestTime,
+    CHANGE_TO_TLT,
+    changeToTLT,
+    MANUAL,
+    manual,
+    CHANGE_TO_MANUAL,
+    changeToManual,
+} from "./changeAlgorithm";
+
 export {
     DROP_FILE,
     dropFile,
@@ -35,4 +46,12 @@ export {
     optimizeEmployeeMap,
     UPDATE_TRANSIT_GRAPH,
     updateTransitGraph,
+    TRUE_LOWEST_TIME,
+    trueLowestTime,
+    MANUAL,
+    manual,
+    CHANGE_TO_TLT,
+    changeToTLT,
+    CHANGE_TO_MANUAL,
+    changeToManual,
 };
