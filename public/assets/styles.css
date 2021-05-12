@@ -24,16 +24,24 @@ h1 {
     flex-direction: column;
     justify-content: flex-start;
     align-items: center;
+    margin-top: 20vh;
 }
 
 #map-container {
     border-radius: 1rem;
-    margin-left: 12.5%;
+    /* margin-left: 25%; */
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
     align-items: center;
     box-shadow: 0px 7px 11px -8px #000000;
+}
+
+.whole-map-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
 }
 
 #result-container {
@@ -68,11 +76,18 @@ li > p {
     margin: 0rem 0.5rem;
 }
 
+.homepage-render {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+}
+
 #excel-dropzone {
     padding: 1rem 6.7rem 4rem 4rem;
     border-radius: 0.5rem;
     height: 40vh;
-    width: auto;
+    width: 90vh;
     /* height: 30vh;
     width: 50vh;
     align-self: center;
@@ -87,4 +102,10 @@ li > p {
     flex-direction: column;
     justify-content: center;
     align-items: center;
+}
+
+.title-font {
+    font-variant: small-caps;
+    font-style: oblique;
+    font-size: 400%;
 }

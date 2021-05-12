@@ -16,8 +16,8 @@ class Homepage extends Component {
     render() {
         const { data, loading } = this.props;
         return (
-            <main>
-                <h1>Foster Where</h1>
+            <main className="homepage-render">
+                <h1 className="title-font">FosterWhere</h1>
                 {loading ? <Loading /> : <ExcelDropzone />}
             </main>
         );

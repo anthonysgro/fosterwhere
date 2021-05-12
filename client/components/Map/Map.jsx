@@ -136,7 +136,15 @@ class SimpleMap extends Component {
         const center = centerLatLng(latLngArr);
 
         return (
-            <div style={{ height: "50vh", width: "75%" }} id="map-container">
+            <div
+                style={{
+                    height: "424px",
+                    width: "613px",
+                    overflow: "hidden",
+                    borderRadius: ".2rem",
+                }}
+                id="map-container"
+            >
                 <GoogleMapReact
                     bootstrapURLKeys={{
                         key: "AIzaSyAQbRDbgyBDdsnUi0-jBf8ij2KW_mqlHs8",

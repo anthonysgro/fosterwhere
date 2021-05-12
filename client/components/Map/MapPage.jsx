@@ -33,7 +33,9 @@ class MapPage extends Component {
         return (
             <React.Fragment>
                 <h1 className="title">Map Page</h1>
-                <Map />
+                <div className="whole-map-container">
+                    <Map />
+                </div>
                 <ControlPanel />
                 <ResultList />
             </React.Fragment>
