@@ -51,7 +51,6 @@ class ResultList extends Component {
         }
 
         const { data } = this.props;
-        console.log(this.props.subGraphs);
         const subGraphs = this.props.subGraphs.map((arrOfOne) =>
             cloneDeep(arrOfOne[0]),
         );
@@ -104,19 +103,23 @@ class ResultList extends Component {
             newFromClients.splice(source.index, 1);
             newToClients.splice(destination.index, 0, newClient);
 
+            const fromDistance =
+                parseFloat(fromEmployee.totalCommute) -
+                parseFloat(client.thisCommute);
+
             const newFromEmployee = {
                 ...fromEmployee,
-                totalCommute:
-                    parseFloat(fromEmployee.totalCommute) -
-                    parseFloat(client.thisCommute),
+                totalCommute: fromDistance.toFixed(2),
                 clients: newFromClients,
             };
 
+            const toDistance =
+                parseFloat(toEmployee.totalCommute) +
+                parseFloat(newClient.thisCommute);
+
             const newToEmployee = {
                 ...toEmployee,
-                totalCommute:
-                    parseFloat(toEmployee.totalCommute) +
-                    parseFloat(newClient.thisCommute),
+                totalCommute: toDistance.toFixed(2),
                 clients: newToClients,
             };
 
@@ -147,7 +150,6 @@ class ResultList extends Component {
         const { data, loading } = this.state;
 
         if (loading) return "";
-        console.log(data);
 
         return (
             <div id="result-container">
