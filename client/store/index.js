@@ -5,15 +5,15 @@ import {
     dataReducer,
     graphReducer,
     loadingReducer,
-    employeeMapReducer,
+    // employeeMapReducer,
 } from "./reducers";
 
 // Combined Reducer
 const primaryReducer = combineReducers({
     data: dataReducer,
     loading: loadingReducer,
-    graph: graphReducer,
-    employeeMap: employeeMapReducer,
+    graphs: graphReducer,
+    // employeeMap: employeeMapReducer,
 });
 
 // Redux Middleware

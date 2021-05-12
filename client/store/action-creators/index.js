@@ -5,7 +5,14 @@ import {
     START_LOADING,
     startLoading,
 } from "./loading";
-import { CREATE_TRANSIT_GRAPH, createTransitGraph } from "./createTransitGraph";
+
+import {
+    CREATE_TRANSIT_GRAPH,
+    createTransitGraph,
+    UPDATE_TRANSIT_GRAOH,
+    updateTransitGraph,
+} from "./createTransitGraph";
+
 import {
     CREATE_EMPLOYEE_MAP,
     createEmployeeMap,
@@ -26,4 +33,6 @@ export {
     createEmployeeMap,
     OPTIMIZE_EMPLOYEE_MAP,
     optimizeEmployeeMap,
+    UPDATE_TRANSIT_GRAOH,
+    updateTransitGraph,
 };

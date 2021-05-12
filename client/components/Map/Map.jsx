@@ -6,6 +6,7 @@ import { connect } from "react-redux";
 
 // Helper Fn
 import centerLatLng from "../../helper-functions/centerLatLng";
+import { cloneDeep } from "lodash";
 
 // Colors
 import COLORS from "./colors";
@@ -26,13 +27,18 @@ class SimpleMap extends Component {
     }
 
     componentDidMount() {
-        const { data, employeeMap } = this.props;
+        const { data, graphs } = this.props;
+
+        const subGraphs = cloneDeep(graphs.subGraphs.json);
 
         let flattenedMap = [];
-        for (let i = 0; i < employeeMap.length; i++) {
-            flattenedMap.push({ ...employeeMap[i], color: COLORS[i].employee });
+        for (let i = 0; i < subGraphs.length; i++) {
+            flattenedMap.push({
+                ...subGraphs[i][0],
+                color: COLORS[i].employee,
+            });
 
-            for (const client of employeeMap[i].clients) {
+            for (const client of subGraphs[i][0].clients) {
                 flattenedMap.push({ ...client, color: COLORS[i].client });
             }
         }
@@ -131,7 +137,7 @@ class SimpleMap extends Component {
 function mapStateToProps(state) {
     return {
         data: state.data,
-        employeeMap: state.employeeMap.optimizedMap,
+        graphs: state.graphs,
     };
 }
 

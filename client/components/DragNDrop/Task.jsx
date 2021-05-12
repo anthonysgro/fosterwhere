@@ -11,16 +11,18 @@ const Container = styled.div`
     border-radius: 2px;
     padding: 8px;
     margin-bottom: 8px;
-    background-color: white;
+    background-color: ${({ color }) => color.client};
 `;
 
 const Text = styled.p`
     font-size: 14px;
     margin: 6px 0px;
+    color: black;
 `;
 
 const Small = styled.small`
     font-size: 10px;
+    color: black;
 `;
 
 class Task extends Component {
@@ -30,7 +32,7 @@ class Task extends Component {
     }
 
     render() {
-        const { client, index } = this.props;
+        const { client, index, color } = this.props;
         return (
             <Draggable draggableId={client.id} index={index}>
                 {(provided) => (
@@ -38,9 +40,10 @@ class Task extends Component {
                         ref={provided.innerRef}
                         {...provided.draggableProps}
                         {...provided.dragHandleProps}
+                        color={color}
                     >
                         <Text>{client.name}</Text>
-                        <Small>Commute: {client.commute} min.</Small>
+                        <Small>Commute: {client.commute} min</Small>
                     </Container>
                 )}
             </Draggable>

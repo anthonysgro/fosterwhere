@@ -2,9 +2,11 @@ import React, { Component } from "react";
 
 // Redux Imports
 import { connect } from "react-redux";
+import { updateTransitGraph } from "../store/action-creators";
 
 // Helper Fn import
 import { dndObjectBuilder } from "../helper-functions";
+import cloneDeep from "lodash";
 import COLORS from "./Map/colors";
 
 // Component Imports
@@ -23,9 +25,11 @@ class ResultList extends Component {
     }
 
     componentDidMount() {
-        const { data } = this.props;
-
-        const initialData = dndObjectBuilder(data);
+        const { subGraphs } = this.props;
+        const setupSubGraphs = subGraphs.map((arrOfOne) =>
+            cloneDeep(arrOfOne[0]),
+        );
+        const initialData = dndObjectBuilder(setupSubGraphs);
 
         this.setState({
             data: initialData,
@@ -45,60 +49,68 @@ class ResultList extends Component {
             return;
         }
 
-        const { data } = this.state;
+        const { data, subGraphs } = this.props;
 
         // If dropping onto the same employee
         if (source.droppableId === destination.droppableId) {
-            const employee = data.employees[source.droppableId];
-            let newClientIds = Array.from(employee.clientIds);
-            newClientIds.splice(source.index, 1);
-            newClientIds.splice(destination.index, 0, draggableId);
-
-            const newEmployee = {
-                ...employee,
-                clientIds: newClientIds,
-            };
-
-            this.setState({
-                ...this.state,
-                data: {
-                    ...data,
-                    employees: {
-                        ...data.employees,
-                        [employee.id]: newEmployee,
-                    },
-                },
-            });
+            console.log(droppableId);
         } else {
-            const fromEmployee = data.employees[source.droppableId];
-            const toEmployee = data.employees[destination.droppableId];
-            let newFromClientIds = Array.from(fromEmployee.clientIds);
-            let newToClientIds = Array.from(toEmployee.clientIds);
-            newFromClientIds.splice(source.index, 1);
-            newToClientIds.splice(destination.index, 0, draggableId);
-
-            const newFromEmployee = {
-                ...fromEmployee,
-                clientIds: newFromClientIds,
-            };
-
-            const newToEmployee = {
-                ...toEmployee,
-                clientIds: newToClientIds,
-            };
-
-            this.setState({
-                ...this.state,
-                data: {
-                    ...data,
-                    employees: {
-                        ...data.employees,
-                        [newFromEmployee.id]: newFromEmployee,
-                        [newToEmployee.id]: newToEmployee,
-                    },
-                },
-            });
         }
+
+        // const { data } = this.state;
+
+        // // If dropping onto the same employee
+        // if (source.droppableId === destination.droppableId) {
+        //     const employee = data.employees[source.droppableId];
+        //     let newClientIds = Array.from(employee.clientIds);
+        //     newClientIds.splice(source.index, 1);
+        //     newClientIds.splice(destination.index, 0, draggableId);
+
+        //     const newEmployee = {
+        //         ...employee,
+        //         clientIds: newClientIds,
+        //     };
+
+        //     this.setState({
+        //         ...this.state,
+        //         data: {
+        //             ...data,
+        //             employees: {
+        //                 ...data.employees,
+        //                 [employee.id]: newEmployee,
+        //             },
+        //         },
+        //     });
+        // } else {
+        //     const fromEmployee = data.employees[source.droppableId];
+        //     const toEmployee = data.employees[destination.droppableId];
+        //     let newFromClientIds = Array.from(fromEmployee.clientIds);
+        //     let newToClientIds = Array.from(toEmployee.clientIds);
+        //     newFromClientIds.splice(source.index, 1);
+        //     newToClientIds.splice(destination.index, 0, draggableId);
+
+        //     const newFromEmployee = {
+        //         ...fromEmployee,
+        //         clientIds: newFromClientIds,
+        //     };
+
+        //     const newToEmployee = {
+        //         ...toEmployee,
+        //         clientIds: newToClientIds,
+        //     };
+
+        //     this.setState({
+        //         ...this.state,
+        //         data: {
+        //             ...data,
+        //             employees: {
+        //                 ...data.employees,
+        //                 [newFromEmployee.id]: newFromEmployee,
+        //                 [newToEmployee.id]: newToEmployee,
+        //             },
+        //         },
+        //     });
+        // }
     }
 
     render() {
@@ -131,7 +143,14 @@ class ResultList extends Component {
 
 function mapStateToProps(state) {
     return {
-        data: state.employeeMap.optimizedMap,
+        data: state.data,
+        subGraphs: state.graphs.subGraphs.json,
+    };
+}
+
+function mapDispatchToProps(disaptch) {
+    return {
+        updateTransitGraph: () => dispatch(updateTransitGraph()),
     };
 }
 

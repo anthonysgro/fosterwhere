@@ -3,8 +3,9 @@ import convertCommas from "./convertCommas";
 import convertToJson from "./convertToJson";
 import graphMaker from "./graphMaker";
 import lowestTimeNonBalanced from "./graph-optimizations/lowestTimeNonBalanced";
-import optimizeGraphToObject from "./graph-optimizations/optimizeGraphToObject";
+import findSubGraphs from "./graph-optimizations/optimizeGraphToObject";
 import dndObjectBuilder from "./dndObjectBuilder";
+import graphToJson from "./graphToJson";
 
 export {
     centerLatLng,
@@ -12,6 +13,7 @@ export {
     convertToJson,
     graphMaker,
     lowestTimeNonBalanced,
-    optimizeGraphToObject,
     dndObjectBuilder,
+    findSubGraphs,
+    graphToJson,
 };

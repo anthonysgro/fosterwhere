@@ -1,10 +1,11 @@
+import graphMaker from "../graphMaker";
+
 function lowestTimeNonBalanced(graph) {
     const employeeNodes = graph.getEmployees();
     const clientNodes = graph.getClients();
 
     // Find whichever employee has the fastest commute to the client, and assign
-    let upgradedMap = new Map();
-
+    let optimizedMap = new Map();
     for (const client of clientNodes) {
         let minCommute = Number.POSITIVE_INFINITY;
         let minEmployee = null;
@@ -18,17 +19,39 @@ function lowestTimeNonBalanced(graph) {
         }
 
         // Creates a map of optimal pairings
-        if (!upgradedMap.has(minEmployee)) {
-            upgradedMap.set(minEmployee, [client]);
+        if (!optimizedMap.has(minEmployee)) {
+            optimizedMap.set(minEmployee, [client]);
         } else {
-            upgradedMap.set(minEmployee, [
-                ...upgradedMap.get(minEmployee),
+            optimizedMap.set(minEmployee, [
+                ...optimizedMap.get(minEmployee),
                 client,
             ]);
         }
     }
 
-    return upgradedMap;
+    // Create subgraphs for each employee
+    let subGraphs = [];
+    for (const [employeeNode, clientArr] of optimizedMap.entries()) {
+        const employeeId = parseInt(employeeNode.val);
+        const employeeNeighbors = employeeNode.neighbors;
+        const subGraph = graphMaker({});
+
+        // SubMap to trade memory for space, keep track of neighbors
+        let subMap = new Map();
+        for (const [neighbor, weight] of employeeNeighbors.entries()) {
+            subMap.set(neighbor, weight);
+        }
+
+        // Add edges to our subgraph
+        for (const [idx, clientNode] of clientArr.entries()) {
+            const weight = subMap.get(clientNode);
+            const clientId = clientNode.val;
+            subGraph.addEdge(employeeId, parseInt(clientId), weight);
+        }
+        subGraphs.push(subGraph);
+    }
+
+    return { optimizedMap, subGraphs };
 }
 
 export default lowestTimeNonBalanced;

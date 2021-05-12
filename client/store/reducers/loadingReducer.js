@@ -12,7 +12,7 @@ export const loadingReducer = (state = initialState, action) => {
         return (state = { message: "", isLoading: false });
     } else if (action.type === DROP_FILE) {
         return (state = {
-            message: "Generating transit graph...",
+            message: "Calculating distances...",
             isLoading: true,
         });
     } else {

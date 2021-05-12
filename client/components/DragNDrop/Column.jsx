@@ -51,6 +51,7 @@ class Column extends Component {
                                     key={client.id}
                                     client={client}
                                     index={idx}
+                                    color={color}
                                 />
                             ))}
                             {provided.placeholder}

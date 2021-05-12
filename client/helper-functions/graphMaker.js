@@ -159,17 +159,17 @@ function graphMaker(employeeMap) {
     const fosterGraph = new Graph();
 
     // Loop through employee map making a graph
-    for (const [employeeName, clients] of Object.entries(employeeMap)) {
-        for (const [clientName, travelInfo] of Object.entries(clients)) {
+    for (const [employeeId, clients] of Object.entries(employeeMap)) {
+        for (const [clientId, travelInfo] of Object.entries(clients)) {
             // We can select different weight by choosing one of these
-            const {
-                travelTime,
-                travelTimeTraffic,
-                travelDistance,
-            } = travelInfo;
+            const { travelTime, travelTimeTraffic, travelDistance } =
+                travelInfo;
 
-            // console.log(employeeName, clientName, travelTimeTraffic);
-            fosterGraph.addEdge(employeeName, clientName, travelTimeTraffic);
+            fosterGraph.addEdge(
+                parseInt(employeeId),
+                parseInt(clientId),
+                travelTimeTraffic,
+            );
         }
     }
 

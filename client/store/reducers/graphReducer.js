@@ -1,8 +1,20 @@
 import { CREATE_TRANSIT_GRAPH } from "../action-creators";
 
-export const graphReducer = (state = null, action) => {
+const initialState = {
+    fullGraph: {
+        structure: null,
+        json: null,
+    },
+    subGraphs: {
+        structure: [],
+        json: [],
+    },
+};
+
+export const graphReducer = (state = initialState, action) => {
     if (action.type === CREATE_TRANSIT_GRAPH) {
-        return (state = action.graph);
+        const { fullGraph, subGraphs } = action;
+        return (state = { fullGraph, subGraphs });
     } else {
         return state;
     }

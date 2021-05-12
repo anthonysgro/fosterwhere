@@ -6,13 +6,16 @@ import axios from "axios";
 // React Router Imports
 import { useHistory } from "react-router-dom";
 
+//
+
 // Excel Imports
 import * as XLSX from "xlsx";
 import convertToJson from "../helper-functions/convertToJson";
 import convertCommas from "../helper-functions/convertCommas";
 
 // Helper Fn
-import { graphMaker, optimizeGraphToObject } from "../helper-functions";
+import { graphMaker, findSubGraphs, graphToJson } from "../helper-functions";
+import fakeData from "./FAKE_DATA";
 
 // Redux Imports
 import {
@@ -103,12 +106,14 @@ function ExcelDropzone() {
                 dispatch(startLoading());
 
                 // Geocode the data so we get latitude and longitude
-                const { data: jsonGeocodedData } = await axios.put(
-                    "/api/geocode",
-                    {
-                        data: jsonData,
-                    },
-                );
+                // UNCOMMENT FOR REAL GEOCODING
+                // const { data: jsonGeocodedData } = await axios.put(
+                //     "/api/geocode",
+                //     {
+                //         data: jsonData,
+                //     },
+                // );
+                const jsonGeocodedData = fakeData;
 
                 // Dispatch our geocoded data to redux store
                 dispatch(dropFile(jsonGeocodedData));
@@ -118,21 +123,35 @@ function ExcelDropzone() {
                     data: jsonGeocodedData,
                 });
 
-                // Keep ahold of our initial employee transit map
-                dispatch(createEmployeeMap(transitMap));
+                // // Keep ahold of our initial employee transit map
+                // dispatch(createEmployeeMap(transitMap));
 
-                // Create an initial graph out of the employee transit map
-                const transitGraph = graphMaker(transitMap);
+                // Create graphs and json conversions
+                const fullGraph = graphMaker(transitMap);
+                const fullJson = graphToJson(fullGraph, jsonGeocodedData);
 
-                // Dispatch our graph to redux store and stop loading, then redirect to map page
-                dispatch(createTransitGraph(transitGraph));
+                // Creates subGraphs with json conversions
+                const { subGraphs } = findSubGraphs(fullGraph);
+                let subJson = [];
+                for (const graph of subGraphs) {
+                    subJson.push(graphToJson(graph, jsonGeocodedData));
+                }
+
+                // Dispatch our graphs to redux store and stop loading, then redirect to map page
+                dispatch(
+                    createTransitGraph(fullGraph, fullJson, subGraphs, subJson),
+                );
+
+                // dispatch(createTransitGraph(transitGraph));
 
                 // Optimize the graph and convert to object
-                const optimizedEmployeeMap = optimizeGraphToObject(
-                    jsonGeocodedData,
-                    transitGraph,
-                );
-                dispatch(optimizeEmployeeMap(optimizedEmployeeMap));
+                // const optimizedEmployeeMap = optimizeGraphToObject(
+                //     jsonGeocodedData,
+                //     transitGraph,
+                // );
+                // const { graph, subGraphs } = dispatch(
+                //     optimizeEmployeeMap(optimizedEmployeeMap),
+                // );
 
                 // Stop loading and send to map screen!
                 dispatch(stopLoading());
