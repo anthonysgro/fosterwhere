@@ -6,6 +6,7 @@ import { connect } from "react-redux";
 // Component Imports
 import Map from "./Map.jsx";
 import ResultList from "../ResultList.jsx";
+import ControlPanel from "../ControlPanel.jsx";
 
 class MapPage extends Component {
     constructor(props) {
@@ -33,6 +34,7 @@ class MapPage extends Component {
             <React.Fragment>
                 <h1 className="title">Map Page</h1>
                 <Map />
+                <ControlPanel />
                 <ResultList />
             </React.Fragment>
         );

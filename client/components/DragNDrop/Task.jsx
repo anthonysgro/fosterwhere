@@ -16,7 +16,7 @@ const Container = styled.div`
 
 const Text = styled.p`
     font-size: 14px;
-    margin: 6px 0px;
+    margin: 2px 0px;
     color: black;
 `;
 

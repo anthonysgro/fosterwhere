@@ -55,6 +55,37 @@ class SimpleMap extends Component {
         });
     }
 
+    componentDidUpdate(prevProps, prevState) {
+        if (prevProps.graphs !== this.props.graphs) {
+            const { data, graphs } = this.props;
+
+            const subGraphs = cloneDeep(graphs.subGraphs.json);
+
+            let flattenedMap = [];
+            for (let i = 0; i < subGraphs.length; i++) {
+                flattenedMap.push({
+                    ...subGraphs[i][0],
+                    color: COLORS[i].employee,
+                });
+
+                for (const client of subGraphs[i][0].clients) {
+                    flattenedMap.push({ ...client, color: COLORS[i].client });
+                }
+            }
+
+            const newData = flattenedMap.map((item) => {
+                const newItem = { ...item };
+                newItem.show = false;
+                return newItem;
+            });
+
+            this.setState({
+                data: newData,
+                loading: false,
+            });
+        }
+    }
+
     // Handles the text box for clicking on maps
     onMarkerClick(key) {
         const { data } = this.state;

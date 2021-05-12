@@ -1,4 +1,5 @@
 import { CREATE_TRANSIT_GRAPH, UPDATE_TRANSIT_GRAPH } from "../action-creators";
+import { jsonToGraph } from "../../helper-functions";
 
 const initialState = {
     fullGraph: {
@@ -17,9 +18,16 @@ export const graphReducer = (state = initialState, action) => {
         return (state = { fullGraph, subGraphs });
     } else if (action.type === UPDATE_TRANSIT_GRAPH) {
         const { subJson } = action;
+
+        let newSubgraphs = [];
+        for (let i = 0; i < subJson.length; i++) {
+            const subgraphJson = subJson[i][0];
+            newSubgraphs.push(jsonToGraph(subgraphJson));
+        }
+
         return (state = {
             ...state,
-            subGraphs: { ...state.subGraphs, json: subJson },
+            subGraphs: { structure: newSubgraphs, json: subJson },
         });
     } else {
         return state;
