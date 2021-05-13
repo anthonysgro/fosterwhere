@@ -67,7 +67,7 @@ const InfoPanel = () => {
     return (
         <section className="info-panel-container" style={panelContainerStyles}>
             <div className="info-panel" style={infoPanelStyles}>
-                <h3 style={titleStyles}>Info</h3>
+                <h3 style={titleStyles}>Manager Info</h3>
                 <p className="info-panel-text">Mean: {mean}</p>
                 <p className="info-panel-text">Std Dev: {stdDev}</p>
                 <div id="btn-container">

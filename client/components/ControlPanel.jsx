@@ -111,7 +111,7 @@ class ControlPanel extends Component {
         };
 
         const smallStyles = {
-            padding: "6px 6px",
+            padding: "1px 6px 6px 6px",
         };
 
         const { value } = this.state;
@@ -256,7 +256,7 @@ class ControlPanel extends Component {
                                     : value === "lowTimeWithEquality"
                                     ? '"The Egalitarian Algorithm", this algo optimizes for minimum commutes and workload variance. It might not be the most efficient, but your workers will be content.'
                                     : value === "random"
-                                    ? "'The Chaos Algorithm', you could not be bothered to do some basic math. Or care about your employees. You are neither ruthless or merciful, you just want to see the world burn."
+                                    ? "'The Chaos Algorithm', you could not be bothered to do some basic math. Or care about your employees. You are neither ruthless nor merciful, you just want to see the world burn."
                                     : value === "manual"
                                     ? '"The YOU Algorithm", who needs fancy optimization anyway? You are calculated with all your decisions, and your needs go beyond what mere computers can do.'
                                     : value === "strictEquality"
