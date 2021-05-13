@@ -100,7 +100,7 @@ class ControlPanel extends Component {
         };
 
         const titleStyles = {
-            margin: "5px 0px",
+            margin: "6px 0px",
             textDecoration: "underline",
         };
 

@@ -154,7 +154,7 @@ li > p {
     flex-direction: column;
     flex-wrap: wrap;
     justify-content: flex-start;
-    align-items: center;
+    align-items: flex-end;
     width: 100%;
 }
 
@@ -185,4 +185,8 @@ li > p {
 .algo-label:hover,
 .algo-input:hover {
     cursor: pointer;
+}
+
+.info-panel-text {
+    margin: 4px 8px 8px 8px;
 }

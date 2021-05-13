@@ -44,9 +44,9 @@ export const graphReducer = (state = initialState, action) => {
         }
 
         subJson.sort((a, b) => a[0].id - b[0].id);
-        subJson.forEach((employee) =>
-            employee[0].clients.sort((a, b) => a.id - b.id),
-        );
+        // subJson.forEach((employee) =>
+        //     employee[0].clients.sort((a, b) => a.id - b.id),
+        // );
 
         return (state = {
             ...state,

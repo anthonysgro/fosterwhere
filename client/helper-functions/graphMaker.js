@@ -12,6 +12,14 @@ class Node {
         return this.neighbors.delete(node);
     }
 
+    removeAdjacentByVal(val) {
+        for (const [node, weight] of this.neighbors.entries()) {
+            if (parseInt(node.val) === parseInt(val)) {
+                return this.neighbors.delete(node);
+            }
+        }
+    }
+
     getAdjacents() {
         return this.neighbors;
     }
@@ -78,6 +86,15 @@ class Graph {
         }
 
         return [sourceNode, destinationNode];
+    }
+
+    findNodeByVal(val) {
+        for (const [key, node] of this.nodes.entries()) {
+            if (parseInt(node.val) === parseInt(val)) {
+                return node;
+            }
+        }
+        return null;
     }
 
     getEmployees() {

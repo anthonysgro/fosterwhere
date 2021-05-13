@@ -31,7 +31,8 @@ class SimpleMap extends Component {
 
         const subGraphs = cloneDeep(graphs.subGraphs.json);
 
-        subGraphs.sort((a, b) => a[0].id - a[0].id);
+        subGraphs.sort((a, b) => a[0].id - b[0].id);
+
         let flattenedMap = [];
         for (let i = 0; i < subGraphs.length; i++) {
             flattenedMap.push({
@@ -62,7 +63,7 @@ class SimpleMap extends Component {
 
             const subGraphs = cloneDeep(graphs.subGraphs.json);
 
-            subGraphs.sort((a, b) => a[0].id - a[0].id);
+            subGraphs.sort((a, b) => a[0].id - b[0].id);
 
             let flattenedMap = [];
             for (let i = 0; i < subGraphs.length; i++) {
@@ -150,7 +151,7 @@ class SimpleMap extends Component {
             >
                 <GoogleMapReact
                     bootstrapURLKeys={{
-                        key: "AIzaSyDTS7KMMtCIXJ34TCse5qdPfRMqY0AI04Y",
+                        key: "AIzaSyB7GThzCAYNkygjoSDUKQywStp7Cf5pXrw",
                     }}
                     defaultCenter={center}
                     defaultZoom={11}
