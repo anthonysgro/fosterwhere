@@ -60,6 +60,12 @@ function lowestTimeNonBalanced(graph) {
             const clientId = clientNode.val;
             subGraph.addEdge(employeeId, parseInt(clientId), weight);
         }
+
+        // If employee had no edges, we have to add them as a vertex
+        if (subGraph.getEmployees().length === 0) {
+            subGraph.addVertex(employeeId);
+        }
+
         subGraphs.push(subGraph);
     }
 
