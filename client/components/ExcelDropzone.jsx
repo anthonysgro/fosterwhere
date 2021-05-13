@@ -13,7 +13,7 @@ import convertCommas from "../helper-functions/convertCommas";
 
 // Helper Fn
 import { graphMaker, findSubGraphs, graphToJson } from "../helper-functions";
-import FAKE_DATA from "../FAKE_DATA";
+import { fakeData1, fakeData2 } from "../FAKE_DATA";
 
 // Redux Imports
 import {
@@ -81,8 +81,8 @@ function ExcelDropzone() {
     const dispatch = useDispatch();
     const history = useHistory();
 
-    const testData = () => {
-        const { jsonGeocodedData, transitMap } = FAKE_DATA;
+    const testData = (fakeDataset) => {
+        const { jsonGeocodedData, transitMap } = fakeDataset;
 
         // Dispatch our geocoded data to redux store
         dispatch(dropFile(jsonGeocodedData));
@@ -212,8 +212,19 @@ function ExcelDropzone() {
                 </Container>
             </div>
             <div id="btn-container">
-                <button onClick={testData} className="primary-btn">
-                    Try With Test Data
+                <button
+                    onClick={() => testData(fakeData1)}
+                    className="primary-btn"
+                >
+                    Try With Small Dataset
+                </button>
+            </div>
+            <div id="btn-container">
+                <button
+                    onClick={() => testData(fakeData2)}
+                    className="primary-btn"
+                >
+                    Try With Medium Dataset
                 </button>
             </div>
         </React.Fragment>

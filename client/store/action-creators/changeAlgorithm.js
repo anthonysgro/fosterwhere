@@ -7,6 +7,9 @@ export const CHANGE_TO_THT = "CHANGE_TO_THT";
 export const LOW_TIME_W_EQUALITY = "LOW_TIME_W_EQUALITY";
 export const CHANGE_TO_LTWE = "CHANGE_TO_LTWE";
 
+export const PURE_EQUALITY = "PURE_EQUALITY";
+export const CHANGE_TO_PURE_EQUALITY = "CHANGE_TO_PURE_EQUALITY";
+
 export const RANDOM = "RANDOM";
 export const CHANGE_TO_RANDOM = "CHANGE_TO_RANDOM";
 
@@ -32,6 +35,14 @@ export const trueHighestTime = (graph, data) => {
 export const lowTimeWEquality = (graph, data) => {
     return {
         type: LOW_TIME_W_EQUALITY,
+        graph,
+        data,
+    };
+};
+
+export const pureEquality = (graph, data) => {
+    return {
+        type: PURE_EQUALITY,
         graph,
         data,
     };
@@ -67,6 +78,12 @@ export const changeToTHT = () => {
 export const changeToLTWE = () => {
     return {
         type: CHANGE_TO_LTWE,
+    };
+};
+
+export const changeToPureEquality = () => {
+    return {
+        type: CHANGE_TO_PURE_EQUALITY,
     };
 };
 

@@ -6,6 +6,7 @@ import {
     LOW_TIME_W_EQUALITY,
     TRUE_HIGHEST_TIME,
     RANDOM,
+    PURE_EQUALITY,
 } from "../action-creators";
 
 import {
@@ -15,6 +16,7 @@ import {
     randomGenerator,
     lowTimeWEquality,
     graphToJson,
+    pureEqualityGenerator,
 } from "../../helper-functions";
 
 import { cloneDeep } from "lodash";
@@ -115,6 +117,25 @@ export const graphReducer = (state = initialState, action) => {
         const graph = action.graph;
         const data = action.data;
         const { subGraphs } = cloneDeep(lowTimeWEquality(graph));
+
+        let newSubJson = [];
+        for (const graph of subGraphs) {
+            newSubJson.push(graphToJson(graph, data));
+        }
+
+        newSubJson.sort((a, b) => a[0].id - b[0].id);
+        newSubJson.forEach((employee) =>
+            employee[0].clients.sort((a, b) => a.id - b.id),
+        );
+
+        return (state = {
+            ...state,
+            subGraphs: { structure: subGraphs, json: newSubJson },
+        });
+    } else if (action.type === PURE_EQUALITY) {
+        const graph = action.graph;
+        const data = action.data;
+        const { subGraphs } = cloneDeep(pureEqualityGenerator(graph));
 
         let newSubJson = [];
         for (const graph of subGraphs) {

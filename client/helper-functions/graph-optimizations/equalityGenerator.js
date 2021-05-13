@@ -111,7 +111,8 @@ function findNextSwap(subGraphs, graph) {
                             ...otherGraphs,
                         ]);
 
-                        if (mean < bestMean && stdDev < bestStdDev) {
+                        // Literally the only difference is here where we check if standard deviation is better
+                        if (stdDev < bestStdDev) {
                             // return after first good one is found
                             return [testGraph, testCompGraph, ...otherGraphs];
                         }
@@ -125,7 +126,7 @@ function findNextSwap(subGraphs, graph) {
     return subGraphs;
 }
 
-function lowTimeWEquality(graph) {
+function pureEqualityGenerator(graph) {
     const employeeNodes = graph.getEmployees();
     const clientNodes = graph.getClients();
 
@@ -195,4 +196,4 @@ function lowTimeWEquality(graph) {
     return { optimizedMap, subGraphs };
 }
 
-export default lowTimeWEquality;
+export default pureEqualityGenerator;

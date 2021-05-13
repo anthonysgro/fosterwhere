@@ -10,6 +10,8 @@ import {
     TRUE_HIGHEST_TIME,
     CHANGE_TO_THT,
     CHANGE_TO_RANDOM,
+    PURE_EQUALITY,
+    CHANGE_TO_PURE_EQUALITY,
     RANDOM,
 } from "../action-creators";
 
@@ -34,6 +36,10 @@ export const algorithmReducer = (state = "", action) => {
         return (state = "trueHighestTime");
     } else if (action.type === CHANGE_TO_THT) {
         return (state = "trueHighestTime");
+    } else if (action.type === PURE_EQUALITY) {
+        return (state = "strictEquality");
+    } else if (action.type === CHANGE_TO_PURE_EQUALITY) {
+        return (state = "strictEquality");
     } else if (action.type === RANDOM) {
         return (state = "random");
     } else if (action.type === CHANGE_TO_RANDOM) {

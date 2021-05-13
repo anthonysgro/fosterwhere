@@ -1359,4 +1359,4 @@ const fakeData2 = {
     },
 };
 
-module.exports = fakeData2;
+module.exports = { fakeData1, fakeData2 };

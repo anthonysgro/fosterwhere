@@ -5,14 +5,16 @@ import { connect } from "react-redux";
 import {
     trueLowestTime,
     trueHighestTime,
+    lowTimeWEquality,
+    pureEquality,
     random,
     manual,
-    lowTimeWEquality,
     changeToTLT,
     changeToTHT,
     changeToManual,
     changeToLTWE,
     changeToRandom,
+    changeToPureEquality,
 } from "../store/action-creators";
 
 class ControlPanel extends Component {
@@ -47,6 +49,8 @@ class ControlPanel extends Component {
                 this.props.changeToTHT();
             } else if (event.target.value === "lowTimeWithEquality") {
                 this.props.changeToLTWE();
+            } else if (event.target.value === "strictEquality") {
+                this.props.changeToPureEquality();
             } else if (event.target.value === "random") {
                 this.props.changeToRandom();
             } else if (event.target.value === "manual") {
@@ -66,6 +70,8 @@ class ControlPanel extends Component {
             this.props.trueHighestTime(fullGraph, data);
         } else if (value === "lowTimeWithEquality") {
             this.props.lowTimeWEquality(fullGraph, data);
+        } else if (value === "strictEquality") {
+            this.props.pureEquality(fullGraph, data);
         } else if (value === "random") {
             this.props.random(fullGraph, data);
         } else if (value === "manual") {
@@ -162,7 +168,7 @@ class ControlPanel extends Component {
                                         htmlFor="low-time-w-equality"
                                         className="algo-label"
                                     >
-                                        Low Time w/ Equality
+                                        Min Time w/ Equality
                                     </label>
                                     <input
                                         type="radio"
@@ -174,6 +180,23 @@ class ControlPanel extends Component {
                                         checked={
                                             value === "lowTimeWithEquality"
                                         }
+                                    />
+                                </div>
+                                <div className="algo-container">
+                                    <label
+                                        htmlFor="strict-equality"
+                                        className="algo-label"
+                                    >
+                                        Strict Equality
+                                    </label>
+                                    <input
+                                        type="radio"
+                                        className="algo-input"
+                                        id="strict-equality"
+                                        name="strictEquality"
+                                        value="strictEquality"
+                                        onChange={this.handleChange}
+                                        checked={value === "strictEquality"}
                                     />
                                 </div>
                                 <div className="algo-container">
@@ -229,13 +252,15 @@ class ControlPanel extends Component {
                                 {value === "trueLowestTime"
                                     ? '"The Manager\'s Algorithm", this algo optimizes for minimizing total travel. Good if you are a manager paying for gas on a budget. Or you maybe you are just lazy?'
                                     : value === "trueHighestTime"
-                                    ? '"The Sardonic Algorithm", this algo optimizes for maximizing total travel. This also maximizes variance among employees so it is extra unfair. Employees will not be happy...'
+                                    ? '"The Sardonic Algorithm", this algo optimizes for maximizing total travel. This option is only for managers who either hate their jobs or need therapy. Employees will not be happy...'
                                     : value === "lowTimeWithEquality"
                                     ? '"The Egalitarian Algorithm", this algo optimizes for minimum commutes and workload variance. It might not be the most efficient, but your workers will be content.'
                                     : value === "random"
                                     ? "'The Chaos Algorithm', you could not be bothered to do some basic math. Or care about your employees. You are neither ruthless or merciful, you just want to see the world burn."
                                     : value === "manual"
                                     ? '"The YOU Algorithm", who needs fancy optimization anyway? You are calculated with all your decisions, and your needs go beyond what mere computers can do.'
+                                    : value === "strictEquality"
+                                    ? '"The Utopian Algorithm", this algo optimizes for the least commute variance. Your workers commute equally, but is this optimal? I got another hammer and sickle if you want!'
                                     : ""}
                             </small>
                         </div>
@@ -261,6 +286,8 @@ function mapDispatchToProps(dispatch) {
         manual: (data) => dispatch(manual(data)),
         lowTimeWEquality: (fullGraph, data) =>
             dispatch(lowTimeWEquality(fullGraph, data)),
+        pureEquality: (fullGraph, data) =>
+            dispatch(pureEquality(fullGraph, data)),
         trueHighestTime: (fullGraph, data) =>
             dispatch(trueHighestTime(fullGraph, data)),
         changeToTLT: () => dispatch(changeToTLT()),
@@ -268,6 +295,7 @@ function mapDispatchToProps(dispatch) {
         changeToLTWE: () => dispatch(changeToLTWE()),
         changeToTHT: () => dispatch(changeToTHT()),
         changeToRandom: () => dispatch(changeToRandom()),
+        changeToPureEquality: () => dispatch(changeToPureEquality()),
     };
 }
 
