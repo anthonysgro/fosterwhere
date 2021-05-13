@@ -104,99 +104,144 @@ class ControlPanel extends Component {
             textDecoration: "underline",
         };
 
+        const smallStyles = {
+            padding: "6px 6px",
+        };
+
         const { value } = this.state;
 
         return (
-            <section
-                className="control-panel-container"
-                style={panelContainerStyles}
-            >
-                <div className="control-panel" style={controlPanelStyles}>
-                    <h3 style={titleStyles}>Algorithms</h3>
-                    <form onSubmit={this.handleSubmit} id="algo-form">
-                        <div className="algo-container">
-                            <label
-                                htmlFor="true-lowest-time"
-                                className="algo-label"
-                            >
-                                True Lowest Time
-                            </label>
-                            <input
-                                type="radio"
-                                className="algo-input"
-                                id="true-lowest-time"
-                                name="trueLowestTime"
-                                value="trueLowestTime"
-                                onChange={this.handleChange}
-                                checked={value === "trueLowestTime"}
-                            />
+            <React.Fragment>
+                <div className="container-container">
+                    <section
+                        className="control-panel-container"
+                        style={panelContainerStyles}
+                    >
+                        <div
+                            className="control-panel"
+                            style={controlPanelStyles}
+                        >
+                            <h3 style={titleStyles}>Algorithms</h3>
+                            <form onSubmit={this.handleSubmit} id="algo-form">
+                                <div className="algo-container">
+                                    <label
+                                        htmlFor="true-lowest-time"
+                                        className="algo-label"
+                                    >
+                                        True Lowest Time
+                                    </label>
+                                    <input
+                                        type="radio"
+                                        className="algo-input"
+                                        id="true-lowest-time"
+                                        name="trueLowestTime"
+                                        value="trueLowestTime"
+                                        onChange={this.handleChange}
+                                        checked={value === "trueLowestTime"}
+                                    />
+                                </div>
+                                <div className="algo-container">
+                                    <label
+                                        htmlFor="true-highest-time"
+                                        className="algo-label"
+                                    >
+                                        True Highest Time
+                                    </label>
+                                    <input
+                                        type="radio"
+                                        className="algo-input"
+                                        id="true-highest-time"
+                                        name="trueHighestTime"
+                                        value="trueHighestTime"
+                                        onChange={this.handleChange}
+                                        checked={value === "trueHighestTime"}
+                                    />
+                                </div>
+                                <div className="algo-container">
+                                    <label
+                                        htmlFor="low-time-w-equality"
+                                        className="algo-label"
+                                    >
+                                        Low Time w/ Equality
+                                    </label>
+                                    <input
+                                        type="radio"
+                                        className="algo-input"
+                                        id="low-time-w-equality"
+                                        name="lowTimeWithEquality"
+                                        value="lowTimeWithEquality"
+                                        onChange={this.handleChange}
+                                        checked={
+                                            value === "lowTimeWithEquality"
+                                        }
+                                    />
+                                </div>
+                                <div className="algo-container">
+                                    <label
+                                        htmlFor="random"
+                                        className="algo-label"
+                                    >
+                                        Random
+                                    </label>
+                                    <input
+                                        type="radio"
+                                        className="algo-input"
+                                        id="random"
+                                        name="random"
+                                        value="random"
+                                        onChange={this.handleChange}
+                                        checked={value === "random"}
+                                    />
+                                </div>
+                                <div className="algo-container">
+                                    <label
+                                        htmlFor="manual"
+                                        className="algo-label"
+                                    >
+                                        Manual
+                                    </label>
+                                    <input
+                                        className="algo-input"
+                                        type="radio"
+                                        id="manual"
+                                        name="manual"
+                                        value="manual"
+                                        onChange={this.handleChange}
+                                        checked={value === "manual"}
+                                    />
+                                </div>
+                                <button className="primary-btn algo-btn">
+                                    Submit
+                                </button>
+                            </form>
                         </div>
-                        <div className="algo-container">
-                            <label
-                                htmlFor="true-highest-time"
-                                className="algo-label"
-                            >
-                                True Highest Time
-                            </label>
-                            <input
-                                type="radio"
-                                className="algo-input"
-                                id="true-highest-time"
-                                name="trueHighestTime"
-                                value="trueHighestTime"
-                                onChange={this.handleChange}
-                                checked={value === "trueHighestTime"}
-                            />
+                    </section>
+                    <section
+                        className="control-panel-container"
+                        style={panelContainerStyles}
+                    >
+                        <div
+                            className="control-panel"
+                            style={controlPanelStyles}
+                        >
+                            <h3 style={titleStyles}>Description</h3>
+                            <small style={smallStyles}>
+                                {value === "trueLowestTime"
+                                    ? '"The Manager\'s Algorithm", this algo optimizes for minimizing total travel. Good if you are a manager paying for gas on a budget. Or you maybe you are just lazy?'
+                                    : value === "trueHighestTime"
+                                    ? '"The Sardonic Algorithm", this algo optimizes for maximizing total travel. This also maximizes variance among employees so it is extra unfair. Employees will not be happy...'
+                                    : value === "lowTimeWithEquality"
+                                    ? '"The Egalitarian Algorithm", this algo optimizes for minimum commutes and workload variance. It might not be the most efficient, but your workers will be content.'
+                                    : value === "random"
+                                    ? "'The Chaos Algorithm', you could not be bothered to do some basic math. Or care about your employees. You are neither ruthless or merciful, you just want to see the world burn."
+                                    : value === "manual"
+                                    ? '"The YOU Algorithm", who needs fancy optimization anyway? You are calculated with all your decisions, and your needs go beyond what mere computers can do.'
+                                    : ""}
+                            </small>
                         </div>
-                        <div className="algo-container">
-                            <label
-                                htmlFor="low-time-w-equality"
-                                className="algo-label"
-                            >
-                                Low Time w/ Equality
-                            </label>
-                            <input
-                                type="radio"
-                                className="algo-input"
-                                id="low-time-w-equality"
-                                name="lowTimeWithEquality"
-                                value="lowTimeWithEquality"
-                                onChange={this.handleChange}
-                                checked={value === "lowTimeWithEquality"}
-                            />
-                        </div>
-                        <div className="algo-container">
-                            <label htmlFor="random" className="algo-label">
-                                Random
-                            </label>
-                            <input
-                                type="radio"
-                                className="algo-input"
-                                id="random"
-                                name="random"
-                                value="random"
-                                onChange={this.handleChange}
-                                checked={value === "random"}
-                            />
-                        </div>
-                        <div className="algo-container">
-                            <label htmlFor="manual" className="algo-label">
-                                Manual
-                            </label>
-                            <input
-                                className="algo-input"
-                                type="radio"
-                                id="manual"
-                                name="manual"
-                                value="manual"
-                                onChange={this.handleChange}
-                                checked={value === "manual"}
-                            />
-                        </div>
-                        <button className="primary-btn algo-btn">Submit</button>
-                    </form>
+                    </section>
                 </div>
-            </section>
+            </React.Fragment>
         );
     }
 }

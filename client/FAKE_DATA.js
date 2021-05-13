@@ -42,16 +42,6 @@ module.exports = {
                     method: null,
                     type: "client",
                 },
-                {
-                    name: "Tom",
-                    address:
-                        "3916 Cheston Pl, Charlotte, North Carolina, 28211",
-                    id: 16,
-                    latitude: 35.1546259,
-                    longitude: -80.82530469999999,
-                    method: null,
-                    type: "client",
-                },
             ],
             id: 3,
             latitude: 35.131711,
@@ -266,15 +256,6 @@ module.exports = {
             method: null,
             type: "client",
         },
-        {
-            name: "Tom",
-            address: "3916 Cheston Pl, Charlotte, North Carolina, 28211",
-            id: 16,
-            latitude: 35.1546259,
-            longitude: -80.82530469999999,
-            method: null,
-            type: "client",
-        },
     ],
     transitMap: {
         3: {
@@ -338,11 +319,6 @@ module.exports = {
                 travelTimeTraffic: 31.4,
                 travelDistance: 12.67,
             },
-            16: {
-                travelTime: 8.88,
-                travelTimeTraffic: 10.88,
-                travelDistance: 2.49,
-            },
         },
         5: {
             1: {
@@ -405,11 +381,6 @@ module.exports = {
                 travelTimeTraffic: 16.65,
                 travelDistance: 7.02,
             },
-            16: {
-                travelTime: 11.3,
-                travelTimeTraffic: 14.12,
-                travelDistance: 3.6,
-            },
         },
         11: {
             1: {
@@ -471,11 +442,6 @@ module.exports = {
                 travelTime: 17,
                 travelTimeTraffic: 19.35,
                 travelDistance: 9.61,
-            },
-            16: {
-                travelTime: 31.63,
-                travelTimeTraffic: 37.72,
-                travelDistance: 17.58,
             },
         },
     },

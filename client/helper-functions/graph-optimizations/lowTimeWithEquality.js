@@ -129,12 +129,8 @@ function lowTimeWEquality(graph) {
                         const testCompGraph = cloneDeep(comparisonGraph);
 
                         // Get weights
-                        const empStartWeight =
-                            graphMap[employee.val][client.val];
                         const empTakeWeight =
                             graphMap[employee.val][swappable.val];
-                        const compEmpStartWeight =
-                            graphMap[compEmployee.val][swappable.val];
                         const compEmpTakeWeight =
                             graphMap[compEmployee.val][client.val];
 
@@ -189,7 +185,6 @@ function lowTimeWEquality(graph) {
                             lastGraph,
                         ]);
 
-                        console.log("***************");
                         if (mean < bestMean && stdDev < bestStdDev) {
                             // console.log(mean, stdDev);
                             console.log(employeeNode.val, swappableNode.val);
