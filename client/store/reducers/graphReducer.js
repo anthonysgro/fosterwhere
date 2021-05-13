@@ -5,15 +5,18 @@ import {
     MANUAL,
     LOW_TIME_W_EQUALITY,
     TRUE_HIGHEST_TIME,
+    RANDOM,
 } from "../action-creators";
 
 import {
     jsonToGraph,
     lowestTimeNonBalanced,
     highestTimeNonBalanced,
+    randomGenerator,
     lowTimeWEquality,
     graphToJson,
 } from "../../helper-functions";
+
 import { cloneDeep } from "lodash";
 
 const initialState = {
@@ -40,6 +43,11 @@ export const graphReducer = (state = initialState, action) => {
             newSubgraphs.push(jsonToGraph(subgraphJson));
         }
 
+        subJson.sort((a, b) => a[0].id - b[0].id);
+        subJson.forEach((employee) =>
+            employee[0].clients.sort((a, b) => a.id - b.id),
+        );
+
         return (state = {
             ...state,
             subGraphs: { structure: newSubgraphs, json: subJson },
@@ -54,6 +62,11 @@ export const graphReducer = (state = initialState, action) => {
             newSubJson.push(graphToJson(graph, data));
         }
 
+        newSubJson.sort((a, b) => a[0].id - b[0].id);
+        newSubJson.forEach((employee) =>
+            employee[0].clients.sort((a, b) => a.id - b.id),
+        );
+
         return (state = {
             ...state,
             subGraphs: { structure: subGraphs, json: newSubJson },
@@ -67,6 +80,30 @@ export const graphReducer = (state = initialState, action) => {
         for (const graph of subGraphs) {
             newSubJson.push(graphToJson(graph, data));
         }
+
+        newSubJson.sort((a, b) => a[0].id - b[0].id);
+        newSubJson.forEach((employee) =>
+            employee[0].clients.sort((a, b) => a.id - b.id),
+        );
+
+        return (state = {
+            ...state,
+            subGraphs: { structure: subGraphs, json: newSubJson },
+        });
+    } else if (action.type === RANDOM) {
+        const graph = action.graph;
+        const data = action.data;
+        const { subGraphs } = cloneDeep(randomGenerator(graph));
+
+        let newSubJson = [];
+        for (const graph of subGraphs) {
+            newSubJson.push(graphToJson(graph, data));
+        }
+
+        newSubJson.sort((a, b) => a[0].id - b[0].id);
+        newSubJson.forEach((employee) =>
+            employee[0].clients.sort((a, b) => a.id - b.id),
+        );
 
         return (state = {
             ...state,
@@ -83,6 +120,11 @@ export const graphReducer = (state = initialState, action) => {
         for (const graph of subGraphs) {
             newSubJson.push(graphToJson(graph, data));
         }
+
+        newSubJson.sort((a, b) => a[0].id - b[0].id);
+        newSubJson.forEach((employee) =>
+            employee[0].clients.sort((a, b) => a.id - b.id),
+        );
 
         return (state = {
             ...state,

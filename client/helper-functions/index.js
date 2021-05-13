@@ -9,6 +9,7 @@ import graphToJson from "./graphToJson";
 import jsonToGraph from "./jsonToGraph";
 import lowTimeWEquality from "./graph-optimizations/lowTimeWithEquality";
 import highestTimeNonBalanced from "./graph-optimizations/highestTimeNonBalanced";
+import randomGenerator from "./graph-optimizations/randomGenerator";
 
 export {
     centerLatLng,
@@ -22,4 +23,5 @@ export {
     jsonToGraph,
     lowTimeWEquality,
     highestTimeNonBalanced,
+    randomGenerator,
 };

@@ -9,6 +9,8 @@ import {
     CHANGE_TO_LTWE,
     TRUE_HIGHEST_TIME,
     CHANGE_TO_THT,
+    CHANGE_TO_RANDOM,
+    RANDOM,
 } from "../action-creators";
 
 export const algorithmReducer = (state = "", action) => {
@@ -32,6 +34,10 @@ export const algorithmReducer = (state = "", action) => {
         return (state = "trueHighestTime");
     } else if (action.type === CHANGE_TO_THT) {
         return (state = "trueHighestTime");
+    } else if (action.type === RANDOM) {
+        return (state = "random");
+    } else if (action.type === CHANGE_TO_RANDOM) {
+        return (state = "random");
     } else {
         return state;
     }

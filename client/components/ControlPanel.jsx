@@ -5,12 +5,14 @@ import { connect } from "react-redux";
 import {
     trueLowestTime,
     trueHighestTime,
+    random,
     manual,
     lowTimeWEquality,
     changeToTLT,
     changeToTHT,
     changeToManual,
     changeToLTWE,
+    changeToRandom,
 } from "../store/action-creators";
 
 class ControlPanel extends Component {
@@ -45,6 +47,8 @@ class ControlPanel extends Component {
                 this.props.changeToTHT();
             } else if (event.target.value === "lowTimeWithEquality") {
                 this.props.changeToLTWE();
+            } else if (event.target.value === "random") {
+                this.props.changeToRandom();
             } else if (event.target.value === "manual") {
                 this.props.changeToManual();
             }
@@ -62,6 +66,8 @@ class ControlPanel extends Component {
             this.props.trueHighestTime(fullGraph, data);
         } else if (value === "lowTimeWithEquality") {
             this.props.lowTimeWEquality(fullGraph, data);
+        } else if (value === "random") {
+            this.props.random(fullGraph, data);
         } else if (value === "manual") {
             this.props.manual(data);
         }
@@ -160,6 +166,20 @@ class ControlPanel extends Component {
                             />
                         </div>
                         <div className="algo-container">
+                            <label htmlFor="random" className="algo-label">
+                                Random
+                            </label>
+                            <input
+                                type="radio"
+                                className="algo-input"
+                                id="random"
+                                name="random"
+                                value="random"
+                                onChange={this.handleChange}
+                                checked={value === "random"}
+                            />
+                        </div>
+                        <div className="algo-container">
                             <label htmlFor="manual" className="algo-label">
                                 Manual
                             </label>
@@ -192,6 +212,7 @@ function mapDispatchToProps(dispatch) {
     return {
         trueLowestTime: (fullGraph, data) =>
             dispatch(trueLowestTime(fullGraph, data)),
+        random: (fullGraph, data) => dispatch(random(fullGraph, data)),
         manual: (data) => dispatch(manual(data)),
         lowTimeWEquality: (fullGraph, data) =>
             dispatch(lowTimeWEquality(fullGraph, data)),
@@ -201,6 +222,7 @@ function mapDispatchToProps(dispatch) {
         changeToManual: () => dispatch(changeToManual()),
         changeToLTWE: () => dispatch(changeToLTWE()),
         changeToTHT: () => dispatch(changeToTHT()),
+        changeToRandom: () => dispatch(changeToRandom()),
     };
 }
 
