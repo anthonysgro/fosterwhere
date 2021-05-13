@@ -4,9 +4,13 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import {
     trueLowestTime,
+    trueHighestTime,
     manual,
+    lowTimeWEquality,
     changeToTLT,
+    changeToTHT,
     changeToManual,
+    changeToLTWE,
 } from "../store/action-creators";
 
 class ControlPanel extends Component {
@@ -37,6 +41,10 @@ class ControlPanel extends Component {
         this.setState({ value: event.target.value }, () => {
             if (event.target.value === "trueLowestTime") {
                 this.props.changeToTLT();
+            } else if (event.target.value === "trueHighestTime") {
+                this.props.changeToTHT();
+            } else if (event.target.value === "lowTimeWithEquality") {
+                this.props.changeToLTWE();
             } else if (event.target.value === "manual") {
                 this.props.changeToManual();
             }
@@ -50,6 +58,10 @@ class ControlPanel extends Component {
         const { value } = this.state;
         if (value === "trueLowestTime") {
             this.props.trueLowestTime(fullGraph, data);
+        } else if (value === "trueHighestTime") {
+            this.props.trueHighestTime(fullGraph, data);
+        } else if (value === "lowTimeWithEquality") {
+            this.props.lowTimeWEquality(fullGraph, data);
         } else if (value === "manual") {
             this.props.manual(data);
         }
@@ -114,6 +126,40 @@ class ControlPanel extends Component {
                             />
                         </div>
                         <div className="algo-container">
+                            <label
+                                htmlFor="true-highest-time"
+                                className="algo-label"
+                            >
+                                True Highest Time
+                            </label>
+                            <input
+                                type="radio"
+                                className="algo-input"
+                                id="true-highest-time"
+                                name="trueHighestTime"
+                                value="trueHighestTime"
+                                onChange={this.handleChange}
+                                checked={value === "trueHighestTime"}
+                            />
+                        </div>
+                        <div className="algo-container">
+                            <label
+                                htmlFor="low-time-w-equality"
+                                className="algo-label"
+                            >
+                                Low Time w/ Equality
+                            </label>
+                            <input
+                                type="radio"
+                                className="algo-input"
+                                id="low-time-w-equality"
+                                name="lowTimeWithEquality"
+                                value="lowTimeWithEquality"
+                                onChange={this.handleChange}
+                                checked={value === "lowTimeWithEquality"}
+                            />
+                        </div>
+                        <div className="algo-container">
                             <label htmlFor="manual" className="algo-label">
                                 Manual
                             </label>
@@ -147,8 +193,14 @@ function mapDispatchToProps(dispatch) {
         trueLowestTime: (fullGraph, data) =>
             dispatch(trueLowestTime(fullGraph, data)),
         manual: (data) => dispatch(manual(data)),
+        lowTimeWEquality: (fullGraph, data) =>
+            dispatch(lowTimeWEquality(fullGraph, data)),
+        trueHighestTime: (fullGraph, data) =>
+            dispatch(trueHighestTime(fullGraph, data)),
         changeToTLT: () => dispatch(changeToTLT()),
         changeToManual: () => dispatch(changeToManual()),
+        changeToLTWE: () => dispatch(changeToLTWE()),
+        changeToTHT: () => dispatch(changeToTHT()),
     };
 }
 

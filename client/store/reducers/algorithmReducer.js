@@ -5,6 +5,10 @@ import {
     CHANGE_TO_TLT,
     CHANGE_TO_MANUAL,
     STOP_LOADING,
+    LOW_TIME_W_EQUALITY,
+    CHANGE_TO_LTWE,
+    TRUE_HIGHEST_TIME,
+    CHANGE_TO_THT,
 } from "../action-creators";
 
 export const algorithmReducer = (state = "", action) => {
@@ -20,6 +24,14 @@ export const algorithmReducer = (state = "", action) => {
         return (state = "manual");
     } else if (action.type === STOP_LOADING) {
         return (state = "trueLowestTime");
+    } else if (action.type === LOW_TIME_W_EQUALITY) {
+        return (state = "lowTimeWithEquality");
+    } else if (action.type === CHANGE_TO_LTWE) {
+        return (state = "lowTimeWithEquality");
+    } else if (action.type === TRUE_HIGHEST_TIME) {
+        return (state = "trueHighestTime");
+    } else if (action.type === CHANGE_TO_THT) {
+        return (state = "trueHighestTime");
     } else {
         return state;
     }

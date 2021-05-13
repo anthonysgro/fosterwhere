@@ -30,6 +30,8 @@ class ResultList extends Component {
             cloneDeep(arrOfOne[0]),
         );
 
+        setupSubGraphs.sort((a, b) => a.id - b.id);
+
         const initialData = dndObjectBuilder(setupSubGraphs);
 
         this.setState({
@@ -44,6 +46,8 @@ class ResultList extends Component {
             const setupSubGraphs = subGraphs.map((arrOfOne) =>
                 cloneDeep(arrOfOne[0]),
             );
+
+            setupSubGraphs.sort((a, b) => a.id - b.id);
 
             const initialData = dndObjectBuilder(setupSubGraphs);
 
@@ -149,6 +153,8 @@ class ResultList extends Component {
             subGraphs.splice(subGraphIndexFrom, 1, newFromEmployee);
             subGraphs.splice(subGraphIndexTo, 1, newToEmployee);
         }
+
+        subGraphs.sort((a, b) => a.id - b.id);
 
         const refitSubGraphs = subGraphs.map((sub) => [sub]);
 

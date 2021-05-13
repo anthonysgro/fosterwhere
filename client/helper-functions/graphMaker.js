@@ -88,6 +88,13 @@ class Graph {
             }
         }
 
+        // If there are no clients, and therefore we didnt get any employees with our heuristic before
+        if (!employees.length) {
+            for (const [key, node] of this.nodes.entries()) {
+                employees.push(node);
+            }
+        }
+
         return employees;
     }
 

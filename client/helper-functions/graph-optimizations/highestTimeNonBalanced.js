@@ -1,6 +1,6 @@
 import graphMaker from "../graphMaker";
 
-function lowestTimeNonBalanced(graph) {
+function highestTimeNonBalanced(graph) {
     const employeeNodes = graph.getEmployees();
     const clientNodes = graph.getClients();
     const numOfEmployees = employeeNodes.length;
@@ -9,23 +9,23 @@ function lowestTimeNonBalanced(graph) {
     // Find whichever employee has the fastest commute to the client, and assign
     let optimizedMap = new Map();
     for (const client of clientNodes) {
-        let minCommute = Number.POSITIVE_INFINITY;
-        let minEmployee = null;
+        let maxCommute = Number.NEGATIVE_INFINITY;
+        let maxEmployee = null;
 
         for (const employee of employeeNodes) {
             const commute = employee.getWeight(client);
-            if (commute < minCommute) {
-                minCommute = commute;
-                minEmployee = employee;
+            if (commute > maxCommute) {
+                maxCommute = commute;
+                maxEmployee = employee;
             }
         }
 
         // Creates a map of optimal pairings
-        if (!optimizedMap.has(minEmployee)) {
-            optimizedMap.set(minEmployee, [client]);
+        if (!optimizedMap.has(maxEmployee)) {
+            optimizedMap.set(maxEmployee, [client]);
         } else {
-            optimizedMap.set(minEmployee, [
-                ...optimizedMap.get(minEmployee),
+            optimizedMap.set(maxEmployee, [
+                ...optimizedMap.get(maxEmployee),
                 client,
             ]);
         }
@@ -33,7 +33,7 @@ function lowestTimeNonBalanced(graph) {
 
     // If employee wasn't assigned anyone...
     if (numOfEmployees > optimizedMap.size) {
-        // find employee
+        // Find employee
         for (const employee of employeeNodes) {
             if (!optimizedMap.has(employee)) {
                 optimizedMap.set(employee, []);
@@ -60,10 +60,16 @@ function lowestTimeNonBalanced(graph) {
             const clientId = clientNode.val;
             subGraph.addEdge(employeeId, parseInt(clientId), weight);
         }
+
+        // If employee had no edges, we have to add them as a vertex
+        if (subGraph.getEmployees().length === 0) {
+            subGraph.addVertex(employeeId);
+        }
+
         subGraphs.push(subGraph);
     }
 
     return { optimizedMap, subGraphs };
 }
 
-export default lowestTimeNonBalanced;
+export default highestTimeNonBalanced;

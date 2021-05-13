@@ -3,11 +3,15 @@ import {
     UPDATE_TRANSIT_GRAPH,
     TRUE_LOWEST_TIME,
     MANUAL,
+    LOW_TIME_W_EQUALITY,
+    TRUE_HIGHEST_TIME,
 } from "../action-creators";
 
 import {
     jsonToGraph,
     lowestTimeNonBalanced,
+    highestTimeNonBalanced,
+    lowTimeWEquality,
     graphToJson,
 } from "../../helper-functions";
 import { cloneDeep } from "lodash";
@@ -54,8 +58,36 @@ export const graphReducer = (state = initialState, action) => {
             ...state,
             subGraphs: { structure: subGraphs, json: newSubJson },
         });
+    } else if (action.type === TRUE_HIGHEST_TIME) {
+        const graph = action.graph;
+        const data = action.data;
+        const { subGraphs } = cloneDeep(highestTimeNonBalanced(graph));
+
+        let newSubJson = [];
+        for (const graph of subGraphs) {
+            newSubJson.push(graphToJson(graph, data));
+        }
+
+        return (state = {
+            ...state,
+            subGraphs: { structure: subGraphs, json: newSubJson },
+        });
     } else if (action.type === MANUAL) {
         return state;
+    } else if (action.type === LOW_TIME_W_EQUALITY) {
+        const graph = action.graph;
+        const data = action.data;
+        const { subGraphs } = cloneDeep(lowTimeWEquality(graph));
+
+        let newSubJson = [];
+        for (const graph of subGraphs) {
+            newSubJson.push(graphToJson(graph, data));
+        }
+
+        return (state = {
+            ...state,
+            subGraphs: { structure: subGraphs, json: newSubJson },
+        });
     } else {
         return state;
     }

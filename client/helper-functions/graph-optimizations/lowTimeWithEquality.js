@@ -1,6 +1,6 @@
 import graphMaker from "../graphMaker";
 
-function lowestTimeNonBalanced(graph) {
+function lowTimeWEquality(graph) {
     const employeeNodes = graph.getEmployees();
     const clientNodes = graph.getClients();
     const numOfEmployees = employeeNodes.length;
@@ -31,16 +31,6 @@ function lowestTimeNonBalanced(graph) {
         }
     }
 
-    // If employee wasn't assigned anyone...
-    if (numOfEmployees > optimizedMap.size) {
-        // find employee
-        for (const employee of employeeNodes) {
-            if (!optimizedMap.has(employee)) {
-                optimizedMap.set(employee, []);
-            }
-        }
-    }
-
     // Create subgraphs for each employee
     let subGraphs = [];
     for (const [employeeNode, clientArr] of optimizedMap.entries()) {
@@ -66,4 +56,4 @@ function lowestTimeNonBalanced(graph) {
     return { optimizedMap, subGraphs };
 }
 
-export default lowestTimeNonBalanced;
+export default lowTimeWEquality;

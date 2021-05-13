@@ -7,6 +7,8 @@ import findSubGraphs from "./graph-optimizations/optimizeGraphToObject";
 import dndObjectBuilder from "./dndObjectBuilder";
 import graphToJson from "./graphToJson";
 import jsonToGraph from "./jsonToGraph";
+import lowTimeWEquality from "./graph-optimizations/lowTimeWithEquality";
+import highestTimeNonBalanced from "./graph-optimizations/highestTimeNonBalanced";
 
 export {
     centerLatLng,
@@ -18,4 +20,6 @@ export {
     findSubGraphs,
     graphToJson,
     jsonToGraph,
+    lowTimeWEquality,
+    highestTimeNonBalanced,
 };

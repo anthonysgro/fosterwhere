@@ -31,6 +31,7 @@ class SimpleMap extends Component {
 
         const subGraphs = cloneDeep(graphs.subGraphs.json);
 
+        subGraphs.sort((a, b) => a[0].id - a[0].id);
         let flattenedMap = [];
         for (let i = 0; i < subGraphs.length; i++) {
             flattenedMap.push({
@@ -60,6 +61,8 @@ class SimpleMap extends Component {
             const { data, graphs } = this.props;
 
             const subGraphs = cloneDeep(graphs.subGraphs.json);
+
+            subGraphs.sort((a, b) => a[0].id - a[0].id);
 
             let flattenedMap = [];
             for (let i = 0; i < subGraphs.length; i++) {
