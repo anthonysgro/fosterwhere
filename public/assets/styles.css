@@ -247,12 +247,16 @@ li > p {
     display: flex;
     flex-direction: row;
     align-items: center;
-    justify-content: center;
+    justify-content: space-between;
     width: 800px;
 }
 
 .home-subcontainer {
     padding: 15px;
+}
+
+.extra-pad {
+    padding-left: 60px;
 }
 
 #second-section-homepage {
