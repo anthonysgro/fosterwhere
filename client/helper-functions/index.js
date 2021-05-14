@@ -11,6 +11,7 @@ import lowTimeWEquality from "./graph-optimizations/lowTimeWithEquality";
 import highestTimeNonBalanced from "./graph-optimizations/highestTimeNonBalanced";
 import randomGenerator from "./graph-optimizations/randomGenerator";
 import pureEqualityGenerator from "./graph-optimizations/equalityGenerator";
+import timeEqualityExchangeGen from "./graph-optimizations/timeEqualityExchangeGen";
 
 export {
     centerLatLng,
@@ -26,4 +27,5 @@ export {
     highestTimeNonBalanced,
     randomGenerator,
     pureEqualityGenerator,
+    timeEqualityExchangeGen,
 };

@@ -7,6 +7,7 @@ import {
     trueHighestTime,
     lowTimeWEquality,
     pureEquality,
+    timeEqualityExchange,
     random,
     manual,
     changeToTLT,
@@ -15,6 +16,7 @@ import {
     changeToLTWE,
     changeToRandom,
     changeToPureEquality,
+    changeToTEE,
 } from "../store/action-creators";
 
 class ControlPanel extends Component {
@@ -51,6 +53,8 @@ class ControlPanel extends Component {
                 this.props.changeToLTWE();
             } else if (event.target.value === "strictEquality") {
                 this.props.changeToPureEquality();
+            } else if (event.target.value === "timeEqualityExchange") {
+                this.props.changeToTEE();
             } else if (event.target.value === "random") {
                 this.props.changeToRandom();
             } else if (event.target.value === "manual") {
@@ -72,6 +76,8 @@ class ControlPanel extends Component {
             this.props.lowTimeWEquality(fullGraph, data);
         } else if (value === "strictEquality") {
             this.props.pureEquality(fullGraph, data);
+        } else if (value === "timeEqualityExchange") {
+            this.props.timeEqualityExchange(fullGraph, data);
         } else if (value === "random") {
             this.props.random(fullGraph, data);
         } else if (value === "manual") {
@@ -146,7 +152,7 @@ class ControlPanel extends Component {
                                         checked={value === "trueLowestTime"}
                                     />
                                 </div>
-                                <div className="algo-container">
+                                {/* <div className="algo-container">
                                     <label
                                         htmlFor="true-highest-time"
                                         className="algo-label"
@@ -162,26 +168,7 @@ class ControlPanel extends Component {
                                         onChange={this.handleChange}
                                         checked={value === "trueHighestTime"}
                                     />
-                                </div>
-                                <div className="algo-container">
-                                    <label
-                                        htmlFor="low-time-w-equality"
-                                        className="algo-label"
-                                    >
-                                        Min Time w/ Equality
-                                    </label>
-                                    <input
-                                        type="radio"
-                                        className="algo-input"
-                                        id="low-time-w-equality"
-                                        name="lowTimeWithEquality"
-                                        value="lowTimeWithEquality"
-                                        onChange={this.handleChange}
-                                        checked={
-                                            value === "lowTimeWithEquality"
-                                        }
-                                    />
-                                </div>
+                                </div> */}
                                 <div className="algo-container">
                                     <label
                                         htmlFor="strict-equality"
@@ -197,6 +184,44 @@ class ControlPanel extends Component {
                                         value="strictEquality"
                                         onChange={this.handleChange}
                                         checked={value === "strictEquality"}
+                                    />
+                                </div>
+                                <div className="algo-container">
+                                    <label
+                                        htmlFor="low-time-w-equality"
+                                        className="algo-label"
+                                    >
+                                        {`Min Time & Equality`}
+                                    </label>
+                                    <input
+                                        type="radio"
+                                        className="algo-input"
+                                        id="low-time-w-equality"
+                                        name="lowTimeWithEquality"
+                                        value="lowTimeWithEquality"
+                                        onChange={this.handleChange}
+                                        checked={
+                                            value === "lowTimeWithEquality"
+                                        }
+                                    />
+                                </div>
+                                <div className="algo-container">
+                                    <label
+                                        htmlFor="time-equality-exchange"
+                                        className="algo-label"
+                                    >
+                                        {`Two-Phase Min/Swap`}
+                                    </label>
+                                    <input
+                                        type="radio"
+                                        className="algo-input"
+                                        id="time-equality-exchange"
+                                        name="timeEqualityExchange"
+                                        value="timeEqualityExchange"
+                                        onChange={this.handleChange}
+                                        checked={
+                                            value === "timeEqualityExchange"
+                                        }
                                     />
                                 </div>
                                 <div className="algo-container">
@@ -256,11 +281,13 @@ class ControlPanel extends Component {
                                     : value === "lowTimeWithEquality"
                                     ? '"The Egalitarian Algorithm", this algo optimizes for minimum commutes and workload variance. It might not be the most efficient, but your workers will be content.'
                                     : value === "random"
-                                    ? "'The Chaos Algorithm', you could not be bothered to do some basic math. Or care about your employees. You are neither ruthless nor merciful, you just want to see the world burn."
+                                    ? '"The Chaos Algorithm", you could not be bothered to do some basic math. Or care about your employees. You are neither ruthless nor merciful, you just want to see the world burn.'
                                     : value === "manual"
                                     ? '"The YOU Algorithm", who needs fancy optimization anyway? You are calculated with all your decisions, and your needs go beyond what mere computers can do.'
                                     : value === "strictEquality"
                                     ? '"The Utopian Algorithm", this algo optimizes for the least commute variance. Your workers commute equally, but is this optimal? I got another hammer and sickle if you want!'
+                                    : value === "timeEqualityExchange"
+                                    ? '"The Pragmatist\'s Algorithm", this algo optimizes for travel and workload variance, and then asks employees to swap clients if favorable for both. Trades excess fairness for efficiency!'
                                     : ""}
                             </small>
                         </div>
@@ -290,12 +317,15 @@ function mapDispatchToProps(dispatch) {
             dispatch(pureEquality(fullGraph, data)),
         trueHighestTime: (fullGraph, data) =>
             dispatch(trueHighestTime(fullGraph, data)),
+        timeEqualityExchange: (fullGraph, data) =>
+            dispatch(timeEqualityExchange(fullGraph, data)),
         changeToTLT: () => dispatch(changeToTLT()),
         changeToManual: () => dispatch(changeToManual()),
         changeToLTWE: () => dispatch(changeToLTWE()),
         changeToTHT: () => dispatch(changeToTHT()),
         changeToRandom: () => dispatch(changeToRandom()),
         changeToPureEquality: () => dispatch(changeToPureEquality()),
+        changeToTEE: () => dispatch(changeToTEE()),
     };
 }
 

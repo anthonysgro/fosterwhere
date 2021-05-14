@@ -13,6 +13,8 @@ import {
     PURE_EQUALITY,
     CHANGE_TO_PURE_EQUALITY,
     RANDOM,
+    TIME_EQUALITY_EXCHANGE,
+    CHANGE_TO_TEE,
 } from "../action-creators";
 
 export const algorithmReducer = (state = "", action) => {
@@ -44,6 +46,10 @@ export const algorithmReducer = (state = "", action) => {
         return (state = "random");
     } else if (action.type === CHANGE_TO_RANDOM) {
         return (state = "random");
+    } else if (action.type === TIME_EQUALITY_EXCHANGE) {
+        return (state = "timeEqualityExchange");
+    } else if (action.type === CHANGE_TO_TEE) {
+        return (state = "timeEqualityExchange");
     } else {
         return state;
     }

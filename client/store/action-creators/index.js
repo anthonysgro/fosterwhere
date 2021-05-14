@@ -45,6 +45,10 @@ import {
     manual,
     CHANGE_TO_MANUAL,
     changeToManual,
+    TIME_EQUALITY_EXCHANGE,
+    timeEqualityExchange,
+    CHANGE_TO_TEE,
+    changeToTEE,
 } from "./changeAlgorithm";
 
 export {
@@ -86,4 +90,8 @@ export {
     pureEquality,
     CHANGE_TO_PURE_EQUALITY,
     changeToPureEquality,
+    TIME_EQUALITY_EXCHANGE,
+    timeEqualityExchange,
+    CHANGE_TO_TEE,
+    changeToTEE,
 };
