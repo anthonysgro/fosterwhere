@@ -228,13 +228,21 @@ li > p {
 #img-container {
     width: 750px;
     height: 335px;
+    border-radius: 0.5rem;
 }
 
 #excel-example {
     max-width: 100%;
     max-height: 100%;
+    border-radius: 0.5rem;
 }
 
+#graph-example {
+    max-width: 100%;
+    max-height: 100%;
+    text-align: center;
+    border-radius: 0.5rem;
+}
 .homepage-text {
     background-color: #2b2b2b;
     height: auto;
@@ -261,4 +269,14 @@ li > p {
 
 #second-section-homepage {
     margin: 4rem;
+}
+
+#pics-container {
+    display: flex;
+    flex-direction: column;
+    padding: 12px;
+}
+
+#pics-container > * {
+    margin: 1rem;
 }

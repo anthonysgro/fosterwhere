@@ -250,16 +250,28 @@ function ExcelDropzone() {
                         Try With Medium Dataset
                     </button>
                 </div>
-                <div id="doc-container">
-                    <h2>Excel Example</h2>
-                    <div id="img-container">
-                        <img
-                            src="./images/excelFormat.png"
-                            alt=""
-                            id="excel-example"
-                        />
+                <div id="pics-container">
+                    <div id="doc-container">
+                        <h2>Excel Example</h2>
+                        <div className="img-container">
+                            <img
+                                src="./images/excelFormat.png"
+                                alt=""
+                                id="excel-example"
+                            />
+                        </div>
+                        <p>All files must fit this format!</p>
                     </div>
-                    <p>All files must fit this format!</p>
+                    <div id="graph-example">
+                        <h2>Graph Example</h2>
+                        <div className="img-container">
+                            <img
+                                src="./images/graphExample.png"
+                                alt=""
+                                id="graph-example"
+                            />
+                        </div>
+                    </div>
                 </div>
             </div>
         </React.Fragment>
