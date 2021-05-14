@@ -61,13 +61,6 @@ const getTextColor = (props) => {
 };
 
 const Container = styled.div`
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding: 20px;
-    border-width: 2px;
-    border-radius: 2px;
     border-color: ${(props) => getColor(props)};
     border-style: dashed;
     background-color: ${(props) => getBackgroundColor(props)};
@@ -185,59 +178,86 @@ function ExcelDropzone() {
 
     return (
         <React.Fragment>
-            <div id="excel-dropzone">
-                <Container
-                    {...getRootProps({
-                        isDragActive,
-                        isDragAccept,
-                        isDragReject,
-                    })}
-                >
-                    <input {...getInputProps()} />
-                    {isDragActive && isDragAccept ? (
-                        <p>Drop the file here ...</p>
-                    ) : isDragActive && isDragReject ? (
-                        <p>This file is invalid</p>
-                    ) : (
-                        <React.Fragment>
-                            <p>
-                                Try dragging an excel file, or click to select
-                                file
-                            </p>
-                            <em>
-                                (Only *.xls and *.xlsx files will be accepted)
-                            </em>
-                        </React.Fragment>
-                    )}
-                </Container>
-            </div>
-            <div id="btn-container">
-                <button
-                    onClick={() => testData(fakeData1)}
-                    className="primary-btn"
-                >
-                    Try With Small Dataset
-                </button>
-            </div>
-            <div id="btn-container">
-                <button
-                    onClick={() => testData(fakeData2)}
-                    className="primary-btn"
-                >
-                    Try With Medium Dataset
-                </button>
-            </div>
-            <br />
-            <div id="doc-container">
-                <h2>Excel Example</h2>
-                <div id="img-container">
-                    <img
-                        src="./images/excelFormat.png"
-                        alt=""
-                        id="excel-example"
-                    />
+            <div id="home-container">
+                <div className="homepage-text home-subcontainer">
+                    <h2>The Problem</h2>
+                    <p>
+                        Given a set of employee nodes and client nodes on a
+                        directed, weighted graph, find the optimal mapping of
+                        employees to clients.
+                    </p>
+                    <h3>Constraints</h3>
+                    <p>
+                        The graph is weighted: a weight is a commute from one
+                        employee to one client.
+                    </p>
+                    <p>
+                        The graph is directed: we only count the commute from
+                        the employee node to the client node. You cannot travel
+                        from an employee, to a client, to another employee.
+                    </p>
+                    <p>
+                        Edges only exist between employees and clients.
+                        Employees must "return home" before going to another
+                        client.
+                    </p>
                 </div>
-                <p>All files must fit this format!</p>
+                <div id="excel-dropzone" className="home-subcontainer">
+                    <Container
+                        {...getRootProps({
+                            isDragActive,
+                            isDragAccept,
+                            isDragReject,
+                        })}
+                    >
+                        <input {...getInputProps()} />
+                        {isDragActive && isDragAccept ? (
+                            <p>Drop the file here ...</p>
+                        ) : isDragActive && isDragReject ? (
+                            <p>This file is invalid</p>
+                        ) : (
+                            <React.Fragment>
+                                <p>
+                                    Try dragging an excel file, or click to
+                                    select file
+                                </p>
+                                <em>
+                                    (Only *.xls and *.xlsx files will be
+                                    accepted)
+                                </em>
+                            </React.Fragment>
+                        )}
+                    </Container>
+                </div>
+            </div>
+            <div id="second-section-homepage">
+                <div className="btn-container">
+                    <button
+                        onClick={() => testData(fakeData1)}
+                        className="primary-homepage-btn"
+                    >
+                        Try With Small Dataset
+                    </button>
+                </div>
+                <div className="btn-container">
+                    <button
+                        onClick={() => testData(fakeData2)}
+                        className="primary-homepage-btn"
+                    >
+                        Try With Medium Dataset
+                    </button>
+                </div>
+                <div id="doc-container">
+                    <h2>Excel Example</h2>
+                    <div id="img-container">
+                        <img
+                            src="./images/excelFormat.png"
+                            alt=""
+                            id="excel-example"
+                        />
+                    </div>
+                    <p>All files must fit this format!</p>
+                </div>
             </div>
         </React.Fragment>
     );

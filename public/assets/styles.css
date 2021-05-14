@@ -84,19 +84,16 @@ li > p {
 }
 
 #excel-dropzone {
-    padding: 1rem 6.7rem 4rem 4rem;
-    border-radius: 0.5rem;
-    height: 40vh;
-    width: 90vh;
-    /* height: 30vh;
-    width: 50vh;
-    align-self: center;
-    margin: 0; */
+    width: 1210px;
+    height: 447px;
+    flex-grow: 1;
+    position: relative;
+    bottom: 4px;
 }
 
 #excel-dropzone > * {
     border-radius: 1rem;
-    height: 40vh;
+    height: 100%;
     width: 100%;
     display: flex;
     flex-direction: column;
@@ -143,6 +140,36 @@ li > p {
 }
 
 .primary-btn:active {
+    transform: translateY(10%);
+    transition: transform 0.1s ease-in-out;
+}
+
+.primary-homepage-btn {
+    display: inline-block;
+    padding: 0.9em 1.7em;
+    margin: 0 0.3em 0.3em 0;
+    font-size: 130%;
+    border-radius: 0.5rem;
+    box-sizing: border-box;
+    text-decoration: none;
+    font-weight: 300;
+    color: #ffffff;
+    background-color: #46a6dd;
+    text-align: center;
+    outline: none;
+    border: none;
+    transform: translateY(0);
+    transition: all 0.2s ease-in-out;
+}
+
+.primary-homepage-btn:hover {
+    transform: translateY(-10%);
+    background-color: #3781ac;
+    cursor: pointer;
+    transition: transform 0.1s ease-in-out;
+}
+
+.primary-homepage-btn:active {
     transform: translateY(10%);
     transition: transform 0.1s ease-in-out;
 }
@@ -195,6 +222,7 @@ li > p {
     display: flex;
     flex-direction: column;
     align-items: center;
+    margin-top: 3rem;
 }
 
 #img-container {
@@ -205,4 +233,28 @@ li > p {
 #excel-example {
     max-width: 100%;
     max-height: 100%;
+}
+
+.homepage-text {
+    background-color: #2b2b2b;
+    height: auto;
+    border: 2px solid white;
+    border-radius: 0.5rem;
+    flex-grow: 1;
+}
+
+#home-container {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    width: 800px;
+}
+
+.home-subcontainer {
+    padding: 15px;
+}
+
+#second-section-homepage {
+    margin: 4rem;
 }
