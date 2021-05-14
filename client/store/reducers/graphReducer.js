@@ -59,7 +59,10 @@ export const graphReducer = (state = initialState, action) => {
     } else if (action.type === TRUE_LOWEST_TIME) {
         const graph = action.graph;
         const data = action.data;
+
+        console.time("true-lowest-time");
         const { subGraphs } = cloneDeep(lowestTimeNonBalanced(graph));
+        console.timeEnd("true-lowest-time");
 
         let newSubJson = [];
         for (const graph of subGraphs) {
@@ -78,6 +81,7 @@ export const graphReducer = (state = initialState, action) => {
     } else if (action.type === TRUE_HIGHEST_TIME) {
         const graph = action.graph;
         const data = action.data;
+
         const { subGraphs } = cloneDeep(highestTimeNonBalanced(graph));
 
         let newSubJson = [];
@@ -97,7 +101,10 @@ export const graphReducer = (state = initialState, action) => {
     } else if (action.type === RANDOM) {
         const graph = action.graph;
         const data = action.data;
+
+        console.time("random");
         const { subGraphs } = cloneDeep(randomGenerator(graph));
+        console.timeEnd("random");
 
         let newSubJson = [];
         for (const graph of subGraphs) {
@@ -118,7 +125,10 @@ export const graphReducer = (state = initialState, action) => {
     } else if (action.type === LOW_TIME_W_EQUALITY) {
         const graph = action.graph;
         const data = action.data;
+
+        console.time("min-time-and-equality");
         const { subGraphs } = cloneDeep(lowTimeWEquality(graph));
+        console.timeEnd("min-time-and-equality");
 
         let newSubJson = [];
         for (const graph of subGraphs) {
@@ -137,7 +147,10 @@ export const graphReducer = (state = initialState, action) => {
     } else if (action.type === PURE_EQUALITY) {
         const graph = action.graph;
         const data = action.data;
+
+        console.time("strict-equality");
         const { subGraphs } = cloneDeep(pureEqualityGenerator(graph));
+        console.timeEnd("strict-equality");
 
         let newSubJson = [];
         for (const graph of subGraphs) {
@@ -156,7 +169,10 @@ export const graphReducer = (state = initialState, action) => {
     } else if (action.type === TIME_EQUALITY_EXCHANGE) {
         const graph = action.graph;
         const data = action.data;
+
+        console.time("two-phase-min-swap");
         const { subGraphs } = cloneDeep(timeEqualityExchangeGen(graph));
+        console.timeEnd("two-phase-min-swap");
 
         let newSubJson = [];
         for (const graph of subGraphs) {
