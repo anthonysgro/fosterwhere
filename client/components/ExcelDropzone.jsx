@@ -262,7 +262,7 @@ function ExcelDropzone() {
                         </div>
                         <p>All files must fit this format!</p>
                     </div>
-                    <div id="graph-example">
+                    <div id="graph-example-container">
                         <h2>Graph Example</h2>
                         <div className="img-container">
                             <img

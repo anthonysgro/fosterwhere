@@ -99,6 +99,7 @@ li > p {
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    box-shadow: 0px 4px 12px -3px #000000;
 }
 
 .title-font {
@@ -225,16 +226,18 @@ li > p {
     margin-top: 3rem;
 }
 
-#img-container {
-    width: 750px;
-    height: 335px;
+.img-container {
+    /* width: 750px;
+    height: 335px; */
     border-radius: 0.5rem;
 }
 
 #excel-example {
     max-width: 100%;
     max-height: 100%;
+    border: 1px solid #b5b4b3;
     border-radius: 0.5rem;
+    box-shadow: 0px 4px 12px -3px #000000;
 }
 
 #graph-example {
@@ -242,13 +245,16 @@ li > p {
     max-height: 100%;
     text-align: center;
     border-radius: 0.5rem;
+    box-shadow: 0px 4px 12px -3px #000000;
 }
+
 .homepage-text {
     background-color: #2b2b2b;
     height: auto;
     border: 2px solid white;
     border-radius: 0.5rem;
     flex-grow: 1;
+    box-shadow: 0px 4px 12px -3px #000000;
 }
 
 #home-container {
