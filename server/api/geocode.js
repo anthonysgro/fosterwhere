@@ -23,17 +23,43 @@ router.put("/", async (req, res, next) => {
         let i = 0;
         for (const dataItem of data) {
             i++;
-            // This now works, but we are going to use fake data for now
-            const { latitude, longitude } = (
-                await geoCoder.geocode(dataItem.address)
-            )[0];
 
-            geocodedData.push({ id: i, ...dataItem, latitude, longitude });
+            // push in promises for each entry, will resolve concurrently later
+            const latLngPromise = geoCoder.geocode(dataItem.address);
+
+            geocodedData.push({
+                id: i,
+                ...dataItem,
+                latLngPromise,
+            });
         }
 
-        res.send(geocodedData);
+        // Resolve all requests concurrently so it doesn't take very long!
+        let newData = [];
+        await Promise.all(geocodedData.map((entry) => entry.latLngPromise))
+            .then((contents) => {
+                newData = geocodedData.reduce((arr, cur, i) => {
+                    const { latitude, longitude } = contents[i][0];
+
+                    // Remove the promise
+                    arr.push({
+                        id: cur.id,
+                        name: cur.name,
+                        address: cur.address,
+                        type: cur.type,
+                        method: cur.method,
+                        latitude,
+                        longitude,
+                    });
+
+                    return arr;
+                }, []);
+            })
+            .catch((err) => console.log("something happened in geocode route"));
+
+        res.send(newData);
     } catch (err) {
-        console.error(err);
+        // console.error(err);
         next(err);
     }
 });
