@@ -178,6 +178,14 @@ function ExcelDropzone() {
 
     return (
         <React.Fragment>
+            <div className="blockquote">
+                <p>
+                    {
+                        '"Our social workers keep quitting because they have to commute so far to reach their clients! I wish there was a better way..."'
+                    }
+                </p>
+                <p>{"- My Boss"}</p>
+            </div>
             <div id="home-container">
                 <div className="homepage-text home-subcontainer">
                     <h2>The Problem</h2>
