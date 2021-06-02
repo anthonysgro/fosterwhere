@@ -3,6 +3,14 @@ const router = express.Router();
 const axios = require("axios");
 require("dotenv").config();
 
+const setDelay = (cb, timeout = 0) =>
+    new Promise((resolve) => {
+        setTimeout(() => {
+            cb();
+            resolve();
+        }, timeout);
+    });
+
 router.post("/", async (req, res, next) => {
     try {
         const { data } = req.body;
@@ -15,15 +23,17 @@ router.post("/", async (req, res, next) => {
         let routesToProcess = [];
         for (const employee of employees) {
             for (const client of clients) {
-                const routePromise = axios.get(
-                    `http://dev.virtualearth.net/REST/V1/Routes?wp.0=${employee.latitude},${employee.longitude}&wp.1=${client.latitude},${client.longitude}&dateTime=12:00:00&distanceUnit=mi&output=json&key=${process.env.BING_MAPS_KEY}`,
-                );
+                await setDelay(() => {
+                    const routePromise = axios.get(
+                        `http://dev.virtualearth.net/REST/V1/Routes?wp.0=${employee.latitude},${employee.longitude}&wp.1=${client.latitude},${client.longitude}&dateTime=12:00:00&distanceUnit=mi&output=json&key=${process.env.BING_MAPS_KEY}`,
+                    );
 
-                routesToProcess.push({
-                    empId: employee.id,
-                    cliId: client.id,
-                    routePromise,
-                });
+                    routesToProcess.push({
+                        empId: employee.id,
+                        cliId: client.id,
+                        routePromise,
+                    });
+                }, 5);
             }
         }
 
