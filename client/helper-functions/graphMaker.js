@@ -186,13 +186,12 @@ function graphMaker(employeeMap) {
     for (const [employeeId, clients] of Object.entries(employeeMap)) {
         for (const [clientId, travelInfo] of Object.entries(clients)) {
             // We can select different weight by choosing one of these
-            const { travelTime, travelTimeTraffic, travelDistance } =
-                travelInfo;
+            const { travelTime, travelDistance } = travelInfo;
 
             fosterGraph.addEdge(
                 parseInt(employeeId),
                 parseInt(clientId),
-                travelTimeTraffic,
+                travelTime,
             );
         }
     }

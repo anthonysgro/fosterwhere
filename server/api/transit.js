@@ -29,7 +29,7 @@ router.post("/", async (req, res, next) => {
                     let routePromise = null;
 
                     routePromise = axios.get(
-                        `https://maps.googleapis.com/maps/api/directions/json?origin=${employee.latitude},${employee.longitude}&destination=${client.latitude},${client.longitude}&mode=${method}&key=${process.env.GOOGLE_DIRECTIONS_KEY}`,
+                        `https://maps.googleapis.com/maps/api/directions/json?origin=${employee.latitude},${employee.longitude}&destination=${client.latitude},${client.longitude}&mode=${method}&departure_time=now&key=${process.env.GOOGLE_DIRECTIONS_KEY}`,
                     );
 
                     routesToProcess.push({
@@ -41,8 +41,6 @@ router.post("/", async (req, res, next) => {
             }
         }
 
-        // http://dev.virtualearth.net/REST/v1/Routes/{travelMode}?wayPoint.1={wayPoint1}&viaWaypoint.2={viaWaypoint2}&waypoint.3={waypoint3}&wayPoint.n={waypointN}&heading={heading}&optimize={optimize}&avoid={avoid}&distanceBeforeFirstTurn={distanceBeforeFirstTurn}&routeAttributes={routeAttributes}&timeType={timeType}&dateTime={dateTime}&maxSolutions={maxSolutions}&tolerances={tolerances}&distanceUnit={distanceUnit}&key={BingMapsKey}
-
         // Process all promises concurrently so we don't have to wait for each
         let newData = [];
         await Promise.all(
@@ -50,25 +48,19 @@ router.post("/", async (req, res, next) => {
         ).then((contents) => {
             console.log(contents);
             console.log("\n################\n#############\n#############\n");
-            // Parse out the results we need
-            newData = routesToProcess.reduce((acc, cur, i) => {
-                const {
-                    travelDurationTraffic,
-                    travelDuration,
-                    travelDistance,
-                } = contents[i].data.resourceSets[0].resources[0];
 
-                console.log(travelDuration);
+            // Parse out the results we need
+            const googleDirections = contents[i];
+
+            newData = routesToProcess.reduce((acc, cur, i) => {
+                const { duration, distance } = googleDirections.routes.legs[0];
 
                 // Convert from seconds to correct format
                 acc.push({
                     empId: cur.empId,
                     cliId: cur.cliId,
-                    travelTime: parseFloat((travelDuration / 60).toFixed(2)),
-                    travelTimeTraffic: parseFloat(
-                        (travelDurationTraffic / 60).toFixed(2),
-                    ),
-                    travelDistance: parseFloat(travelDistance.toFixed(2)),
+                    travelTime: parseFloat((duration.value / 60).toFixed(2)),
+                    travelDistance: parseFloat(distance.value.toFixed(2)),
                 });
 
                 return acc;
@@ -78,25 +70,17 @@ router.post("/", async (req, res, next) => {
         // Change that to the format we want
         let finalObj = {};
         for (const entry of newData) {
-            const {
-                empId,
-                cliId,
-                travelTime,
-                travelTimeTraffic,
-                travelDistance,
-            } = entry;
+            const { empId, cliId, travelTime, travelDistance } = entry;
 
             if (finalObj.hasOwnProperty(empId)) {
                 finalObj[empId][cliId] = {
                     travelTime,
-                    travelTimeTraffic,
                     travelDistance,
                 };
             } else {
                 finalObj[empId] = {
                     [cliId]: {
                         travelTime,
-                        travelTimeTraffic,
                         travelDistance,
                     },
                 };
