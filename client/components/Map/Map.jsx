@@ -142,8 +142,8 @@ class SimpleMap extends Component {
         return (
             <div
                 style={{
-                    height: "424px",
-                    width: "613px",
+                    height: "450px",
+                    width: "650px",
                     overflow: "hidden",
                     borderRadius: ".2rem",
                 }}

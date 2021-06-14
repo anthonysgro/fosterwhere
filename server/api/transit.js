@@ -22,11 +22,30 @@ router.post("/", async (req, res, next) => {
         // Create an array of promises so we can process all at the same time
         let routesToProcess = [];
         for (const employee of employees) {
+            const employeeAddressFormatted = employee.address.replace(
+                / /g,
+                "%20",
+            );
+
             for (const client of clients) {
+                const { method } = employee;
                 await setDelay(() => {
-                    const routePromise = axios.get(
-                        `http://dev.virtualearth.net/REST/V1/Routes?wp.0=${employee.latitude},${employee.longitude}&wp.1=${client.latitude},${client.longitude}&dateTime=12:00:00&distanceUnit=mi&output=json&key=${process.env.BING_MAPS_KEY}`,
-                    );
+                    let routePromise = null;
+
+                    if (method === "driving" || method === "walking") {
+                        routePromise = axios.get(
+                            `http://dev.virtualearth.net/REST/V1/Routes/${method}?wp.0=${employee.latitude},${employee.longitude}&wp.1=${client.latitude},${client.longitude}&dateTime=12:00:00&distanceUnit=mi&output=json&key=${process.env.BING_MAPS_KEY}`,
+                        );
+                    } else if (method === "transit") {
+                        const clientAddressFormatted = client.address.replace(
+                            / /g,
+                            "%20",
+                        );
+
+                        routePromise = axios.get(
+                            `http://dev.virtualearth.net/REST/V1/Routes/${method}?wp.0=${employeeAddressFormatted}&wp.1=${clientAddressFormatted}&dateTime=12:00:00&distanceUnit=mi&output=json&key=${process.env.BING_MAPS_KEY}`,
+                        );
+                    }
 
                     routesToProcess.push({
                         empId: employee.id,
@@ -36,6 +55,8 @@ router.post("/", async (req, res, next) => {
                 }, 5);
             }
         }
+
+        // http://dev.virtualearth.net/REST/v1/Routes/{travelMode}?wayPoint.1={wayPoint1}&viaWaypoint.2={viaWaypoint2}&waypoint.3={waypoint3}&wayPoint.n={waypointN}&heading={heading}&optimize={optimize}&avoid={avoid}&distanceBeforeFirstTurn={distanceBeforeFirstTurn}&routeAttributes={routeAttributes}&timeType={timeType}&dateTime={dateTime}&maxSolutions={maxSolutions}&tolerances={tolerances}&distanceUnit={distanceUnit}&key={BingMapsKey}
 
         // Process all promises concurrently so we don't have to wait for each
         let newData = [];

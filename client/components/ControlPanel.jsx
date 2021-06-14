@@ -32,8 +32,11 @@ class ControlPanel extends Component {
     }
 
     componentDidMount() {
+        const { data, fullGraph } = this.props;
+        this.props.changeToDefaultGrouping();
+        this.props.defaultGrouping(fullGraph, data);
         this.setState({
-            value: "trueLowestTime",
+            value: "defaultGrouping",
         });
     }
 
