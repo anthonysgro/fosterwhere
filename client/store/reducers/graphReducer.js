@@ -195,7 +195,7 @@ export const graphReducer = (state = initialState, action) => {
         const data = action.data;
 
         console.time("default-grouping");
-        const { subGraphs } = cloneDeep(originalGroupingGenerator(graph));
+        const { subGraphs } = cloneDeep(originalGroupingGenerator(graph, data));
         console.timeEnd("default-grouping");
 
         let newSubJson = [];

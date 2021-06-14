@@ -1,35 +1,34 @@
 import graphMaker from "../graphMaker";
 
-function originalGroupingGenerator(graph) {
+function originalGroupingGenerator(graph, data) {
     const employeeNodes = graph.getEmployees();
     const clientNodes = graph.getClients();
     const numOfEmployees = employeeNodes.length;
     const numOfCients = clientNodes.length;
 
-    // Find whichever employee has the fastest commute to the client, and assign
+    // Assign clients to employees based on "group".
     let optimizedMap = new Map();
-    for (const client of clientNodes) {
-        let employee = null;
-        const randomEmployeeIndex = Math.floor(Math.random() * numOfEmployees);
 
-        employee = employeeNodes[randomEmployeeIndex];
+    const employeeEntries = data.filter((entry) => entry.type === "employee");
 
-        // Creates a map of optimal pairings
-        if (!optimizedMap.has(employee)) {
-            optimizedMap.set(employee, [client]);
-        } else {
-            optimizedMap.set(employee, [...optimizedMap.get(employee), client]);
-        }
-    }
+    for (const employee of employeeEntries) {
+        const clientIds = data
+            .filter((entry) => {
+                return (
+                    entry.type === "client" && entry.group === employee.group
+                );
+            })
+            .map((client) => client.id);
 
-    // If employee wasn't assigned anyone...
-    if (numOfEmployees > optimizedMap.size) {
-        // find employee
-        for (const employee of employeeNodes) {
-            if (!optimizedMap.has(employee)) {
-                optimizedMap.set(employee, []);
-            }
-        }
+        const employeeNode = employeeNodes.filter(
+            (node) => node.val === employee.id,
+        )[0];
+
+        const clientsBelongingToThisEmployee = clientNodes.filter((node) =>
+            clientIds.includes(node.val),
+        );
+
+        optimizedMap.set(employeeNode, clientsBelongingToThisEmployee);
     }
 
     // Create subgraphs for each employee
