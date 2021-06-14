@@ -10,6 +10,7 @@ import {
     timeEqualityExchange,
     random,
     manual,
+    defaultGrouping,
     changeToTLT,
     changeToTHT,
     changeToManual,
@@ -17,6 +18,7 @@ import {
     changeToRandom,
     changeToPureEquality,
     changeToTEE,
+    changeToDefaultGrouping,
 } from "../store/action-creators";
 
 class ControlPanel extends Component {
@@ -45,7 +47,9 @@ class ControlPanel extends Component {
 
     handleChange(event) {
         this.setState({ value: event.target.value }, () => {
-            if (event.target.value === "trueLowestTime") {
+            if (event.target.value === "defaultGrouping") {
+                this.props.changeToDefaultGrouping();
+            } else if (event.target.value === "trueLowestTime") {
                 this.props.changeToTLT();
             } else if (event.target.value === "trueHighestTime") {
                 this.props.changeToTHT();
@@ -68,7 +72,10 @@ class ControlPanel extends Component {
         event.preventDefault();
         const { data, fullGraph } = this.props;
         const { value } = this.state;
-        if (value === "trueLowestTime") {
+
+        if (value === "defaultGrouping") {
+            this.props.defaultGrouping(fullGraph, data);
+        } else if (value === "trueLowestTime") {
             this.props.trueLowestTime(fullGraph, data);
         } else if (value === "trueHighestTime") {
             this.props.trueHighestTime(fullGraph, data);
@@ -135,6 +142,23 @@ class ControlPanel extends Component {
                         >
                             <h3 style={titleStyles}>Algorithms</h3>
                             <form onSubmit={this.handleSubmit} id="algo-form">
+                                <div className="algo-container">
+                                    <label
+                                        htmlFor="default-grouping"
+                                        className="algo-label"
+                                    >
+                                        Default Grouping
+                                    </label>
+                                    <input
+                                        type="radio"
+                                        className="algo-input"
+                                        id="default-grouping"
+                                        name="defaultGrouping"
+                                        value="defaultGrouping"
+                                        onChange={this.handleChange}
+                                        checked={value === "defaultGrouping"}
+                                    />
+                                </div>
                                 <div className="algo-container">
                                     <label
                                         htmlFor="true-lowest-time"
@@ -288,6 +312,8 @@ class ControlPanel extends Component {
                                     ? '"The Utopian Algorithm", this algo optimizes for the least commute variance. Your workers commute equally, but is this optimal? I got another hammer and sickle if you want!'
                                     : value === "timeEqualityExchange"
                                     ? '"The Pragmatist\'s Algorithm", this algo optimizes for travel and workload variance, and then asks employees to swap clients if favorable for both. Trades excess fairness for efficiency!'
+                                    : value === "defaultGrouping"
+                                    ? '"The Original Configuration", this is configuration you specified when you uploaded your file. You can change this by editing the "groups" column of your excel sheet.'
                                     : ""}
                             </small>
                         </div>
@@ -319,6 +345,8 @@ function mapDispatchToProps(dispatch) {
             dispatch(trueHighestTime(fullGraph, data)),
         timeEqualityExchange: (fullGraph, data) =>
             dispatch(timeEqualityExchange(fullGraph, data)),
+        defaultGrouping: (fullGraph, data) =>
+            dispatch(defaultGrouping(fullGraph, data)),
         changeToTLT: () => dispatch(changeToTLT()),
         changeToManual: () => dispatch(changeToManual()),
         changeToLTWE: () => dispatch(changeToLTWE()),
@@ -326,6 +354,7 @@ function mapDispatchToProps(dispatch) {
         changeToRandom: () => dispatch(changeToRandom()),
         changeToPureEquality: () => dispatch(changeToPureEquality()),
         changeToTEE: () => dispatch(changeToTEE()),
+        changeToDefaultGrouping: () => dispatch(changeToDefaultGrouping()),
     };
 }
 

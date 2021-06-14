@@ -6,5 +6,5 @@ export default [
     { employee: "#8E44AD", client: "#BB8FCE" },
     { employee: "#2C3E50", client: "#85929E" },
     { employee: "#7B7D7D", client: "#D0D3D4" },
-    { employee: "#8E44AD", client: "#BB8FCE" },
+    { employee: "#c0842b", client: "#e2ba7e" },
 ];

@@ -11,6 +11,7 @@ import lowTimeWEquality from "./graph-optimizations/lowTimeWithEquality";
 import highestTimeNonBalanced from "./graph-optimizations/highestTimeNonBalanced";
 import randomGenerator from "./graph-optimizations/randomGenerator";
 import pureEqualityGenerator from "./graph-optimizations/equalityGenerator";
+import originalGroupingGenerator from "./graph-optimizations/originalGroupingGenerator";
 import timeEqualityExchangeGen from "./graph-optimizations/timeEqualityExchangeGen";
 
 export {
@@ -28,4 +29,5 @@ export {
     randomGenerator,
     pureEqualityGenerator,
     timeEqualityExchangeGen,
+    originalGroupingGenerator,
 };

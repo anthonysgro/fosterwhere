@@ -15,6 +15,8 @@ import {
     RANDOM,
     TIME_EQUALITY_EXCHANGE,
     CHANGE_TO_TEE,
+    CHANGE_TO_DEFAULT,
+    DEFAULT,
 } from "../action-creators";
 
 export const algorithmReducer = (state = "", action) => {
@@ -50,6 +52,10 @@ export const algorithmReducer = (state = "", action) => {
         return (state = "timeEqualityExchange");
     } else if (action.type === CHANGE_TO_TEE) {
         return (state = "timeEqualityExchange");
+    } else if (action.type === CHANGE_TO_DEFAULT) {
+        return (state = "defaultGrouping");
+    } else if (action.type === DEFAULT) {
+        return (state = "defaultGrouping");
     } else {
         return state;
     }

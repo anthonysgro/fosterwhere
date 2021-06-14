@@ -19,6 +19,9 @@ export const CHANGE_TO_RANDOM = "CHANGE_TO_RANDOM";
 export const MANUAL = "MANUAL";
 export const CHANGE_TO_MANUAL = "CHANGE_TO_MANUAL";
 
+export const DEFAULT = "DEFAULT";
+export const CHANGE_TO_DEFAULT = "CHANGE_TO_DEFAULT";
+
 export const trueLowestTime = (graph, data) => {
     return {
         type: TRUE_LOWEST_TIME,
@@ -74,6 +77,14 @@ export const manual = (data) => {
     };
 };
 
+export const defaultGrouping = (graph, data) => {
+    return {
+        type: DEFAULT,
+        graph,
+        data,
+    };
+};
+
 export const changeToTLT = () => {
     return {
         type: CHANGE_TO_TLT,
@@ -113,5 +124,11 @@ export const changeToRandom = () => {
 export const changeToManual = () => {
     return {
         type: CHANGE_TO_MANUAL,
+    };
+};
+
+export const changeToDefaultGrouping = () => {
+    return {
+        type: CHANGE_TO_DEFAULT,
     };
 };

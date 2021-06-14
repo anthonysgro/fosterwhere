@@ -8,6 +8,7 @@ import {
     RANDOM,
     PURE_EQUALITY,
     TIME_EQUALITY_EXCHANGE,
+    DEFAULT,
 } from "../action-creators";
 
 import {
@@ -19,6 +20,7 @@ import {
     graphToJson,
     pureEqualityGenerator,
     timeEqualityExchangeGen,
+    originalGroupingGenerator,
 } from "../../helper-functions";
 
 import { cloneDeep } from "lodash";
@@ -173,6 +175,28 @@ export const graphReducer = (state = initialState, action) => {
         console.time("two-phase-min-swap");
         const { subGraphs } = cloneDeep(timeEqualityExchangeGen(graph));
         console.timeEnd("two-phase-min-swap");
+
+        let newSubJson = [];
+        for (const graph of subGraphs) {
+            newSubJson.push(graphToJson(graph, data));
+        }
+
+        newSubJson.sort((a, b) => a[0].id - b[0].id);
+        newSubJson.forEach((employee) =>
+            employee[0].clients.sort((a, b) => a.id - b.id),
+        );
+
+        return (state = {
+            ...state,
+            subGraphs: { structure: subGraphs, json: newSubJson },
+        });
+    } else if (action.type === DEFAULT) {
+        const graph = action.graph;
+        const data = action.data;
+
+        console.time("default-grouping");
+        const { subGraphs } = cloneDeep(originalGroupingGenerator(graph));
+        console.timeEnd("default-grouping");
 
         let newSubJson = [];
         for (const graph of subGraphs) {

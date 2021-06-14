@@ -49,6 +49,10 @@ import {
     timeEqualityExchange,
     CHANGE_TO_TEE,
     changeToTEE,
+    DEFAULT,
+    CHANGE_TO_DEFAULT,
+    defaultGrouping,
+    changeToDefaultGrouping,
 } from "./changeAlgorithm";
 
 export {
@@ -94,4 +98,8 @@ export {
     timeEqualityExchange,
     CHANGE_TO_TEE,
     changeToTEE,
+    DEFAULT,
+    defaultGrouping,
+    CHANGE_TO_DEFAULT,
+    changeToDefaultGrouping,
 };

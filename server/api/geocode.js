@@ -48,6 +48,7 @@ router.put("/", async (req, res, next) => {
                         address: cur.address,
                         type: cur.type,
                         method: cur.method,
+                        group: parseInt(cur.group),
                         latitude,
                         longitude,
                     });
