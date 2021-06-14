@@ -12,11 +12,6 @@ router.put("/", async (req, res, next) => {
             apiKey: process.env.GOOGLE_KEY,
         };
 
-        // const openCageOptions = {
-        //     provider: "opencage",
-        //     apiKey: process.env.OPENCAGE_KEY,
-        // };
-
         const geoCoder = nodeGeocoder(googleOptions);
 
         let geocodedData = [];
@@ -56,7 +51,7 @@ router.put("/", async (req, res, next) => {
                     return arr;
                 }, []);
             })
-            .catch((err) => console.log("something happened in geocode route"));
+            .catch((err) => console.error(err));
 
         res.send(newData);
     } catch (err) {

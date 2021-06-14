@@ -22,30 +22,15 @@ router.post("/", async (req, res, next) => {
         // Create an array of promises so we can process all at the same time
         let routesToProcess = [];
         for (const employee of employees) {
-            const employeeAddressFormatted = employee.address.replace(
-                / /g,
-                "%20",
-            );
-
             for (const client of clients) {
                 const { method } = employee;
+
                 await setDelay(() => {
                     let routePromise = null;
 
-                    if (method === "driving" || method === "walking") {
-                        routePromise = axios.get(
-                            `http://dev.virtualearth.net/REST/V1/Routes/${method}?wp.0=${employee.latitude},${employee.longitude}&wp.1=${client.latitude},${client.longitude}&dateTime=12:00:00&distanceUnit=mi&output=json&key=${process.env.BING_MAPS_KEY}`,
-                        );
-                    } else if (method === "transit") {
-                        const clientAddressFormatted = client.address.replace(
-                            / /g,
-                            "%20",
-                        );
-
-                        routePromise = axios.get(
-                            `http://dev.virtualearth.net/REST/V1/Routes/${method}?wp.0=${employeeAddressFormatted}&wp.1=${clientAddressFormatted}&dateTime=12:00:00&distanceUnit=mi&output=json&key=${process.env.BING_MAPS_KEY}`,
-                        );
-                    }
+                    routePromise = axios.get(
+                        `https://maps.googleapis.com/maps/api/directions/json?origin=${employee.latitude},${employee.longitude}&destination=${client.latitude},${client.longitude}&mode=${method}&key=${process.env.GOOGLE_DIRECTIONS_KEY}`,
+                    );
 
                     routesToProcess.push({
                         empId: employee.id,
@@ -63,6 +48,8 @@ router.post("/", async (req, res, next) => {
         await Promise.all(
             routesToProcess.map((entry) => entry.routePromise),
         ).then((contents) => {
+            console.log(contents);
+            console.log("\n################\n#############\n#############\n");
             // Parse out the results we need
             newData = routesToProcess.reduce((acc, cur, i) => {
                 const {
@@ -70,6 +57,8 @@ router.post("/", async (req, res, next) => {
                     travelDuration,
                     travelDistance,
                 } = contents[i].data.resourceSets[0].resources[0];
+
+                console.log(travelDuration);
 
                 // Convert from seconds to correct format
                 acc.push({
