@@ -77,6 +77,30 @@ function ExcelDropzone() {
     const testData = (fakeDataset) => {
         const { jsonGeocodedData, transitMap } = fakeDataset;
 
+        window.localStorage.setItem(
+            "jsonGeocodedData",
+            JSON.stringify(jsonGeocodedData),
+        );
+
+        window.localStorage.setItem("transitMap", JSON.stringify(transitMap));
+
+        var textFile = null,
+            makeTextFile = function (text) {
+                var data = new Blob([text], { type: "text/plain" });
+
+                // If we are replacing a previously generated file we need to
+                // manually revoke the object URL to avoid memory leaks.
+                if (textFile !== null) {
+                    window.URL.revokeObjectURL(textFile);
+                }
+
+                textFile = window.URL.createObjectURL(data);
+
+                // returns a URL you can use as a href
+                return textFile;
+            };
+        makeTextFile();
+
         // Dispatch our geocoded data to redux store
         dispatch(dropFile(jsonGeocodedData));
 

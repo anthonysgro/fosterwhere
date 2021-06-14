@@ -8,6 +8,7 @@ const fakeData1 = {
             longitude: -80.971573,
             method: null,
             type: "client",
+            group: 2,
         },
         {
             name: "Anastasia",
@@ -17,37 +18,17 @@ const fakeData1 = {
             longitude: -80.9697304,
             method: null,
             type: "client",
+            group: 2,
         },
         {
             name: "Anthony",
             address: "3707 Highview Rd, Charlotte, North Carolina, 28210",
-            clients: [
-                {
-                    name: "James",
-                    address:
-                        "2135 Ferncliff Rd, Charlotte, North Carolina, 28211",
-                    id: 7,
-                    latitude: 35.16645949999999,
-                    longitude: -80.814832,
-                    method: null,
-                    type: "client",
-                },
-                {
-                    name: "Nava",
-                    address:
-                        "3737 Winding Creek Ln, Charlotte, North Carolina, 28226",
-                    id: 12,
-                    latitude: 35.142092,
-                    longitude: -80.8181479,
-                    method: null,
-                    type: "client",
-                },
-            ],
             id: 3,
             latitude: 35.131711,
             longitude: -80.8278959,
             method: "driving",
             type: "employee",
+            group: 1,
         },
         {
             name: "Danny",
@@ -57,74 +38,17 @@ const fakeData1 = {
             longitude: -80.82841189999999,
             method: null,
             type: "client",
+            group: 2,
         },
         {
             name: "Evan",
             address: "4020 Constable Ct, Charlotte, North Carolina, 28209",
-            clients: [
-                {
-                    name: "Allie",
-                    address:
-                        "4242 Branch Bend Ln, Charlotte, North Carolina, 28273",
-                    id: 1,
-                    latitude: 35.146123,
-                    longitude: -80.971573,
-                    method: null,
-                    type: "client",
-                },
-                {
-                    name: "Anastasia",
-                    address:
-                        "11807 Broadwater Ln, Charlotte, North Carolina 28273",
-                    id: 2,
-                    latitude: 35.1106926,
-                    longitude: -80.9697304,
-                    method: null,
-                    type: "client",
-                },
-                {
-                    name: "Danny",
-                    address:
-                        "226 Queens Rd #69, Charlotte, North Carolina, 28204",
-                    id: 4,
-                    latitude: 35.209572,
-                    longitude: -80.82841189999999,
-                    method: null,
-                    type: "client",
-                },
-                {
-                    name: "Greg",
-                    address: "3122 Eastway Dr, Charlotte, NC 28205",
-                    id: 6,
-                    latitude: 35.213196,
-                    longitude: -80.783028,
-                    method: null,
-                    type: "client",
-                },
-                {
-                    name: "Julia",
-                    address: "2910 Parkway Ave, Charlotte, NC 28208",
-                    id: 9,
-                    latitude: 35.2424857,
-                    longitude: -80.87749319999999,
-                    method: null,
-                    type: "client",
-                },
-                {
-                    name: "Tamanna",
-                    address: "426 N Tryon St, Charlotte, North Carolina, 28202",
-                    id: 15,
-                    latitude: 35.2298541,
-                    longitude: -80.83860059999999,
-                    method: null,
-                    type: "client",
-                },
-            ],
             id: 5,
             latitude: 35.1809391,
             longitude: -80.8619298,
             method: "driving",
             type: "employee",
+            group: 2,
         },
         {
             name: "Greg",
@@ -134,6 +58,7 @@ const fakeData1 = {
             longitude: -80.783028,
             method: null,
             type: "client",
+            group: 2,
         },
         {
             name: "James",
@@ -143,6 +68,7 @@ const fakeData1 = {
             longitude: -80.814832,
             method: null,
             type: "client",
+            group: 1,
         },
         {
             name: "Joe",
@@ -152,6 +78,7 @@ const fakeData1 = {
             longitude: -80.79285229999999,
             method: null,
             type: "client",
+            group: 3,
         },
         {
             name: "Julia",
@@ -161,6 +88,7 @@ const fakeData1 = {
             longitude: -80.87749319999999,
             method: null,
             type: "client",
+            group: 1,
         },
         {
             name: "Lisa",
@@ -170,55 +98,17 @@ const fakeData1 = {
             longitude: -80.7813516,
             method: null,
             type: "client",
+            group: 3,
         },
         {
             name: "Maria",
             address: "3506 Rindle Ct, Charlotte, North Carolina, 28269",
-            clients: [
-                {
-                    name: "Joe",
-                    address: "3201 Tallia Ct, Charlotte, North Carolina, 28269",
-                    id: 8,
-                    latitude: 35.31482370000001,
-                    longitude: -80.79285229999999,
-                    method: null,
-                    type: "client",
-                },
-                {
-                    name: "Lisa",
-                    address:
-                        "3109 Connecticut Ave, Charlotte, North Carolina, 28205",
-                    id: 10,
-                    latitude: 35.232182,
-                    longitude: -80.7813516,
-                    method: null,
-                    type: "client",
-                },
-                {
-                    name: "Rachana",
-                    address: "2123 Beatties Ford Rd, Charlotte, NC 28216",
-                    id: 13,
-                    latitude: 35.2641691,
-                    longitude: -80.85620080000001,
-                    method: null,
-                    type: "client",
-                },
-                {
-                    name: "Spencer",
-                    address:
-                        "3800 Shamrock Dr, Charlotte, North Carolina, 28215",
-                    id: 14,
-                    latitude: 35.2344339,
-                    longitude: -80.7605397,
-                    method: null,
-                    type: "client",
-                },
-            ],
             id: 11,
             latitude: 35.3156337,
             longitude: -80.8034535,
             method: "driving",
             type: "employee",
+            group: 3,
         },
         {
             name: "Nava",
@@ -228,6 +118,7 @@ const fakeData1 = {
             longitude: -80.8181479,
             method: null,
             type: "client",
+            group: 1,
         },
         {
             name: "Rachana",
@@ -237,6 +128,7 @@ const fakeData1 = {
             longitude: -80.85620080000001,
             method: null,
             type: "client",
+            group: 3,
         },
         {
             name: "Spencer",
@@ -246,15 +138,7 @@ const fakeData1 = {
             longitude: -80.7605397,
             method: null,
             type: "client",
-        },
-        {
-            name: "Tamanna",
-            address: "426 N Tryon St, Charlotte, North Carolina, 28202",
-            id: 15,
-            latitude: 35.2298541,
-            longitude: -80.83860059999999,
-            method: null,
-            type: "client",
+            group: 3,
         },
     ],
     transitMap: {
@@ -314,11 +198,6 @@ const fakeData1 = {
                 travelTimeTraffic: 34.35,
                 travelDistance: 10.02,
             },
-            15: {
-                travelTime: 23.9,
-                travelTimeTraffic: 31.4,
-                travelDistance: 12.67,
-            },
         },
         5: {
             1: {
@@ -375,11 +254,6 @@ const fakeData1 = {
                 travelTime: 24.65,
                 travelTimeTraffic: 30.3,
                 travelDistance: 13.16,
-            },
-            15: {
-                travelTime: 13.78,
-                travelTimeTraffic: 16.65,
-                travelDistance: 7.02,
             },
         },
         11: {
@@ -438,11 +312,6 @@ const fakeData1 = {
                 travelTimeTraffic: 25.03,
                 travelDistance: 7.63,
             },
-            15: {
-                travelTime: 17,
-                travelTimeTraffic: 19.35,
-                travelDistance: 9.61,
-            },
         },
     },
 };
@@ -457,6 +326,7 @@ const fakeData2 = {
             method: "null",
             latitude: 35.146123,
             longitude: -80.971573,
+            group: 1,
         },
         {
             id: 2,
@@ -466,6 +336,7 @@ const fakeData2 = {
             method: "null",
             latitude: 35.1106926,
             longitude: -80.9697304,
+            group: 1,
         },
         {
             id: 3,
@@ -475,6 +346,7 @@ const fakeData2 = {
             method: "driving",
             latitude: 35.131711,
             longitude: -80.8278959,
+            group: 1,
         },
         {
             id: 4,
@@ -484,6 +356,7 @@ const fakeData2 = {
             method: "null",
             latitude: 35.209572,
             longitude: -80.82841189999999,
+            group: 1,
         },
         {
             id: 5,
@@ -493,6 +366,7 @@ const fakeData2 = {
             method: "driving",
             latitude: 35.1809391,
             longitude: -80.8619298,
+            group: 2,
         },
         {
             id: 6,
@@ -502,6 +376,7 @@ const fakeData2 = {
             method: "null",
             latitude: 35.213196,
             longitude: -80.783028,
+            group: 2,
         },
         {
             id: 7,
@@ -511,6 +386,7 @@ const fakeData2 = {
             method: "null",
             latitude: 35.16645949999999,
             longitude: -80.814832,
+            group: 2,
         },
         {
             id: 8,
@@ -520,6 +396,7 @@ const fakeData2 = {
             method: "null",
             latitude: 35.31482370000001,
             longitude: -80.79285229999999,
+            group: 2,
         },
         {
             id: 9,
@@ -529,6 +406,7 @@ const fakeData2 = {
             method: "null",
             latitude: 35.2424857,
             longitude: -80.87749319999999,
+            group: 2,
         },
         {
             id: 10,
@@ -538,6 +416,7 @@ const fakeData2 = {
             method: "null",
             latitude: 35.232182,
             longitude: -80.7813516,
+            group: 2,
         },
         {
             id: 11,
@@ -547,6 +426,7 @@ const fakeData2 = {
             method: "driving",
             latitude: 35.3156337,
             longitude: -80.8034535,
+            group: 3,
         },
         {
             id: 12,
@@ -556,6 +436,7 @@ const fakeData2 = {
             method: "null",
             latitude: 35.142092,
             longitude: -80.8181479,
+            group: 3,
         },
         {
             id: 13,
@@ -565,6 +446,7 @@ const fakeData2 = {
             method: "null",
             latitude: 35.2641691,
             longitude: -80.85620080000001,
+            group: 3,
         },
         {
             id: 14,
@@ -574,6 +456,7 @@ const fakeData2 = {
             method: "null",
             latitude: 35.2344339,
             longitude: -80.7605397,
+            group: 3,
         },
         {
             id: 15,
@@ -583,6 +466,7 @@ const fakeData2 = {
             method: "null",
             latitude: 35.2298541,
             longitude: -80.83860059999999,
+            group: 3,
         },
         {
             id: 16,
@@ -592,6 +476,7 @@ const fakeData2 = {
             method: "null",
             latitude: 35.2833835,
             longitude: -80.8786063,
+            group: 3,
         },
         {
             id: 17,
@@ -601,6 +486,7 @@ const fakeData2 = {
             method: "null",
             latitude: 35.2903841,
             longitude: -80.763172,
+            group: 3,
         },
         {
             id: 18,
@@ -610,6 +496,7 @@ const fakeData2 = {
             method: "null",
             latitude: 35.2751955,
             longitude: -80.7160998,
+            group: 3,
         },
         {
             id: 19,
@@ -619,6 +506,7 @@ const fakeData2 = {
             method: "driving",
             latitude: 35.2789653,
             longitude: -80.89119509999999,
+            group: 4,
         },
         {
             id: 20,
@@ -628,6 +516,7 @@ const fakeData2 = {
             method: "null",
             latitude: 35.1988106,
             longitude: -80.7370323,
+            group: 4,
         },
         {
             id: 21,
@@ -637,6 +526,7 @@ const fakeData2 = {
             method: "null",
             latitude: 35.1633207,
             longitude: -80.70214419999999,
+            group: 4,
         },
         {
             id: 22,
@@ -646,6 +536,7 @@ const fakeData2 = {
             method: "null",
             latitude: 35.1872759,
             longitude: -80.8817942,
+            group: 4,
         },
         {
             id: 23,
@@ -655,6 +546,7 @@ const fakeData2 = {
             method: "null",
             latitude: 35.2095867,
             longitude: -80.90941029999999,
+            group: 4,
         },
         {
             id: 24,
@@ -664,6 +556,7 @@ const fakeData2 = {
             method: "null",
             latitude: 35.2366085,
             longitude: -80.8855979,
+            group: 4,
         },
         {
             id: 25,
@@ -673,6 +566,7 @@ const fakeData2 = {
             method: "driving",
             latitude: 35.24599,
             longitude: -80.690332,
+            group: 5,
         },
         {
             id: 26,
@@ -682,6 +576,7 @@ const fakeData2 = {
             method: "null",
             latitude: 35.2118021,
             longitude: -80.6951474,
+            group: 5,
         },
         {
             id: 27,
@@ -691,6 +586,7 @@ const fakeData2 = {
             method: "null",
             latitude: 35.1508801,
             longitude: -80.7449091,
+            group: 5,
         },
         {
             id: 28,
@@ -700,6 +596,7 @@ const fakeData2 = {
             method: "null",
             latitude: 35.2307837,
             longitude: -80.93608359999999,
+            group: 5,
         },
         {
             id: 29,
@@ -709,6 +606,7 @@ const fakeData2 = {
             method: "null",
             latitude: 35.2577296,
             longitude: -80.7936035,
+            group: 5,
         },
         {
             id: 30,
@@ -718,6 +616,7 @@ const fakeData2 = {
             method: "null",
             latitude: 35.2775488,
             longitude: -80.765361,
+            group: 5,
         },
     ],
     transitMap: {
