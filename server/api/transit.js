@@ -46,14 +46,11 @@ router.post("/", async (req, res, next) => {
         await Promise.all(
             routesToProcess.map((entry) => entry.routePromise),
         ).then((contents) => {
-            console.log(contents);
             console.log("\n################\n#############\n#############\n");
 
-            // Parse out the results we need
-            const googleDirections = contents[i];
-
             newData = routesToProcess.reduce((acc, cur, i) => {
-                const { duration, distance } = googleDirections.routes.legs[0];
+                const { duration, distance } =
+                    contents[i].data.routes[0].legs[0];
 
                 // Convert from seconds to correct format
                 acc.push({
