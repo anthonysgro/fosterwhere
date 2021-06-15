@@ -44,12 +44,11 @@ class Column extends Component {
 
     render() {
         const { column, clients, color } = this.props;
-        console.log(column);
         return (
             <Container color={color}>
                 <Title color={color}>{column.name}</Title>
                 <SubHeader>{column.totalCommute} min</SubHeader>
-                <Small class="employee-method">{column.method}</Small>
+                <Small className="employee-method">{column.method}</Small>
                 <Droppable droppableId={column.id}>
                     {(provided) => (
                         <TaskList

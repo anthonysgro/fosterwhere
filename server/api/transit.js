@@ -47,8 +47,15 @@ router.post("/", async (req, res, next) => {
             routesToProcess.map((entry) => entry.routePromise),
         ).then((contents) => {
             newData = routesToProcess.reduce((acc, cur, i) => {
-                const { duration, distance } =
-                    contents[i].data.routes[0].legs[0];
+                const googleResponse = contents[i].data;
+
+                if (googleResponse.status === "REQUEST_DENIED") {
+                    const error = Error(googleResponse.error_message);
+                    error.status = 401;
+                    throw error;
+                }
+
+                const { duration, distance } = googleResponse.routes[0].legs[0];
 
                 // Convert from seconds to correct format
                 acc.push({
@@ -85,7 +92,6 @@ router.post("/", async (req, res, next) => {
         // Send back the map of employees to clients with travel info
         res.send(finalObj);
     } catch (err) {
-        console.error(err);
         next(err);
     }
 });

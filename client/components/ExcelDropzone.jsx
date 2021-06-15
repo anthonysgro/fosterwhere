@@ -20,6 +20,7 @@ import {
     dropFile,
     stopLoading,
     startLoading,
+    triggerError,
     createTransitGraph,
     createEmployeeMap,
     optimizeEmployeeMap,
@@ -74,6 +75,7 @@ function ExcelDropzone() {
     const dispatch = useDispatch();
     const history = useHistory();
 
+    // Adds event listener for documentation accordions
     useEffect(() => {
         const acc = document.getElementsByClassName("accordion");
 
@@ -122,67 +124,89 @@ function ExcelDropzone() {
         history.push("/map");
     };
 
-    const onDrop = useCallback(async (acceptedFiles) => {
-        // Should just be one file
-        acceptedFiles.forEach(async (file) => {
+    const onDrop = useCallback(async ([file]) => {
+        try {
             const reader = new FileReader();
 
             reader.onabort = () => console.log("file reading was aborted");
             reader.onerror = () => console.log("file reading has failed");
             reader.onload = async (evt) => {
-                // Convert the worksheet into something we can work with in javascript
-                const bstr = evt.target.result;
-                const wb = XLSX.read(bstr, { type: "binary" });
-                const wsname = wb.SheetNames[0];
-                const ws = wb.Sheets[wsname];
-                const wsNoCommas = convertCommas(ws);
+                try {
+                    // Show the loading component on screen
+                    dispatch(startLoading());
 
-                // Get the data from the sheet
-                const data = XLSX.utils.sheet_to_csv(wsNoCommas, { header: 1 });
-                const jsonData = convertToJson(data);
+                    // Convert the worksheet into something we can work with in javascript
+                    const bstr = evt.target.result;
+                    const wb = XLSX.read(bstr, { type: "binary" });
+                    const wsname = wb.SheetNames[0];
+                    const ws = wb.Sheets[wsname];
+                    const wsNoCommas = convertCommas(ws);
 
-                // Show the loading component on screen
-                dispatch(startLoading());
+                    // Get the data from the sheet
+                    const data = XLSX.utils.sheet_to_csv(wsNoCommas, {
+                        header: 1,
+                    });
 
-                // Geocode the data so we get latitude and longitude
-                const { data: jsonGeocodedData } = await axios.put(
-                    "/api/geocode",
-                    {
-                        data: jsonData,
-                    },
-                );
+                    const jsonData = convertToJson(data);
 
-                // Dispatch our geocoded data to redux store
-                dispatch(dropFile(jsonGeocodedData));
+                    // Geocode the data so we get latitude and longitude
+                    const { data: jsonGeocodedData } = await axios.put(
+                        "/api/geocode",
+                        {
+                            data: jsonData,
+                        },
+                    );
 
-                // Create a graph of the routes
-                const { data: transitMap } = await axios.post("/api/transit", {
-                    data: jsonGeocodedData,
-                });
+                    // Dispatch our geocoded data to redux store
+                    dispatch(dropFile(jsonGeocodedData));
 
-                // Create graphs and json conversions
-                const fullGraph = graphMaker(transitMap);
-                const fullJson = graphToJson(fullGraph, jsonGeocodedData);
+                    // Create a graph of the routes
+                    const { data: transitMap } = await axios.post(
+                        "/api/transit",
+                        {
+                            data: jsonGeocodedData,
+                        },
+                    );
 
-                // Creates subGraphs with json conversions
-                const { subGraphs } = findSubGraphs(fullGraph);
-                let subJson = [];
-                for (const graph of subGraphs) {
-                    subJson.push(graphToJson(graph, jsonGeocodedData));
+                    // Create graphs and json conversions
+                    const fullGraph = graphMaker(transitMap);
+                    const fullJson = graphToJson(fullGraph, jsonGeocodedData);
+
+                    // Creates subGraphs with json conversions
+                    const { subGraphs } = findSubGraphs(fullGraph);
+                    let subJson = [];
+                    for (const graph of subGraphs) {
+                        subJson.push(graphToJson(graph, jsonGeocodedData));
+                    }
+
+                    // Dispatch our graphs to redux store and stop loading, then redirect to map page
+                    dispatch(
+                        createTransitGraph(
+                            fullGraph,
+                            fullJson,
+                            subGraphs,
+                            subJson,
+                        ),
+                    );
+
+                    // Stop loading and send to map screen!
+                    dispatch(stopLoading());
+                    history.push("/map");
+                } catch (err) {
+                    console.error(err);
+                    dispatch(triggerError(err));
+                    history.push("/error");
+                    dispatch(stopLoading());
                 }
-
-                // Dispatch our graphs to redux store and stop loading, then redirect to map page
-                dispatch(
-                    createTransitGraph(fullGraph, fullJson, subGraphs, subJson),
-                );
-
-                // Stop loading and send to map screen!
-                dispatch(stopLoading());
-                history.push("/map");
             };
 
             reader.readAsBinaryString(file);
-        });
+        } catch (err) {
+            console.error(err);
+            dispatch(triggerError(err));
+            history.push("/error");
+            dispatch(stopLoading());
+        }
     }, []);
 
     const {

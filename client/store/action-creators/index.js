@@ -6,6 +6,8 @@ import {
     startLoading,
 } from "./loading";
 
+import { TRIGGER_ERROR, triggerError, RESET_ERROR, resetError } from "./error";
+
 import {
     CREATE_TRANSIT_GRAPH,
     createTransitGraph,
@@ -102,4 +104,8 @@ export {
     defaultGrouping,
     CHANGE_TO_DEFAULT,
     changeToDefaultGrouping,
+    TRIGGER_ERROR,
+    triggerError,
+    RESET_ERROR,
+    resetError,
 };
