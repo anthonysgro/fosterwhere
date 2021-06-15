@@ -46,8 +46,6 @@ router.post("/", async (req, res, next) => {
         await Promise.all(
             routesToProcess.map((entry) => entry.routePromise),
         ).then((contents) => {
-            console.log("\n################\n#############\n#############\n");
-
             newData = routesToProcess.reduce((acc, cur, i) => {
                 const { duration, distance } =
                     contents[i].data.routes[0].legs[0];
