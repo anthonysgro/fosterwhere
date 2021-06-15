@@ -366,19 +366,35 @@ li > p {
 
 /* Style the accordion panel. Note: hidden by default */
 .panel {
-    width: 50%;
+    width: 47%;
     background-color: #434242;
     max-height: 0;
     overflow: hidden;
     transition: max-height 0.2s ease-out;
+    border-left: 2px solid #000000;
 }
 
 .panel p {
-    padding: 4px 12px;
+    align-self: center;
+    padding: 4px 3rem;
     text-align: center;
 }
 
 .panel > ul {
     display: table;
     margin: 0 auto 8px auto;
+}
+
+.p-with-ul {
+    margin-bottom: 0em;
+}
+
+.developer {
+    text-align: center;
+    padding: 2rem 0rem 1rem 0rem;
+}
+
+span {
+    font-weight: 700;
+    color: #f3ae2d;
 }

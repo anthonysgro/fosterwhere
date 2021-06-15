@@ -294,7 +294,6 @@ function ExcelDropzone() {
                         <p>All files must fit this format!</p>
                         <br />
                         <h3>Documentation</h3>
-
                         <button className="accordion">
                             <h4>Name</h4>
                         </button>
@@ -309,14 +308,23 @@ function ExcelDropzone() {
                                 Utilizes Google Geocoding and Mapping API. Any
                                 address found on Google Maps should work here.
                                 If you encounter any problems, try to use the
-                                formatting outlined in the example above.
+                                precise formatting outlined in the example
+                                above.
                             </p>
                         </div>
                         <button className="accordion">
                             <h4>Type</h4>
                         </button>
                         <div className="panel">
-                            <p>Two options:</p>
+                            <p className="p-with-ul">
+                                <span>
+                                    Current app only supports a maximum of 9
+                                    employees.
+                                </span>{" "}
+                                This is on the list of things to fix in expanded
+                                functionality. The two options (enter as
+                                appeared here in lowercase):
+                            </p>
                             <ul>
                                 <li>employee</li>
                                 <li>client</li>
@@ -326,10 +334,11 @@ function ExcelDropzone() {
                             <h4>Method</h4>
                         </button>
                         <div className="panel">
-                            <p>
-                                Required for employees. Enter "null" for
-                                clients. This app supports the following modes
-                                of travel (enter as appeared here in lowercase):
+                            <p className="p-with-ul">
+                                <span>Required for employees.</span> Enter
+                                "null" for clients. This app supports the
+                                following modes of travel (enter as appeared
+                                here in lowercase):
                             </p>
                             <ul>
                                 <li>driving</li>
@@ -342,7 +351,17 @@ function ExcelDropzone() {
                             <h4>Group</h4>
                         </button>
                         <div className="panel">
-                            <p>Specifies name of client or employee.</p>
+                            <p>
+                                Current app only supports a maximum of 9 groups.
+                                This is on the list of things to fix in expanded
+                                functionality. The group allows you to designate
+                                the original configuration of employees to
+                                clients so that you can compare the supported
+                                algorithms against yours.{" "}
+                                <span>
+                                    You must limit one employee to each group.
+                                </span>
+                            </p>
                         </div>
                     </div>
                     <br />
@@ -356,6 +375,8 @@ function ExcelDropzone() {
                             />
                         </div>
                     </div>
+                    <br />
+                    <p className="developer">Developed by Anthony Sgro</p>
                 </div>
             </div>
         </React.Fragment>
