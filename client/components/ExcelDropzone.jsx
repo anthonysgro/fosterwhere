@@ -74,6 +74,22 @@ function ExcelDropzone() {
     const dispatch = useDispatch();
     const history = useHistory();
 
+    useEffect(() => {
+        const acc = document.getElementsByClassName("accordion");
+
+        for (let i = 0; i < acc.length; i++) {
+            acc[i].addEventListener("click", function () {
+                this.classList.toggle("active");
+                let panel = this.nextElementSibling;
+                if (panel.style.maxHeight) {
+                    panel.style.maxHeight = null;
+                } else {
+                    panel.style.maxHeight = panel.scrollHeight + "px";
+                }
+            });
+        }
+    });
+
     const testData = (fakeDataset) => {
         const { jsonGeocodedData, transitMap } = fakeDataset;
 
@@ -276,10 +292,60 @@ function ExcelDropzone() {
                             />
                         </div>
                         <p>All files must fit this format!</p>
-                        <small style={{ color: "red" }}>
-                            Important: groups can only have one employee.
-                        </small>
+                        <br />
+                        <h3>Documentation</h3>
+
+                        <button className="accordion">
+                            <h4>Name</h4>
+                        </button>
+                        <div className="panel">
+                            <p>Specifies name of client or employee.</p>
+                        </div>
+                        <button className="accordion">
+                            <h4>Address</h4>
+                        </button>
+                        <div className="panel">
+                            <p>
+                                Utilizes Google Geocoding and Mapping API. Any
+                                address found on Google Maps should work here.
+                                If you encounter any problems, try to use the
+                                formatting outlined in the example above.
+                            </p>
+                        </div>
+                        <button className="accordion">
+                            <h4>Type</h4>
+                        </button>
+                        <div className="panel">
+                            <p>Two options:</p>
+                            <ul>
+                                <li>employee</li>
+                                <li>client</li>
+                            </ul>
+                        </div>
+                        <button className="accordion">
+                            <h4>Method</h4>
+                        </button>
+                        <div className="panel">
+                            <p>
+                                Required for employees. Enter "null" for
+                                clients. This app supports the following modes
+                                of travel (enter as appeared here in lowercase):
+                            </p>
+                            <ul>
+                                <li>driving</li>
+                                <li>transit</li>
+                                <li>bicycling</li>
+                                <li>walking</li>
+                            </ul>
+                        </div>
+                        <button className="accordion">
+                            <h4>Group</h4>
+                        </button>
+                        <div className="panel">
+                            <p>Specifies name of client or employee.</p>
+                        </div>
                     </div>
+                    <br />
                     <div id="graph-example-container">
                         <h2>Graph Example</h2>
                         <div className="img-container">

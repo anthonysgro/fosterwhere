@@ -321,3 +321,64 @@ li > p {
 .second {
     font-style: italic;
 }
+
+.accordion {
+    background-color: #ffffff;
+    color: #444;
+    cursor: pointer;
+    padding: 18px;
+    width: 50%;
+    text-align: left;
+    border: none;
+    outline: none;
+    transition: 0.4s;
+    width: 50%;
+    font-family: "lato", "Times New Roman", Times, serif;
+}
+
+.accordion:first-of-type {
+    border-top-left-radius: 0.5rem;
+    border-top-right-radius: 0.5rem;
+}
+
+.accordion:last-of-type {
+    border-bottom-left-radius: 0.5rem;
+    border-bottom-right-radius: 0.5rem;
+}
+
+.accordion > h4 {
+    padding: 1rem 0.2rem;
+    margin: 0.2rem 0.2rem;
+    font-size: large;
+    text-align: center;
+}
+
+/* Add a background color to the button if it is clicked on (add the .active class with JS), and when you move the mouse over it (hover) */
+.active,
+.accordion:hover {
+    background-color: #ccc;
+}
+
+.accordion:last-of-type.active {
+    border-bottom-left-radius: 0rem;
+    border-bottom-right-radius: 0rem;
+}
+
+/* Style the accordion panel. Note: hidden by default */
+.panel {
+    width: 50%;
+    background-color: #434242;
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.2s ease-out;
+}
+
+.panel p {
+    padding: 4px 12px;
+    text-align: center;
+}
+
+.panel > ul {
+    display: table;
+    margin: 0 auto 8px auto;
+}
