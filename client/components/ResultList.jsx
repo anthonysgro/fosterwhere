@@ -10,6 +10,7 @@ import { cloneDeep } from "lodash";
 import COLORS from "./Map/colors";
 
 // Component Imports
+import { Roller } from "react-awesome-spinners";
 import { Column } from "./DragNDrop";
 import { DragDropContext } from "react-beautiful-dnd";
 
@@ -171,7 +172,7 @@ class ResultList extends Component {
     render() {
         const { data, loading } = this.state;
 
-        if (loading) return "";
+        if (loading) return <Roller color="#ffffff" sizeUnit="px" />;
 
         return (
             <div id="result-container">

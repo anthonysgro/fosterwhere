@@ -3,13 +3,14 @@ const router = express.Router();
 const axios = require("axios");
 require("dotenv").config();
 
-const setDelay = (cb, timeout = 0) =>
-    new Promise((resolve) => {
+const setDelay = (cb, timeout = 0) => {
+    return new Promise((resolve) => {
         setTimeout(() => {
             cb();
             resolve();
         }, timeout);
     });
+};
 
 router.post("/", async (req, res, next) => {
     try {
@@ -37,7 +38,7 @@ router.post("/", async (req, res, next) => {
                         cliId: client.id,
                         routePromise,
                     });
-                }, 5);
+                }, 10);
             }
         }
 
@@ -49,9 +50,13 @@ router.post("/", async (req, res, next) => {
             newData = routesToProcess.reduce((acc, cur, i) => {
                 const googleResponse = contents[i].data;
 
-                if (googleResponse.status === "REQUEST_DENIED") {
+                if (
+                    ["REQUEST_DENIED", "OVER_QUERY_LIMIT"].includes(
+                        googleResponse.status,
+                    )
+                ) {
                     const error = Error(googleResponse.error_message);
-                    error.status = 401;
+                    error.status = 400;
                     throw error;
                 }
 
