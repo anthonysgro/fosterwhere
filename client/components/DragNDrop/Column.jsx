@@ -24,8 +24,16 @@ const SubHeader = styled.h4`
     margin: 2px;
     text-align: center;
 `;
+
 const TaskList = styled.div`
     padding: 8px;
+`;
+
+const Small = styled.h5`
+    padding: 2px;
+    text-align: center;
+    text-transform: capitalize;
+    margin: 6px 0px 0px 0px;
 `;
 
 class Column extends Component {
@@ -36,10 +44,12 @@ class Column extends Component {
 
     render() {
         const { column, clients, color } = this.props;
+        console.log(column);
         return (
             <Container color={color}>
                 <Title color={color}>{column.name}</Title>
                 <SubHeader>{column.totalCommute} min</SubHeader>
+                <Small class="employee-method">{column.method}</Small>
                 <Droppable droppableId={column.id}>
                     {(provided) => (
                         <TaskList

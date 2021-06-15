@@ -9,6 +9,7 @@ function dndObjectBuilder(employeeMap) {
             name: employee.name,
             role: "employee",
             totalCommute: employee.totalCommute,
+            method: employee.method,
             clientIds: [],
         };
 
