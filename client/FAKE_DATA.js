@@ -8,7 +8,7 @@ const fakeData1 = {
             longitude: -80.971573,
             method: null,
             type: "client",
-            group: 2,
+            group: 1,
         },
         {
             name: "Anastasia",
@@ -18,7 +18,7 @@ const fakeData1 = {
             longitude: -80.9697304,
             method: null,
             type: "client",
-            group: 2,
+            group: 1,
         },
         {
             name: "Anthony",
@@ -38,7 +38,7 @@ const fakeData1 = {
             longitude: -80.82841189999999,
             method: null,
             type: "client",
-            group: 2,
+            group: 1,
         },
         {
             name: "Evan",
@@ -68,7 +68,7 @@ const fakeData1 = {
             longitude: -80.814832,
             method: null,
             type: "client",
-            group: 1,
+            group: 2,
         },
         {
             name: "Joe",
@@ -78,7 +78,7 @@ const fakeData1 = {
             longitude: -80.79285229999999,
             method: null,
             type: "client",
-            group: 3,
+            group: 2,
         },
         {
             name: "Julia",
@@ -88,7 +88,7 @@ const fakeData1 = {
             longitude: -80.87749319999999,
             method: null,
             type: "client",
-            group: 1,
+            group: 2,
         },
         {
             name: "Lisa",
@@ -98,7 +98,7 @@ const fakeData1 = {
             longitude: -80.7813516,
             method: null,
             type: "client",
-            group: 3,
+            group: 2,
         },
         {
             name: "Maria",
@@ -118,7 +118,7 @@ const fakeData1 = {
             longitude: -80.8181479,
             method: null,
             type: "client",
-            group: 1,
+            group: 3,
         },
         {
             name: "Rachana",
@@ -136,6 +136,16 @@ const fakeData1 = {
             id: 14,
             latitude: 35.2344339,
             longitude: -80.7605397,
+            method: null,
+            type: "client",
+            group: 3,
+        },
+        {
+            name: "Tamanna",
+            address: "426 N Tryon St, Charlotte, North Carolina, 28202",
+            id: 15,
+            latitude: 35.2298541,
+            longitude: -80.83860059999999,
             method: null,
             type: "client",
             group: 3,
@@ -198,6 +208,11 @@ const fakeData1 = {
                 travelTimeTraffic: 34.35,
                 travelDistance: 10.02,
             },
+            15: {
+                travelTime: 23.9,
+                travelTimeTraffic: 31.4,
+                travelDistance: 12.67,
+            },
         },
         5: {
             1: {
@@ -255,6 +270,11 @@ const fakeData1 = {
                 travelTimeTraffic: 30.3,
                 travelDistance: 13.16,
             },
+            15: {
+                travelTime: 13.78,
+                travelTimeTraffic: 16.65,
+                travelDistance: 7.02,
+            },
         },
         11: {
             1: {
@@ -311,6 +331,11 @@ const fakeData1 = {
                 travelTime: 20.62,
                 travelTimeTraffic: 25.03,
                 travelDistance: 7.63,
+            },
+            15: {
+                travelTime: 17,
+                travelTimeTraffic: 19.35,
+                travelDistance: 9.61,
             },
         },
     },
