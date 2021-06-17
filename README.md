@@ -2,7 +2,7 @@
 
 <img width="367" alt="Screen Shot 2021-06-17 at 2 39 39 PM" src="https://user-images.githubusercontent.com/64649626/122454955-e0890280-cf79-11eb-9f5a-265b28791623.png">
 
-This is an application created as an aid for nonprofits, childcare 
+This is an open-source application created as an aid for nonprofits, childcare 
 agencies, and fostercare agencies to visualize and optimize their
 employees' caseloads. Managers can import an excel file and see
 how far their employees have to travel to meet all of their clients.
@@ -33,12 +33,11 @@ The server will then send back a JSON object with all possible edges between eac
 - If Google API responds with a "transportation mode not available for region", show user on error page.
 - Cache all graphs so the app doesn't have to generate them each time a user clicks a new algorithm button.
 
-## Startup Guide
+## Startup Dev Guide
 -   **Easy Local Start-Up**
 -   run `npm run start:dev` command
 -   [go to development port 8000](http://localhost:8000)
--   You will have to create a `.env` file in the root directory with your own Google API Keys. You need to generate two: one each for the Google Geocoding API and Google Directions API.
--   have fun!
+-   You will have to create a `.env` file in the root directory with your own Google API Keys. You need to generate two: one each for the Google Geocoding API and Google Directions API. Additionally, you may have to change the Google Maps API key on the client. Please remember that you are responsible for your API keys, protect them with quotas and restrictions!
 
 ## Built With...
 Node.js, Express, React, Heroku, and Google APIs.
