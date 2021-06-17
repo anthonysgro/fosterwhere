@@ -1,3 +1,5 @@
+<img width="530" alt="Screen Shot 2021-06-17 at 2 35 11 PM" src="https://user-images.githubusercontent.com/64649626/122454311-4032de00-cf79-11eb-8504-0582c9466afb.png">
+
 # Welcome to FosterWhere!
 
 This is an application created as an aid for nonprofits, childcare 
