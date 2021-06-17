@@ -37,6 +37,7 @@ The server will then send back a JSON object with all possible edges between eac
 -   **Easy Local Start-Up**
 -   run `npm run start:dev` command
 -   [go to development port 8000](http://localhost:8000)
+-   You will have to create a .env file with your own Google API Keys.
 -   have fun!
 
 ## Built With...
