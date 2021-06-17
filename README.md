@@ -41,4 +41,4 @@ The server will then send back a JSON object with all possible edges between eac
 -   have fun!
 
 ## Built With...
-Node.JS, Express, React, Heroku, and Google APIs.
+Node.js, Express, React, Heroku, and Google APIs.
