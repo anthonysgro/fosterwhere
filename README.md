@@ -5,7 +5,7 @@ agencies, and fostercare agencies to visualize and optimize their
 employees' caseloads. Managers can import an excel file and see
 how far their employees have to travel to meet all of their clients.
 
-# Features
+# Recent Features Added
 - Now features several different transportation modes: driving, transit, bicycling, walking.
 - Drag n' Drop Excel Files
 - Default groupings now available to visualize current worker/client configuration
