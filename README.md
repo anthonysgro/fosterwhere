@@ -9,6 +9,7 @@ how far their employees have to travel to meet all of their clients.
 FosterWhere utilizes graph processing and optimization heuristics to generate efficient configurations of employees to family caseloads. Many of the algorithms rely on pairwise swapping between employees to reduce overall commute mean and standard deviation to produce both lower overall and more equitable commute times between the employees. 
 
 When a user drops a valid excel file, the FosterWhere server will make a call to the Google Geocoding API to translate all addresses to latitude/longitude coordinates. Then, it will call the Google Directions API to get distances between all employees and all clients, seen below as the "weights" on each graph edge.
+
 <img width="1207" alt="graphExample" src="https://user-images.githubusercontent.com/64649626/122452734-9272ff80-cf77-11eb-91ce-514860d628ca.png">
 
 The server will then send back a JSON object with all possible edges between each employee and client. The front-end then constructs a graph data structure from this object, and then uses the optimization heuristics to find the most optimal graph configuration it can find. Finally, the result is shown through a Google Maps API window with each employee and client color-coded by group for the user's convenience. From there, the user can select another optimization heuristic or manually re-arrange them to their liking.
