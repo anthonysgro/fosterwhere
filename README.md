@@ -1,6 +1,6 @@
 # Welcome to FosterWhere!
 
-<img width="530" alt="Screen Shot 2021-06-17 at 2 35 11 PM" src="https://user-images.githubusercontent.com/64649626/122454311-4032de00-cf79-11eb-8504-0582c9466afb.png">
+<img width="367" alt="Screen Shot 2021-06-17 at 2 39 39 PM" src="https://user-images.githubusercontent.com/64649626/122454955-e0890280-cf79-11eb-9f5a-265b28791623.png">
 
 This is an application created as an aid for nonprofits, childcare 
 agencies, and fostercare agencies to visualize and optimize their
