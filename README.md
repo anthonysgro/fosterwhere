@@ -37,7 +37,8 @@ The server will then send back a JSON object with all possible edges between eac
 -   **Easy Local Start-Up**
 -   run `npm run start:dev` command
 -   [go to development port 8000](http://localhost:8000)
+-   You will have to create a `.env` file in the root directory with your own Google API Keys. You need to generate two: one each for the Google Geocoding API and Google Directions API.
 -   have fun!
 
 ## Built With...
-Node.JS, Express, React, Heroku, and Google APIs.
+Node.js, Express, React, Heroku, and Google APIs.
