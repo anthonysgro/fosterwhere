@@ -13,13 +13,13 @@ FosterWhere utilizes graph processing and optimization heuristics to generate ef
 When a user drops a valid excel file, the FosterWhere server will make a call to the Google Geocoding API to translate all addresses to latitude/longitude coordinates. Then, it will call the Google Directions API to get distances between all employees and all clients, seen below as the "weights" on each graph edge.
 
 
-<img width="1000" alt="graphExample" src="https://user-images.githubusercontent.com/64649626/122452734-9272ff80-cf77-11eb-91ce-514860d628ca.png">
+<img width="700" alt="graphExample" src="https://user-images.githubusercontent.com/64649626/122452734-9272ff80-cf77-11eb-91ce-514860d628ca.png">
 
 
 The server will then send back a JSON object with all possible edges between each employee and client. The front-end then constructs a graph data structure from this object, and then uses the optimization heuristics to find the most optimal graph configuration it can find. Finally, the result is shown through a Google Maps API window with each employee and client color-coded by group for the user's convenience. From there, the user can select another optimization heuristic or manually re-arrange them to their liking.
 
 
-<img width="1000" alt="Screen Shot 2021-06-17 at 2 32 58 PM" src="https://user-images.githubusercontent.com/64649626/122454116-019d2380-cf79-11eb-9b8d-6be77d4ff2db.png">
+<img width="700" alt="Screen Shot 2021-06-17 at 2 32 58 PM" src="https://user-images.githubusercontent.com/64649626/122454116-019d2380-cf79-11eb-9b8d-6be77d4ff2db.png">
 
 
 # Recent Features Added
