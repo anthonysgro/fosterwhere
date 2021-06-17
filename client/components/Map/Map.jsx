@@ -21,9 +21,11 @@ class SimpleMap extends Component {
         this.state = {
             data: null,
             loading: true,
+            hoveredOver: NaN,
         };
-        this.onMarkerClick = this.onMarkerClick.bind(this);
-        this.closeText = this.closeText.bind(this);
+        this.onMapClick = this.onMapClick.bind(this);
+        this.onMarkerEnter = this.onMarkerEnter.bind(this);
+        this.onMarkerLeave = this.onMarkerLeave.bind(this);
     }
 
     componentDidMount() {
@@ -90,32 +92,32 @@ class SimpleMap extends Component {
         }
     }
 
+    onMarkerEnter(id) {
+        this.setState({ hoveredOver: id });
+    }
+
+    onMarkerLeave() {
+        this.setState({ hoveredOver: NaN });
+    }
+
     // Handles the text box for clicking on maps
-    onMarkerClick(key) {
-        const { data } = this.state;
+    onMapClick() {
+        const { data, hoveredOver } = this.state;
+
         const newData = data.map((entry) => {
             const newEntry = { ...entry };
-            if (newEntry.id === parseInt(key)) {
-                newEntry.show = true;
-            } else {
+
+            if (isNaN(hoveredOver)) {
                 newEntry.show = false;
+            } else {
+                if (newEntry.id === parseInt(hoveredOver)) {
+                    newEntry.show = true;
+                } else {
+                    newEntry.show = false;
+                }
             }
 
             return newEntry;
-        });
-
-        this.setState({
-            ...this.state,
-            data: newData,
-        });
-    }
-
-    closeText() {
-        const { data } = this.state;
-        const newData = data.map((item) => {
-            const newItem = { ...item };
-            newItem.show = false;
-            return newItem;
         });
 
         this.setState({
@@ -155,8 +157,8 @@ class SimpleMap extends Component {
                     }}
                     defaultCenter={center}
                     defaultZoom={11}
-                    onChildClick={this.onMarkerClick}
-                    onClick={this.closeText}
+                    // onChildClick={this.onMarkerClick}
+                    onClick={this.onMapClick}
                 >
                     {data.map((entry) => (
                         <Marker
@@ -169,6 +171,9 @@ class SimpleMap extends Component {
                             show={entry.show}
                             id={entry.id}
                             color={entry.color}
+                            clickFn={this.onMapClick}
+                            hoverEnterFn={this.onMarkerEnter}
+                            hoverLeaveFn={this.onMarkerLeave}
                         />
                     ))}
                 </GoogleMapReact>

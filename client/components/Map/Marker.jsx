@@ -2,7 +2,17 @@ import React, { Component } from "react";
 
 import InfoWindow from "./InfoWindow.jsx";
 
-const Marker = ({ role, name, address, show, id, color }) => {
+const Marker = ({
+    role,
+    name,
+    address,
+    show,
+    id,
+    color,
+    clickFn,
+    hoverEnterFn,
+    hoverLeaveFn,
+}) => {
     const markerStyle = {
         border: `${
             role === "employee" ? "1px solid black" : "1px dotted black"
@@ -27,7 +37,12 @@ const Marker = ({ role, name, address, show, id, color }) => {
 
     return (
         <React.Fragment>
-            <div style={markerStyle}></div>
+            <div
+                style={markerStyle}
+                onMouseEnter={() => hoverEnterFn(id)}
+                onMouseLeave={hoverLeaveFn}
+                onClick={clickFn}
+            ></div>
             {show && (
                 <InfoWindow name={name} role={role} address={address} id={id} />
             )}
