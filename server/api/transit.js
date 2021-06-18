@@ -49,13 +49,38 @@ router.post("/", async (req, res, next) => {
         ).then((contents) => {
             newData = routesToProcess.reduce((acc, cur, i) => {
                 const googleResponse = contents[i].data;
+                let error = null;
 
                 if (
-                    ["REQUEST_DENIED", "OVER_QUERY_LIMIT"].includes(
-                        googleResponse.status,
-                    )
+                    [
+                        "REQUEST_DENIED",
+                        "OVER_QUERY_LIMIT",
+                        "ZERO_RESULTS",
+                    ].includes(googleResponse.status)
                 ) {
-                    const error = Error(googleResponse.error_message);
+                    if (googleResponse === "ZERO_RESULTS") {
+                        let thisEmployee = null;
+                        for (const employee of employees) {
+                            if (employee.id === cur.empId) {
+                                thisEmployee = employee;
+                                break;
+                            }
+                        }
+
+                        let thisClient = null;
+                        for (const client of clients) {
+                            if (client.id === cur.cliId) {
+                                thisClient = client;
+                                break;
+                            }
+                        }
+
+                        error = Error(
+                            `This form of travel not available for employee ${thisEmployee.name} and client #${thisClient.name} route`,
+                        );
+                    } else {
+                        error = Error(googleResponse.error_message);
+                    }
                     error.status = 400;
                     throw error;
                 }
@@ -97,6 +122,7 @@ router.post("/", async (req, res, next) => {
         // Send back the map of employees to clients with travel info
         res.send(finalObj);
     } catch (err) {
+        console.error(err);
         next(err);
     }
 });

@@ -148,6 +148,7 @@ function ExcelDropzone() {
                     });
 
                     const jsonData = convertToJson(data);
+                    console.log(jsonData);
 
                     // Geocode the data so we get latitude and longitude
                     const { data: jsonGeocodedData } = await axios.put(

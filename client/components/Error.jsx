@@ -17,7 +17,10 @@ class ErrorScreen extends Component {
 
         return (
             <div className="error-screen">
-                <div className="error-msg">
+                <div
+                    className="error-msg"
+                    style={{ maxWidth: "400px", textAlign: "center" }}
+                >
                     {errorMessage ? (
                         <p>{errorMessage}</p>
                     ) : (
