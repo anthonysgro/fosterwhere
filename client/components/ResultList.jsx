@@ -32,19 +32,67 @@ class ResultList extends Component {
     }
 
     componentDidMount() {
-        const { subGraphs, data } = this.props;
-        const setupSubGraphs = subGraphs.map((arrOfOne) =>
-            cloneDeep(arrOfOne[0]),
-        );
+        const { subGraphs, data, fullGraphStructure, fullGraph } = this.props;
+        const setupSubs = subGraphs.map((arrOfOne) => cloneDeep(arrOfOne[0]));
 
-        setupSubGraphs.sort((a, b) => a.id - b.id);
+        // Run the lowestTimeNonBalanced Algo to find closest worker
+        const result = lowestTimeNonBalanced(fullGraphStructure);
 
-        const initialData = dndObjectBuilder(setupSubGraphs);
+        // Parse out the subgraphs in json
+        let employees = [];
+        for (const sub of result.subGraphs) {
+            employees.push(...graphToJson(sub, data));
+        }
 
+        // // console.log(subGraphs);
+        // let includedIds = [];
+        // for (const [{ clients }] of subGraphs) {
+        //     for (const { id } of clients) {
+        //         includedIds.push(id);
+        //     }
+        // }
+
+        // // Find unassigned clients
+        // let unassigned = [];
+        // for (const client of fullGraph[0].clients) {
+        //     // console.log(!includedIds.includes(client.id));
+        //     if (!includedIds.includes(client.id) && client.type === "client") {
+        //         let closestWorker = null;
+        //         let thisCommute = NaN;
+
+        //         for (const employee of employees) {
+        //             for (const thisClient of employee.clients) {
+        //                 if (thisClient.id === client.id) {
+        //                     closestWorker = employee;
+        //                     thisCommute = thisClient.thisCommute;
+        //                 }
+        //             }
+        //         }
+
+        //         unassigned.push({ ...client, closestWorker, thisCommute });
+        //     }
+        // }
+
+        setupSubs.sort((a, b) => a.id - b.id);
+
+        for (let unassignedClient of setupSubs[setupSubs.length - 1].clients) {
+            for (const employee of employees) {
+                for (const thisClient of employee.clients) {
+                    if (thisClient.id === unassignedClient.id) {
+                        unassignedClient.closestWorker = employee;
+                        unassignedClient.thisCommute = thisClient.thisCommute;
+                        break;
+                    }
+                }
+            }
+        }
+
+        const initialData = dndObjectBuilder(setupSubs);
         this.setState({
             data: initialData,
             loading: false,
             totalEntries: data.length,
+            // unassigned,
         });
     }
 
@@ -52,6 +100,10 @@ class ResultList extends Component {
         if (prevProps.subGraphs !== this.props.subGraphs) {
             const { subGraphs, data, fullGraphStructure, fullGraph } =
                 this.props;
+
+            const setupSubs = subGraphs.map((arrOfOne) =>
+                cloneDeep(arrOfOne[0]),
+            );
 
             // Run the lowestTimeNonBalanced Algo to find closest worker
             const result = lowestTimeNonBalanced(fullGraphStructure);
@@ -62,48 +114,27 @@ class ResultList extends Component {
                 employees.push(...graphToJson(sub, data));
             }
 
-            let includedIds = [];
-            for (const [{ clients }] of subGraphs) {
-                for (const { id } of clients) {
-                    includedIds.push(id);
-                }
-            }
+            setupSubs.sort((a, b) => a.id - b.id);
 
-            // Find unassigned clients
-            let unassigned = [];
-            for (const client of fullGraph[0].clients) {
-                if (
-                    !includedIds.includes(client.id) &&
-                    client.type === "client"
-                ) {
-                    let closestWorker = null;
-                    let thisCommute = NaN;
-
-                    for (const employee of employees) {
-                        for (const thisClient of employee.clients) {
-                            if (thisClient.id === client.id) {
-                                closestWorker = employee;
-                                thisCommute = thisClient.thisCommute;
-                            }
+            for (let unassignedClient of setupSubs[setupSubs.length - 1]
+                .clients) {
+                for (const employee of employees) {
+                    for (const thisClient of employee.clients) {
+                        if (thisClient.id === unassignedClient.id) {
+                            unassignedClient.closestWorker = employee;
+                            unassignedClient.thisCommute =
+                                thisClient.thisCommute;
+                            break;
                         }
                     }
-
-                    unassigned.push({ ...client, closestWorker, thisCommute });
                 }
             }
 
-            const setupSubGraphs = subGraphs.map((arrOfOne) =>
-                cloneDeep(arrOfOne[0]),
-            );
-
-            setupSubGraphs.sort((a, b) => a.id - b.id);
-
-            const initialData = dndObjectBuilder(setupSubGraphs);
+            const initialData = dndObjectBuilder(setupSubs);
 
             this.setState({
                 ...this.state,
                 data: initialData,
-                unassigned,
             });
         }
     }
@@ -232,28 +263,36 @@ class ResultList extends Component {
                         const clients = column.clientIds.map(
                             (clientId) => data.clients[clientId],
                         );
-                        return (
-                            <Column
-                                key={column.id}
-                                column={column}
-                                clients={clients}
-                                color={COLORS[idx]}
-                            />
-                        );
+
+                        if (options.unassigned) {
+                            return (
+                                <Column
+                                    key={column.id}
+                                    column={column}
+                                    clients={clients}
+                                    color={
+                                        column.name === "Unassigned"
+                                            ? {
+                                                  employee: "#7a7879",
+                                                  client: "#b5b3b4",
+                                              }
+                                            : COLORS[idx]
+                                    }
+                                />
+                            );
+                        } else {
+                            if (column.name !== "Unassigned") {
+                                return (
+                                    <Column
+                                        key={column.id}
+                                        column={column}
+                                        clients={clients}
+                                        color={COLORS[idx]}
+                                    />
+                                );
+                            }
+                        }
                     })}
-                    {options.unassigned ? (
-                        <Column
-                            key={data.employees.length}
-                            column={{
-                                name: "Unassigned",
-                                id: totalEntries.toString(),
-                            }}
-                            color={{ employee: "#7a7879", client: "#b5b3b4" }}
-                            clients={unassigned}
-                        />
-                    ) : (
-                        ""
-                    )}
                 </DragDropContext>
             </div>
         );

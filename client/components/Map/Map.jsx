@@ -37,13 +37,19 @@ class SimpleMap extends Component {
 
         let flattenedMap = [];
         for (let i = 0; i < subGraphs.length; i++) {
-            flattenedMap.push({
-                ...subGraphs[i][0],
-                color: COLORS[i].employee,
-            });
+            if (subGraphs[i][0].name !== "Unassigned") {
+                flattenedMap.push({
+                    ...subGraphs[i][0],
+                    color: COLORS[i].employee,
+                });
+            }
 
             for (const client of subGraphs[i][0].clients) {
-                flattenedMap.push({ ...client, color: COLORS[i].client });
+                if (subGraphs[i][0].name === "Unassigned") {
+                    flattenedMap.push({ ...client, color: "#b5b3b4" });
+                } else {
+                    flattenedMap.push({ ...client, color: COLORS[i].client });
+                }
             }
         }
 
@@ -69,13 +75,22 @@ class SimpleMap extends Component {
 
             let flattenedMap = [];
             for (let i = 0; i < subGraphs.length; i++) {
-                flattenedMap.push({
-                    ...subGraphs[i][0],
-                    color: COLORS[i].employee,
-                });
+                if (subGraphs[i][0].name !== "Unassigned") {
+                    flattenedMap.push({
+                        ...subGraphs[i][0],
+                        color: COLORS[i].employee,
+                    });
+                }
 
                 for (const client of subGraphs[i][0].clients) {
-                    flattenedMap.push({ ...client, color: COLORS[i].client });
+                    if (subGraphs[i][0].name === "Unassigned") {
+                        flattenedMap.push({ ...client, color: "#b5b3b4" });
+                    } else {
+                        flattenedMap.push({
+                            ...client,
+                            color: COLORS[i].client,
+                        });
+                    }
                 }
             }
 
@@ -85,29 +100,29 @@ class SimpleMap extends Component {
                 return newItem;
             });
 
-            let includedIds = [];
-            for (const { id } of newData) {
-                includedIds.push(id);
-            }
+            // let includedIds = [];
+            // for (const { id } of newData) {
+            //     includedIds.push(id);
+            // }
 
-            let unassigned = [];
-            for (const entry of data) {
-                if (
-                    !includedIds.includes(entry.id) &&
-                    entry.type === "client"
-                ) {
-                    unassigned.push({
-                        ...entry,
-                        color: "#b5b3b4",
-                        show: false,
-                    });
-                }
-            }
+            // let unassigned = [];
+            // for (const entry of data) {
+            //     if (
+            //         !includedIds.includes(entry.id) &&
+            //         entry.type === "client"
+            //     ) {
+            //         unassigned.push({
+            //             ...entry,
+            //             color: "#b5b3b4",
+            //             show: false,
+            //         });
+            //     }
+            // }
 
-            const totalData = [...newData, ...unassigned];
+            // const totalData = [...newData];
 
             this.setState({
-                data: totalData,
+                data: newData,
                 loading: false,
             });
         }

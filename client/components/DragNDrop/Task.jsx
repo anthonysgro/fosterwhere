@@ -43,12 +43,12 @@ class Task extends Component {
                         color={color}
                     >
                         <Text>{client.name}</Text>
-                        {client.commute ? (
+                        {!client.closestWorker ? (
                             <Small>Commute: {client.commute} min</Small>
                         ) : (
                             <Small>
                                 Closest: {client.closestWorker.name} (~
-                                {Math.round(client.thisCommute)} min)
+                                {Math.round(client.commute)} min)
                             </Small>
                         )}
                     </Container>

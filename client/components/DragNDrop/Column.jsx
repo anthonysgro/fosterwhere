@@ -50,12 +50,12 @@ class Column extends Component {
                 {column.totalCommute ? (
                     <SubHeader>{column.totalCommute} min</SubHeader>
                 ) : (
-                    <SubHeader>&nbsp;</SubHeader>
+                    <SubHeader>{clients.length} unassigned clients</SubHeader>
                 )}
                 {column.method ? (
                     <Small className="employee-method">{column.method}</Small>
                 ) : (
-                    <Small>&nbsp;</Small>
+                    <Small>Dragging not implemented yet</Small>
                 )}
                 <Droppable droppableId={column.id}>
                     {(provided) => (

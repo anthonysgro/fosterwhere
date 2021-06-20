@@ -12,7 +12,12 @@ import convertToJson from "../helper-functions/convertToJson";
 import convertCommas from "../helper-functions/convertCommas";
 
 // Helper Fn
-import { graphMaker, findSubGraphs, graphToJson } from "../helper-functions";
+import {
+    graphMaker,
+    findSubGraphs,
+    graphToJson,
+    originalGroupingGenerator,
+} from "../helper-functions";
 import { fakeData1, fakeData2 } from "../FAKE_DATA";
 
 // Redux Imports
@@ -111,6 +116,7 @@ function ExcelDropzone() {
 
         // Creates subGraphs with json conversions
         const { subGraphs } = findSubGraphs(fullGraph);
+
         let subJson = [];
         for (const graph of subGraphs) {
             subJson.push(graphToJson(graph, jsonGeocodedData));
@@ -173,11 +179,32 @@ function ExcelDropzone() {
                     const fullJson = graphToJson(fullGraph, jsonGeocodedData);
 
                     // Creates subGraphs with json conversions
-                    const { subGraphs } = findSubGraphs(fullGraph);
+                    const { subGraphs } = originalGroupingGenerator(
+                        fullGraph,
+                        jsonGeocodedData,
+                    );
+
                     let subJson = [];
                     for (const graph of subGraphs) {
                         subJson.push(graphToJson(graph, jsonGeocodedData));
                     }
+
+                    // Handle unassigned clients by creating an "employee" for them
+                    const unassigned = {
+                        id: jsonGeocodedData.length,
+                        name: "Unassigned",
+                        group: null,
+                        type: "employee",
+                        clients: [],
+                    };
+
+                    for (const entry of jsonGeocodedData) {
+                        if (entry.group === null) {
+                            unassigned.clients.push(entry);
+                        }
+                    }
+
+                    subJson.push([unassigned]);
 
                     // Dispatch our graphs to redux store and stop loading, then redirect to map page
                     dispatch(

@@ -20,6 +20,14 @@ function dndObjectBuilder(employeeMap) {
                 role: "client",
                 commute: client.thisCommute,
             };
+
+            if (client.closestWorker) {
+                clients[`${client.id}`] = {
+                    ...clients[`${client.id}`],
+                    closestWorker: client.closestWorker,
+                };
+            }
+
             employees[`${employee.id}`].clientIds.push(`${client.id}`);
         }
         employeeOrder.push(`${employee.id}`);
