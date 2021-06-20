@@ -50,7 +50,6 @@ class ResultList extends Component {
 
     componentDidUpdate(prevProps) {
         if (prevProps.subGraphs !== this.props.subGraphs) {
-            console.log("hiiiii");
             const { subGraphs, data, fullGraphStructure, fullGraph } =
                 this.props;
 
