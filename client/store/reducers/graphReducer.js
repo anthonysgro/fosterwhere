@@ -207,7 +207,7 @@ export const graphReducer = (state = initialState, action) => {
 
         // Handle unassigned clients by creating an "employee" for them
         const unassigned = {
-            id: data.length,
+            id: data.length + 1,
             name: "Unassigned",
             group: null,
             type: "employee",

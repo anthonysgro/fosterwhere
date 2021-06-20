@@ -176,7 +176,44 @@ function ExcelDropzone() {
 
                     // Create graphs and json conversions
                     const fullGraph = graphMaker(transitMap);
-                    const fullJson = graphToJson(fullGraph, jsonGeocodedData);
+                    const fullJsonNoUnassigned = graphToJson(
+                        fullGraph,
+                        jsonGeocodedData,
+                    );
+
+                    const fullJson = [
+                        ...fullJsonNoUnassigned,
+                        {
+                            id: jsonGeocodedData.length + 1,
+                            address: null,
+                            clients: [],
+                            group: null,
+                            method: null,
+                            type: "employee",
+                        },
+                    ];
+
+                    // // Run the lowestTimeNonBalanced Algo to find closest worker
+                    // const result = lowestTimeNonBalanced(fullGraph);
+
+                    // // Parse out the subgraphs in json
+                    // let employees = [];
+                    // for (const sub of result.subGraphs) {
+                    //     employees.push(...graphToJson(sub, jsonGeocodedData));
+                    // }
+
+                    // for (const ) {
+                    // for (const employee of employees) {
+                    //     for (const thisClient of employee.clients) {
+                    //         if (thisClient.id === unassignedClient.id) {
+                    //             unassignedClient.closestWorker = employee;
+                    //             unassignedClient.thisCommute =
+                    //                 thisClient.thisCommute;
+                    //             break;
+                    //         }
+                    //     }
+                    // }
+                    // }
 
                     // Creates subGraphs with json conversions
                     const { subGraphs } = originalGroupingGenerator(
@@ -191,7 +228,7 @@ function ExcelDropzone() {
 
                     // Handle unassigned clients by creating an "employee" for them
                     const unassigned = {
-                        id: jsonGeocodedData.length,
+                        id: jsonGeocodedData.length + 1,
                         name: "Unassigned",
                         group: null,
                         type: "employee",

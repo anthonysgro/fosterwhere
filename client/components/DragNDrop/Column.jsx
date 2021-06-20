@@ -55,7 +55,7 @@ class Column extends Component {
                 {column.method ? (
                     <Small className="employee-method">{column.method}</Small>
                 ) : (
-                    <Small>Dragging not implemented yet</Small>
+                    <Small>Dragging coming soon!</Small>
                 )}
                 <Droppable droppableId={column.id}>
                     {(provided) => (

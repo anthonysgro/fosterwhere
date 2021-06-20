@@ -191,6 +191,8 @@ class ResultList extends Component {
             const toEmployee = dataMap.get(destination.droppableId);
             const client = dataMap.get(draggableId);
 
+            console.log(fullGraph, toEmployee.id);
+
             // Gets client data form the "toEmployee" pov
             const toEmployeeClientData = fullGraph
                 .filter((emp) => emp.id === toEmployee.id)[0]

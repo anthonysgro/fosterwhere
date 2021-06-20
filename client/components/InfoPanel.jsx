@@ -76,16 +76,14 @@ const InfoPanel = () => {
         let s = new Stats();
 
         for (const graph of subGraphs) {
-            s.push(parseFloat(graph[0].totalCommute));
+            if (graph[0].name !== "Unassigned") {
+                s.push(parseFloat(graph[0].totalCommute));
+            }
         }
 
         setMean(s.amean().toFixed(2));
         setStdDev(s.stddev().toFixed(2));
     };
-
-    // const handleChange =( ) => {
-
-    // }
 
     return (
         <section className="info-panel-container" style={panelContainerStyles}>
@@ -95,9 +93,12 @@ const InfoPanel = () => {
                 <p className="info-panel-text">Std Dev: {stdDev}</p>
                 <h3 style={titleStyles}>Options</h3>
                 <div style={{ display: "flex", margin: "4px 8px 8px 8px" }}>
-                    <label htmlFor="unassigned">View Unassigned: &nbsp;</label>
+                    <label htmlFor="unassigned" id="unassigned-label">
+                        View Unassigned: &nbsp;
+                    </label>
                     <input
                         style={{ margin: "4px 0" }}
+                        id="unassigned"
                         type="checkbox"
                         name="unassigned"
                         checked={unassigned}
