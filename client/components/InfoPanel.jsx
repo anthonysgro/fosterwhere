@@ -7,7 +7,8 @@ const { Stats } = require("fast-stats");
 import { useHistory } from "react-router-dom";
 
 // Redux Imports
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import { changeUnassigned } from "../store/action-creators";
 
 // Helper Fns
 import {
@@ -51,8 +52,11 @@ const pStyles = {
 
 const InfoPanel = () => {
     const history = useHistory();
+    const dispatch = useDispatch();
+
     const [mean, setMean] = useState(0);
     const [stdDev, setStdDev] = useState(0);
+    const unassigned = useSelector((state) => state.options.unassigned);
 
     const data = useSelector((state) => state.data);
     const graphs = useSelector((state) => state.graphs);
@@ -79,13 +83,28 @@ const InfoPanel = () => {
         setStdDev(s.stddev().toFixed(2));
     };
 
+    // const handleChange =( ) => {
+
+    // }
+
     return (
         <section className="info-panel-container" style={panelContainerStyles}>
             <div className="info-panel" style={infoPanelStyles}>
                 <h3 style={titleStyles}>Manager Info</h3>
                 <p className="info-panel-text">Mean: {mean}</p>
                 <p className="info-panel-text">Std Dev: {stdDev}</p>
-                {/* <h3 style={titleStyles}>Options</h3> */}
+                <h3 style={titleStyles}>Options</h3>
+                <div style={{ display: "flex", margin: "4px 8px 8px 8px" }}>
+                    <label htmlFor="unassigned">View Unassigned: &nbsp;</label>
+                    <input
+                        style={{ margin: "4px 0" }}
+                        type="checkbox"
+                        name="unassigned"
+                        checked={unassigned}
+                        onChange={() => dispatch(changeUnassigned())}
+                    />
+                </div>
+
                 <div id="btn-container">
                     <button
                         onClick={redirectToHomepage}

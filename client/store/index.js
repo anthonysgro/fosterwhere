@@ -7,6 +7,7 @@ import {
     loadingReducer,
     algorithmReducer,
     errorReducer,
+    optionsReducer,
     // employeeMapReducer,
 } from "./reducers";
 
@@ -17,6 +18,7 @@ const primaryReducer = combineReducers({
     error: errorReducer,
     graphs: graphReducer,
     algorithms: algorithmReducer,
+    options: optionsReducer,
 });
 
 // Redux Middleware

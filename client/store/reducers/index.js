@@ -4,6 +4,7 @@ import { errorReducer } from "./errorReducer";
 import { graphReducer } from "./graphReducer";
 import { employeeMapReducer } from "./employeeMap";
 import { algorithmReducer } from "./algorithmReducer";
+import { optionsReducer } from "./optionsReducer";
 
 export {
     dataReducer,
@@ -12,4 +13,5 @@ export {
     employeeMapReducer,
     algorithmReducer,
     errorReducer,
+    optionsReducer,
 };

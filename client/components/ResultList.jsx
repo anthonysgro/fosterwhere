@@ -222,6 +222,7 @@ class ResultList extends Component {
 
     render() {
         const { data, loading, unassigned, totalEntries } = this.state;
+        const { options } = this.props;
 
         if (loading) return <Roller color="#ffffff" sizeUnit="px" />;
         return (
@@ -241,15 +242,19 @@ class ResultList extends Component {
                             />
                         );
                     })}
-                    <Column
-                        key={data.employees.length}
-                        column={{
-                            name: "Unassigned",
-                            id: totalEntries.toString(),
-                        }}
-                        color={{ employee: "#7a7879", client: "#b5b3b4" }}
-                        clients={unassigned}
-                    />
+                    {options.unassigned ? (
+                        <Column
+                            key={data.employees.length}
+                            column={{
+                                name: "Unassigned",
+                                id: totalEntries.toString(),
+                            }}
+                            color={{ employee: "#7a7879", client: "#b5b3b4" }}
+                            clients={unassigned}
+                        />
+                    ) : (
+                        ""
+                    )}
                 </DragDropContext>
             </div>
         );
@@ -262,6 +267,7 @@ function mapStateToProps(state) {
         subGraphs: state.graphs.subGraphs.json,
         fullGraph: state.graphs.fullGraph.json,
         fullGraphStructure: state.graphs.fullGraph.structure,
+        options: state.options,
     };
 }
 

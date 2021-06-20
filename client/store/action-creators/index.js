@@ -8,6 +8,8 @@ import {
 
 import { TRIGGER_ERROR, triggerError, RESET_ERROR, resetError } from "./error";
 
+import { changeUnassigned, CHANGE_UNASSIGNED } from "./options";
+
 import {
     CREATE_TRANSIT_GRAPH,
     createTransitGraph,
@@ -108,4 +110,6 @@ export {
     triggerError,
     RESET_ERROR,
     resetError,
+    changeUnassigned,
+    CHANGE_UNASSIGNED,
 };
