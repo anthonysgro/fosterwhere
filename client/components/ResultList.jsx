@@ -5,7 +5,11 @@ import { connect } from "react-redux";
 import { updateTransitGraph } from "../store/action-creators";
 
 // Helper Fn import
-import { dndObjectBuilder } from "../helper-functions";
+import {
+    dndObjectBuilder,
+    lowestTimeNonBalanced,
+    graphToJson,
+} from "../helper-functions";
 import { cloneDeep } from "lodash";
 import COLORS from "./Map/colors";
 
@@ -20,13 +24,15 @@ class ResultList extends Component {
         this.state = {
             data: null,
             loading: true,
+            unassigned: [],
+            totalEntries: NaN,
         };
 
         this.onDragEnd = this.onDragEnd.bind(this);
     }
 
     componentDidMount() {
-        const { subGraphs } = this.props;
+        const { subGraphs, data } = this.props;
         const setupSubGraphs = subGraphs.map((arrOfOne) =>
             cloneDeep(arrOfOne[0]),
         );
@@ -38,12 +44,55 @@ class ResultList extends Component {
         this.setState({
             data: initialData,
             loading: false,
+            totalEntries: data.length,
         });
     }
 
     componentDidUpdate(prevProps) {
         if (prevProps.subGraphs !== this.props.subGraphs) {
-            const { subGraphs } = this.props;
+            console.log("hiiiii");
+            const { subGraphs, data, fullGraphStructure, fullGraph } =
+                this.props;
+
+            // Run the lowestTimeNonBalanced Algo to find closest worker
+            const result = lowestTimeNonBalanced(fullGraphStructure);
+
+            // Parse out the subgraphs in json
+            let employees = [];
+            for (const sub of result.subGraphs) {
+                employees.push(...graphToJson(sub, data));
+            }
+
+            let includedIds = [];
+            for (const [{ clients }] of subGraphs) {
+                for (const { id } of clients) {
+                    includedIds.push(id);
+                }
+            }
+
+            // Find unassigned clients
+            let unassigned = [];
+            for (const client of fullGraph[0].clients) {
+                if (
+                    !includedIds.includes(client.id) &&
+                    client.type === "client"
+                ) {
+                    let closestWorker = null;
+                    let thisCommute = NaN;
+
+                    for (const employee of employees) {
+                        for (const thisClient of employee.clients) {
+                            if (thisClient.id === client.id) {
+                                closestWorker = employee;
+                                thisCommute = thisClient.thisCommute;
+                            }
+                        }
+                    }
+
+                    unassigned.push({ ...client, closestWorker, thisCommute });
+                }
+            }
+
             const setupSubGraphs = subGraphs.map((arrOfOne) =>
                 cloneDeep(arrOfOne[0]),
             );
@@ -55,6 +104,7 @@ class ResultList extends Component {
             this.setState({
                 ...this.state,
                 data: initialData,
+                unassigned,
             });
         }
     }
@@ -64,6 +114,7 @@ class ResultList extends Component {
 
         // If user didn't drop in a droppable, or in the same location, do nothing
         if (!destination) return;
+
         if (
             destination.droppableId === source.droppableId &&
             destination.index === source.index
@@ -170,10 +221,9 @@ class ResultList extends Component {
     }
 
     render() {
-        const { data, loading } = this.state;
+        const { data, loading, unassigned, totalEntries } = this.state;
 
         if (loading) return <Roller color="#ffffff" sizeUnit="px" />;
-
         return (
             <div id="result-container">
                 <DragDropContext onDragEnd={this.onDragEnd}>
@@ -191,6 +241,15 @@ class ResultList extends Component {
                             />
                         );
                     })}
+                    <Column
+                        key={data.employees.length}
+                        column={{
+                            name: "Unassigned",
+                            id: totalEntries.toString(),
+                        }}
+                        color={{ employee: "#7a7879", client: "#b5b3b4" }}
+                        clients={unassigned}
+                    />
                 </DragDropContext>
             </div>
         );
@@ -202,6 +261,7 @@ function mapStateToProps(state) {
         data: state.data,
         subGraphs: state.graphs.subGraphs.json,
         fullGraph: state.graphs.fullGraph.json,
+        fullGraphStructure: state.graphs.fullGraph.structure,
     };
 }
 

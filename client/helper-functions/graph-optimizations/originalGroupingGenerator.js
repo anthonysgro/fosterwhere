@@ -21,7 +21,7 @@ function originalGroupingGenerator(graph, data) {
             .map((client) => client.id);
 
         const employeeNode = employeeNodes.filter(
-            (node) => node.val === employee.id,
+            (node) => node.val === parseInt(employee.id),
         )[0];
 
         const clientsBelongingToThisEmployee = clientNodes.filter((node) =>

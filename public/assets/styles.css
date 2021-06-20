@@ -413,3 +413,29 @@ span {
 .error-msg {
     color: #ff2525;
 }
+
+.unassigned-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    margin: 0rem 0.2rem;
+    /* align-items: flex-start; */
+}
+
+.unassigned-row {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.unassigned-row-first {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    align-items: center;
+}
+
+.subtitle {
+    margin: 4px 15px 8px 15px;
+}

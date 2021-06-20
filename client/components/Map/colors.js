@@ -5,7 +5,6 @@ export default [
     { employee: "#db8534", client: "#e9b585" }, // orange
     { employee: "#8234db", client: "#b585e9" }, // violet
     { employee: "#34dba1", client: "#85e9c9" }, // seafoam
-    { employee: "#7a7879", client: "#b5b3b4" }, // gray
     { employee: "#34dbcd", client: "#85e9e1" }, // teal
     { employee: "#4734db", client: "#9185e9" }, // indigo
     { employee: "#d5db34", client: "#e7e985" }, // yellow

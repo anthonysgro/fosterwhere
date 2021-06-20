@@ -47,8 +47,16 @@ class Column extends Component {
         return (
             <Container color={color}>
                 <Title color={color}>{column.name}</Title>
-                <SubHeader>{column.totalCommute} min</SubHeader>
-                <Small className="employee-method">{column.method}</Small>
+                {column.totalCommute ? (
+                    <SubHeader>{column.totalCommute} min</SubHeader>
+                ) : (
+                    <SubHeader>&nbsp;</SubHeader>
+                )}
+                {column.method ? (
+                    <Small className="employee-method">{column.method}</Small>
+                ) : (
+                    <Small>&nbsp;</Small>
+                )}
                 <Droppable droppableId={column.id}>
                     {(provided) => (
                         <TaskList

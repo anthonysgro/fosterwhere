@@ -148,7 +148,6 @@ function ExcelDropzone() {
                     });
 
                     const jsonData = convertToJson(data);
-                    console.log(jsonData);
 
                     // Geocode the data so we get latitude and longitude
                     const { data: jsonGeocodedData } = await axios.put(
@@ -344,11 +343,12 @@ function ExcelDropzone() {
                         <div className="panel">
                             <p className="p-with-ul">
                                 <span>
-                                    Current app only supports a maximum of 9
+                                    Current app now supports a maximum of 21
                                     employees.
                                 </span>{" "}
-                                This is on the list of things to fix in expanded
-                                functionality. The two options (enter as
+                                Keep in mind that due to API restrictions, using
+                                a high number of employees will result in higher
+                                loading times. The two options (enter as
                                 appeared here in lowercase):
                             </p>
                             <ul>
@@ -378,12 +378,11 @@ function ExcelDropzone() {
                         </button>
                         <div className="panel">
                             <p>
-                                Current app only supports a maximum of 9 groups.
-                                This is on the list of things to fix in expanded
-                                functionality. The group allows you to designate
-                                the original configuration of employees to
-                                clients so that you can compare the supported
-                                algorithms against yours.{" "}
+                                Current app supports a maximum of 21 groups. The
+                                group allows you to designate the original
+                                configuration of employees to clients so that
+                                you can compare the supported algorithms against
+                                yours.{" "}
                                 <span>
                                     You must limit one employee to each group.
                                 </span>

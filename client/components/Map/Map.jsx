@@ -85,8 +85,29 @@ class SimpleMap extends Component {
                 return newItem;
             });
 
+            let includedIds = [];
+            for (const { id } of newData) {
+                includedIds.push(id);
+            }
+
+            let unassigned = [];
+            for (const entry of data) {
+                if (
+                    !includedIds.includes(entry.id) &&
+                    entry.type === "client"
+                ) {
+                    unassigned.push({
+                        ...entry,
+                        color: "#b5b3b4",
+                        show: false,
+                    });
+                }
+            }
+
+            const totalData = [...newData, ...unassigned];
+
             this.setState({
-                data: newData,
+                data: totalData,
                 loading: false,
             });
         }
@@ -155,7 +176,7 @@ class SimpleMap extends Component {
                     bootstrapURLKeys={{
                         key: "AIzaSyB7GThzCAYNkygjoSDUKQywStp7Cf5pXrw",
                     }}
-                    defaultCenter={center}
+                    center={center}
                     defaultZoom={11}
                     // onChildClick={this.onMarkerClick}
                     onClick={this.onMapClick}

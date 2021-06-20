@@ -34,7 +34,7 @@ class Task extends Component {
     render() {
         const { client, index, color } = this.props;
         return (
-            <Draggable draggableId={client.id} index={index}>
+            <Draggable draggableId={client.id.toString()} index={index}>
                 {(provided) => (
                     <Container
                         ref={provided.innerRef}
@@ -43,7 +43,14 @@ class Task extends Component {
                         color={color}
                     >
                         <Text>{client.name}</Text>
-                        <Small>Commute: {client.commute} min</Small>
+                        {client.commute ? (
+                            <Small>Commute: {client.commute} min</Small>
+                        ) : (
+                            <Small>
+                                Closest: {client.closestWorker.name} (~
+                                {Math.round(client.thisCommute)} min)
+                            </Small>
+                        )}
                     </Container>
                 )}
             </Draggable>

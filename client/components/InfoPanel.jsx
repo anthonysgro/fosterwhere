@@ -9,6 +9,13 @@ import { useHistory } from "react-router-dom";
 // Redux Imports
 import { useSelector } from "react-redux";
 
+// Helper Fns
+import {
+    dndObjectBuilder,
+    lowestTimeNonBalanced,
+    graphToJson,
+} from "../helper-functions";
+
 const panelContainerStyles = {
     display: "flex",
     flexDirection: "column",
@@ -21,7 +28,7 @@ const infoPanelStyles = {
     flexDirection: "column",
     alignItems: "center",
     justifyContent: "flex-start",
-    width: "200px",
+    minWidth: "200px",
     height: "auto",
     backgroundColor: "#FAF9F6",
     color: "#1e1e1e",
@@ -34,6 +41,10 @@ const titleStyles = {
     textDecoration: "underline",
 };
 
+const smallTitleStyles = {
+    margin: "6px 0px",
+};
+
 const pStyles = {
     margin: "4px 8px 8px 8px",
 };
@@ -43,7 +54,11 @@ const InfoPanel = () => {
     const [mean, setMean] = useState(0);
     const [stdDev, setStdDev] = useState(0);
 
-    const subGraphs = useSelector((state) => state.graphs.subGraphs.json);
+    const data = useSelector((state) => state.data);
+    const graphs = useSelector((state) => state.graphs);
+    const fullGraph = graphs.fullGraph.structure;
+    const fullGraphJson = graphs.fullGraph.json;
+    const subGraphs = graphs.subGraphs.json;
 
     useEffect(() => {
         calculateMeanAndStdDev();
@@ -70,6 +85,7 @@ const InfoPanel = () => {
                 <h3 style={titleStyles}>Manager Info</h3>
                 <p className="info-panel-text">Mean: {mean}</p>
                 <p className="info-panel-text">Std Dev: {stdDev}</p>
+                {/* <h3 style={titleStyles}>Options</h3> */}
                 <div id="btn-container">
                     <button
                         onClick={redirectToHomepage}
