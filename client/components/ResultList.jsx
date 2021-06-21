@@ -36,7 +36,6 @@ class ResultList extends Component {
         const setupSubs = subGraphs.map((arrOfOne) => cloneDeep(arrOfOne[0]));
 
         const initialData = dndObjectBuilder(setupSubs);
-        console.log("FIRST RENDER", initialData);
         this.setState({
             data: initialData,
             loading: false,
@@ -54,7 +53,6 @@ class ResultList extends Component {
             );
 
             const initialData = dndObjectBuilder(setupSubs);
-            console.log("UPDATE RENDER", initialData);
             this.setState({
                 ...this.state,
                 data: initialData,
@@ -114,14 +112,10 @@ class ResultList extends Component {
             const toEmployee = dataMap.get(destination.droppableId);
             const client = dataMap.get(draggableId);
 
-            // console.log(fullGraph, toEmployee, fromEmployee, client);
-
             // Gets client data form the "toEmployee" pov
             const toEmployeeClientData = fullGraph
                 .filter((emp) => emp.id === toEmployee.id)[0]
                 .clients.filter((cli) => cli.id === client.id)[0];
-
-            // console.log(toEmployeeClientData);
 
             // Replaces the client with this guy
             const newClient = cloneDeep(toEmployeeClientData);
@@ -180,8 +174,6 @@ class ResultList extends Component {
     render() {
         const { data, loading, unassigned, totalEntries } = this.state;
         const { options } = this.props;
-
-        console.log("DATA", data);
 
         if (loading) return <Roller color="#ffffff" sizeUnit="px" />;
         return (
