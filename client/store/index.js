@@ -24,7 +24,7 @@ const primaryReducer = combineReducers({
 // Redux Middleware
 const middleware = applyMiddleware(
     thunkMiddleware,
-    createLogger({ collapsed: true }),
+    // createLogger({ collapsed: true }),
 );
 
 // Redux Store
