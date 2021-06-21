@@ -19,7 +19,12 @@ import {
     originalGroupingGenerator,
     lowestTimeNonBalanced,
 } from "../helper-functions";
-import { fakeData1, fakeData2 } from "../FAKE_DATA";
+import {
+    fakeData1,
+    fakeData2,
+    fakeData1Unassigned,
+    fakeData2Unassigned,
+} from "../FAKE_DATA";
 
 // Redux Imports
 import {
@@ -183,7 +188,8 @@ function ExcelDropzone() {
             }
         }
 
-        if (isThereUnassigned) dispatch(changeUnassigned()); // if someone has no group, we will open unassigned group by default
+        // if someone has no group, we will open unassigned group by default
+        dispatch(changeUnassigned(isThereUnassigned));
 
         subJson.push([unassigned]);
 
@@ -318,13 +324,14 @@ function ExcelDropzone() {
 
                     let isThereUnassigned = false;
                     for (const entry of unassignedPOV) {
-                        if (entry.group === null) {
+                        if (entry.group === null || entry.group === "null") {
                             isThereUnassigned = true;
                             unassigned.clients.push(entry);
                         }
                     }
 
-                    if (isThereUnassigned) dispatch(changeUnassigned()); // if someone has no group, we will open unassigned group by default
+                    // if someone has no group, we will open unassigned group by default
+                    dispatch(changeUnassigned(isThereUnassigned));
 
                     subJson.push([unassigned]);
 
@@ -444,7 +451,7 @@ function ExcelDropzone() {
                         onClick={() => testData(fakeData1)}
                         className="primary-homepage-btn"
                     >
-                        Try With Small Dataset
+                        Try Small Dataset
                     </button>
                 </div>
                 <div className="btn-container">
@@ -452,7 +459,15 @@ function ExcelDropzone() {
                         onClick={() => testData(fakeData2)}
                         className="primary-homepage-btn"
                     >
-                        Try With Medium Dataset
+                        Try Medium Dataset
+                    </button>
+                </div>
+                <div className="btn-container">
+                    <button
+                        onClick={() => testData(fakeData2Unassigned)}
+                        className="primary-homepage-btn"
+                    >
+                        Try Medium Dataset w/ Unassigned
                     </button>
                 </div>
                 <div id="pics-container">

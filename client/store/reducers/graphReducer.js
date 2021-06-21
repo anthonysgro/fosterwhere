@@ -271,6 +271,33 @@ export const graphReducer = (state = initialState, action) => {
             employee[0].clients.sort((a, b) => a.id - b.id),
         );
 
+        // Run the lowestTimeNonBalanced Algo to find closest worker
+        const result = lowestTimeNonBalanced(graph);
+
+        // Parse out the subgraphs in json
+        let employees = [];
+        for (const sub of result.subGraphs) {
+            employees.push(...graphToJson(sub, data));
+        }
+
+        let unassignedPOV = [];
+        for (const entry of data) {
+            if (entry.type === "employee") continue;
+            for (const employee of employees) {
+                for (const thisClient of employee.clients) {
+                    if (thisClient.id === entry.id) {
+                        unassignedPOV.push({
+                            ...entry,
+                            closestWorker: employee,
+                            thisCommute: thisClient.thisCommute,
+                        });
+
+                        break;
+                    }
+                }
+            }
+        }
+
         // Handle unassigned clients by creating an "employee" for them
         const unassigned = {
             id: data.length + 1,
@@ -281,7 +308,7 @@ export const graphReducer = (state = initialState, action) => {
         };
 
         // Push in those without a group
-        for (const entry of data) {
+        for (const entry of unassignedPOV) {
             if (entry.group === null) {
                 unassigned.clients.push(entry);
             }
