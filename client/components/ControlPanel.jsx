@@ -150,7 +150,7 @@ class ControlPanel extends Component {
                                         htmlFor="default-grouping"
                                         className="algo-label"
                                     >
-                                        Default Grouping
+                                        Default
                                     </label>
                                     <input
                                         type="radio"
