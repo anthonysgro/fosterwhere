@@ -266,7 +266,7 @@ li > p {
     background-color: #2b2b2b;
     height: auto;
     border: 2px solid white;
-    border-radius: 0.5rem;
+    border-radius: 1rem;
     flex-grow: 1;
     box-shadow: 0px 4px 12px -3px #000000;
 }
@@ -277,10 +277,12 @@ li > p {
     align-items: center;
     justify-content: space-between;
     width: 800px;
+    position: relative;
+    left: -1rem;
 }
 
 .home-subcontainer {
-    padding: 15px;
+    padding: 23px;
 }
 
 .extra-pad {

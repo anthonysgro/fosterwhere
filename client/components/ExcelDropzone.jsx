@@ -414,10 +414,7 @@ function ExcelDropzone() {
                         client.
                     </p>
                 </div>
-                <div
-                    id="excel-dropzone"
-                    className="home-subcontainer extra-pad"
-                >
+                <div id="excel-dropzone" className="extra-pad">
                     <Container
                         {...getRootProps({
                             isDragActive,
