@@ -237,7 +237,7 @@ class ControlPanel extends Component {
                                         htmlFor="time-equality-exchange"
                                         className="algo-label"
                                     >
-                                        {`Two-Phase Min/Swap`}
+                                        {`Multi-Phase Swap`}
                                     </label>
                                     <input
                                         type="radio"
@@ -314,7 +314,7 @@ class ControlPanel extends Component {
                                     : value === "strictEquality"
                                     ? '"The Utopian Algorithm", this algo optimizes for the least commute variance. Your workers commute equally, but is this optimal? I got another hammer and sickle if you want!'
                                     : value === "timeEqualityExchange"
-                                    ? '"The Pragmatist\'s Algorithm", this algo optimizes for travel and workload variance, and then asks employees to swap clients if favorable for both. Trades excess fairness for efficiency!'
+                                    ? '"The Pragmatist\'s Algorithm", this algo optimizes for travel and variance by asking employees to swap clients in multiple rounds with varying rules. Trades excess fairness for efficiency!'
                                     : value === "defaultGrouping"
                                     ? '"The Original Configuration", this is configuration you specified when you uploaded your file. You can change this by editing the "groups" column of your excel sheet.'
                                     : ""}
