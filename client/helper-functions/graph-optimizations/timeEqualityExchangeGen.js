@@ -336,6 +336,16 @@ function timeEqualityExchangeGen(graph) {
         subGraphs = findNextSwap2(subGraphs, graph);
     }
 
+    // Force them to swap again if it is best for everyone
+    while (subGraphs !== findNextSwap(subGraphs, graph)) {
+        subGraphs = findNextSwap(subGraphs, graph);
+    }
+
+    // One last time, we will swap between parties if it makes sense to...
+    while (subGraphs !== findNextSwap2(subGraphs, graph)) {
+        subGraphs = findNextSwap2(subGraphs, graph);
+    }
+
     return { optimizedMap, subGraphs };
 }
 
