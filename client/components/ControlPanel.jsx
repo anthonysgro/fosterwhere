@@ -306,7 +306,7 @@ class ControlPanel extends Component {
                                     : value === "trueHighestTime"
                                     ? '"The Sardonic Algorithm", this algo optimizes for maximizing total travel. This option is only for managers who either hate their jobs or need therapy. Employees will not be happy...'
                                     : value === "lowTimeWithEquality"
-                                    ? '"The Egalitarian Algorithm", this algo optimizes for minimum commutes and workload variance. It might not be the most efficient, but your workers will be content.'
+                                    ? '"The Egalitarian Algorithm", this algo forces employees to swap clients if it reduces overall travel mean & variance. It might not be the most efficient, but your workers will be content.'
                                     : value === "random"
                                     ? '"The Chaos Algorithm", you could not be bothered to do some basic math. Or care about your employees. You are neither ruthless nor merciful, you just want to see the world burn.'
                                     : value === "manual"

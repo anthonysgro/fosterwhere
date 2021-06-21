@@ -36,6 +36,8 @@ function findNextSwap(subGraphs, graph) {
     let bestMean = stats.mean;
     let bestStdDev = stats.stdDev;
 
+    let possibleSwaps = [];
+
     // Loops over all subgraph clients
     for (let i = 0; i < subGraphs.length; i++) {
         const thisSubGraph = subGraphs[i];
@@ -113,7 +115,15 @@ function findNextSwap(subGraphs, graph) {
 
                         if (mean < bestMean && stdDev < bestStdDev) {
                             // return after first good one is found
-                            return [testGraph, testCompGraph, ...otherGraphs];
+                            possibleSwaps.push({
+                                result: [
+                                    testGraph,
+                                    testCompGraph,
+                                    ...otherGraphs,
+                                ],
+                                mean,
+                                stdDev,
+                            });
                         }
                     }
                 }
@@ -121,8 +131,13 @@ function findNextSwap(subGraphs, graph) {
         }
     }
 
-    // If no better graph was found, we return the original one
-    return subGraphs;
+    if (possibleSwaps.length > 0) {
+        possibleSwaps.sort((a, b) => a.mean - b.mean);
+        return possibleSwaps[0].result;
+    } else {
+        // If no better graph was found, we return the original one
+        return subGraphs;
+    }
 }
 
 function lowTimeWEquality(graph) {
