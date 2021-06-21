@@ -546,9 +546,27 @@ function ExcelDropzone() {
                                 you can compare the supported algorithms against
                                 yours.{" "}
                                 <span>
-                                    You must limit one employee to each group.
+                                    You must limit one employee to each group.{" "}
                                 </span>
                             </p>
+                            <p className="p-with-ul">
+                                You may also specify "unassigned" if a client is
+                                not yet assigned a worker. The following are
+                                valid inputs:
+                            </p>
+                            <ul>
+                                <li>
+                                    Any integer:
+                                    <ul>
+                                        <li>Start at 1</li>
+                                        <li>
+                                            Enter number form (e.g. 1, 2...)
+                                        </li>
+                                        <li>Do not skip a number</li>
+                                    </ul>
+                                </li>
+                                <li>unassigned</li>
+                            </ul>
                         </div>
                     </div>
                     <br />
