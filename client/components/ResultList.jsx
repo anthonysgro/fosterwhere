@@ -191,12 +191,14 @@ class ResultList extends Component {
             const toEmployee = dataMap.get(destination.droppableId);
             const client = dataMap.get(draggableId);
 
-            console.log(fullGraph, toEmployee.id);
+            // console.log(fullGraph, toEmployee, fromEmployee, client);
 
             // Gets client data form the "toEmployee" pov
             const toEmployeeClientData = fullGraph
                 .filter((emp) => emp.id === toEmployee.id)[0]
                 .clients.filter((cli) => cli.id === client.id)[0];
+
+            // console.log(toEmployeeClientData);
 
             // Replaces the client with this guy
             const newClient = cloneDeep(toEmployeeClientData);
