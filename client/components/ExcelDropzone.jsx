@@ -505,7 +505,7 @@ function ExcelDropzone() {
                         <div className="panel">
                             <p className="p-with-ul">
                                 <span>
-                                    Current app now supports a maximum of 21
+                                    Current app now supports a maximum of 20
                                     employees.
                                 </span>{" "}
                                 Keep in mind that due to API restrictions, using
@@ -540,7 +540,7 @@ function ExcelDropzone() {
                         </button>
                         <div className="panel">
                             <p>
-                                Current app supports a maximum of 21 groups. The
+                                Current app supports a maximum of 20 groups. The
                                 group allows you to designate the original
                                 configuration of employees to clients so that
                                 you can compare the supported algorithms against
