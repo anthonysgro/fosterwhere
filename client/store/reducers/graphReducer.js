@@ -73,6 +73,17 @@ export const graphReducer = (state = initialState, action) => {
             employee[0].clients.sort((a, b) => a.id - b.id),
         );
 
+        // Handle unassigned clients by creating an "employee" for them
+        const unassigned = {
+            id: data.length + 1,
+            name: "Unassigned",
+            group: null,
+            type: "employee",
+            clients: [],
+        };
+
+        newSubJson.push([unassigned]);
+
         return (state = {
             ...state,
             subGraphs: { structure: subGraphs, json: newSubJson },
@@ -92,6 +103,17 @@ export const graphReducer = (state = initialState, action) => {
         newSubJson.forEach((employee) =>
             employee[0].clients.sort((a, b) => a.id - b.id),
         );
+
+        // Handle unassigned clients by creating an "employee" for them
+        const unassigned = {
+            id: data.length + 1,
+            name: "Unassigned",
+            group: null,
+            type: "employee",
+            clients: [],
+        };
+
+        newSubJson.push([unassigned]);
 
         return (state = {
             ...state,
@@ -114,6 +136,17 @@ export const graphReducer = (state = initialState, action) => {
         newSubJson.forEach((employee) =>
             employee[0].clients.sort((a, b) => a.id - b.id),
         );
+
+        // Handle unassigned clients by creating an "employee" for them
+        const unassigned = {
+            id: data.length + 1,
+            name: "Unassigned",
+            group: null,
+            type: "employee",
+            clients: [],
+        };
+
+        newSubJson.push([unassigned]);
 
         return (state = {
             ...state,
@@ -139,6 +172,17 @@ export const graphReducer = (state = initialState, action) => {
             employee[0].clients.sort((a, b) => a.id - b.id),
         );
 
+        // Handle unassigned clients by creating an "employee" for them
+        const unassigned = {
+            id: data.length + 1,
+            name: "Unassigned",
+            group: null,
+            type: "employee",
+            clients: [],
+        };
+
+        newSubJson.push([unassigned]);
+
         return (state = {
             ...state,
             subGraphs: { structure: subGraphs, json: newSubJson },
@@ -161,6 +205,17 @@ export const graphReducer = (state = initialState, action) => {
             employee[0].clients.sort((a, b) => a.id - b.id),
         );
 
+        // Handle unassigned clients by creating an "employee" for them
+        const unassigned = {
+            id: data.length + 1,
+            name: "Unassigned",
+            group: null,
+            type: "employee",
+            clients: [],
+        };
+
+        newSubJson.push([unassigned]);
+
         return (state = {
             ...state,
             subGraphs: { structure: subGraphs, json: newSubJson },
@@ -182,6 +237,17 @@ export const graphReducer = (state = initialState, action) => {
         newSubJson.forEach((employee) =>
             employee[0].clients.sort((a, b) => a.id - b.id),
         );
+
+        // Handle unassigned clients by creating an "employee" for them
+        const unassigned = {
+            id: data.length + 1,
+            name: "Unassigned",
+            group: null,
+            type: "employee",
+            clients: [],
+        };
+
+        newSubJson.push([unassigned]);
 
         return (state = {
             ...state,
@@ -214,6 +280,7 @@ export const graphReducer = (state = initialState, action) => {
             clients: [],
         };
 
+        // Push in those without a group
         for (const entry of data) {
             if (entry.group === null) {
                 unassigned.clients.push(entry);

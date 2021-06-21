@@ -47,7 +47,7 @@ class Column extends Component {
         return (
             <Container color={color}>
                 <Title color={color}>{column.name}</Title>
-                {column.totalCommute ? (
+                {column.method ? (
                     <SubHeader>{column.totalCommute} min</SubHeader>
                 ) : (
                     <SubHeader>{clients.length} unassigned clients</SubHeader>

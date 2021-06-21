@@ -35,64 +35,12 @@ class ResultList extends Component {
         const { subGraphs, data, fullGraphStructure, fullGraph } = this.props;
         const setupSubs = subGraphs.map((arrOfOne) => cloneDeep(arrOfOne[0]));
 
-        // Run the lowestTimeNonBalanced Algo to find closest worker
-        const result = lowestTimeNonBalanced(fullGraphStructure);
-
-        // Parse out the subgraphs in json
-        let employees = [];
-        for (const sub of result.subGraphs) {
-            employees.push(...graphToJson(sub, data));
-        }
-
-        // // console.log(subGraphs);
-        // let includedIds = [];
-        // for (const [{ clients }] of subGraphs) {
-        //     for (const { id } of clients) {
-        //         includedIds.push(id);
-        //     }
-        // }
-
-        // // Find unassigned clients
-        // let unassigned = [];
-        // for (const client of fullGraph[0].clients) {
-        //     // console.log(!includedIds.includes(client.id));
-        //     if (!includedIds.includes(client.id) && client.type === "client") {
-        //         let closestWorker = null;
-        //         let thisCommute = NaN;
-
-        //         for (const employee of employees) {
-        //             for (const thisClient of employee.clients) {
-        //                 if (thisClient.id === client.id) {
-        //                     closestWorker = employee;
-        //                     thisCommute = thisClient.thisCommute;
-        //                 }
-        //             }
-        //         }
-
-        //         unassigned.push({ ...client, closestWorker, thisCommute });
-        //     }
-        // }
-
-        setupSubs.sort((a, b) => a.id - b.id);
-
-        for (let unassignedClient of setupSubs[setupSubs.length - 1].clients) {
-            for (const employee of employees) {
-                for (const thisClient of employee.clients) {
-                    if (thisClient.id === unassignedClient.id) {
-                        unassignedClient.closestWorker = employee;
-                        unassignedClient.thisCommute = thisClient.thisCommute;
-                        break;
-                    }
-                }
-            }
-        }
-
         const initialData = dndObjectBuilder(setupSubs);
+        console.log("FIRST RENDER", initialData);
         this.setState({
             data: initialData,
             loading: false,
             totalEntries: data.length,
-            // unassigned,
         });
     }
 
@@ -105,33 +53,8 @@ class ResultList extends Component {
                 cloneDeep(arrOfOne[0]),
             );
 
-            // Run the lowestTimeNonBalanced Algo to find closest worker
-            const result = lowestTimeNonBalanced(fullGraphStructure);
-
-            // Parse out the subgraphs in json
-            let employees = [];
-            for (const sub of result.subGraphs) {
-                employees.push(...graphToJson(sub, data));
-            }
-
-            setupSubs.sort((a, b) => a.id - b.id);
-
-            for (let unassignedClient of setupSubs[setupSubs.length - 1]
-                .clients) {
-                for (const employee of employees) {
-                    for (const thisClient of employee.clients) {
-                        if (thisClient.id === unassignedClient.id) {
-                            unassignedClient.closestWorker = employee;
-                            unassignedClient.thisCommute =
-                                thisClient.thisCommute;
-                            break;
-                        }
-                    }
-                }
-            }
-
             const initialData = dndObjectBuilder(setupSubs);
-
+            console.log("UPDATE RENDER", initialData);
             this.setState({
                 ...this.state,
                 data: initialData,
@@ -257,6 +180,8 @@ class ResultList extends Component {
     render() {
         const { data, loading, unassigned, totalEntries } = this.state;
         const { options } = this.props;
+
+        console.log("DATA", data);
 
         if (loading) return <Roller color="#ffffff" sizeUnit="px" />;
         return (

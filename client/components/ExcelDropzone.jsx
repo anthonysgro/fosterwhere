@@ -30,6 +30,7 @@ import {
     createTransitGraph,
     createEmployeeMap,
     optimizeEmployeeMap,
+    changeUnassigned,
 } from "../store/action-creators";
 import { useDispatch } from "react-redux";
 
@@ -101,27 +102,90 @@ function ExcelDropzone() {
     const testData = (fakeDataset) => {
         const { jsonGeocodedData, transitMap } = fakeDataset;
 
-        window.localStorage.setItem(
-            "jsonGeocodedData",
-            JSON.stringify(jsonGeocodedData),
-        );
+        // window.localStorage.setItem(
+        //     "jsonGeocodedData",
+        //     JSON.stringify(jsonGeocodedData),
+        // );
 
-        window.localStorage.setItem("transitMap", JSON.stringify(transitMap));
+        // window.localStorage.setItem("transitMap", JSON.stringify(transitMap));
 
         // Dispatch our geocoded data to redux store
         dispatch(dropFile(jsonGeocodedData));
 
         // Create graphs and json conversions
         const fullGraph = graphMaker(transitMap);
-        const fullJson = graphToJson(fullGraph, jsonGeocodedData);
+        const fullJsonNoUnassigned = graphToJson(fullGraph, jsonGeocodedData);
+
+        // Run the lowestTimeNonBalanced Algo to find closest worker
+        const result = lowestTimeNonBalanced(fullGraph);
+
+        // Parse out the subgraphs in json
+        let employees = [];
+        for (const sub of result.subGraphs) {
+            employees.push(...graphToJson(sub, jsonGeocodedData));
+        }
+
+        let unassignedPOV = [];
+        for (const entry of jsonGeocodedData) {
+            if (entry.type === "employee") continue;
+            for (const employee of employees) {
+                for (const thisClient of employee.clients) {
+                    if (thisClient.id === entry.id) {
+                        unassignedPOV.push({
+                            ...entry,
+                            closestWorker: employee,
+                            thisCommute: thisClient.thisCommute,
+                        });
+
+                        break;
+                    }
+                }
+            }
+        }
+
+        const fullJson = [
+            ...fullJsonNoUnassigned,
+            {
+                id: jsonGeocodedData.length + 1,
+                address: null,
+                clients: unassignedPOV,
+                group: null,
+                method: null,
+                type: "employee",
+            },
+        ];
 
         // Creates subGraphs with json conversions
-        const { subGraphs } = findSubGraphs(fullGraph);
+        const { subGraphs } = originalGroupingGenerator(
+            fullGraph,
+            jsonGeocodedData,
+        );
 
         let subJson = [];
         for (const graph of subGraphs) {
             subJson.push(graphToJson(graph, jsonGeocodedData));
         }
+
+        // Handle unassigned clients by creating an "employee" for them
+        const unassigned = {
+            id: jsonGeocodedData.length + 1,
+            name: "Unassigned",
+            group: null,
+            type: "employee",
+            clients: [],
+        };
+
+        let isThereUnassigned = false;
+        for (const entry of unassignedPOV) {
+            if (entry.group === null) {
+                isThereUnassigned = true;
+                unassigned.clients.push(entry);
+            }
+        }
+
+        if (isThereUnassigned) dispatch(changeUnassigned()); // if someone has no group, we will open unassigned group by default
+
+        subJson.push([unassigned]);
 
         // Dispatch our graphs to redux store and stop loading, then redirect to map page
         dispatch(createTransitGraph(fullGraph, fullJson, subGraphs, subJson));
@@ -174,6 +238,17 @@ function ExcelDropzone() {
                             data: jsonGeocodedData,
                         },
                     );
+
+                    // uncomment to save the data in browser
+                    // window.localStorage.setItem(
+                    //     "jsonGeocodedData",
+                    //     JSON.stringify(jsonGeocodedData),
+                    // );
+
+                    // window.localStorage.setItem(
+                    //     "transitMap",
+                    //     JSON.stringify(transitMap),
+                    // );
 
                     // Create graphs and json conversions
                     const fullGraph = graphMaker(transitMap);
@@ -241,11 +316,15 @@ function ExcelDropzone() {
                         clients: [],
                     };
 
-                    for (const entry of jsonGeocodedData) {
+                    let isThereUnassigned = false;
+                    for (const entry of unassignedPOV) {
                         if (entry.group === null) {
+                            isThereUnassigned = true;
                             unassigned.clients.push(entry);
                         }
                     }
+
+                    if (isThereUnassigned) dispatch(changeUnassigned()); // if someone has no group, we will open unassigned group by default
 
                     subJson.push([unassigned]);
 
