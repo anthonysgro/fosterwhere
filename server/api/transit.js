@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const axios = require("axios");
-const Cache = require("./cache");
+const cache = require("./cache");
 require("dotenv").config();
 
 const setDelay = (cb, timeout = 0) => {
@@ -30,7 +30,7 @@ router.post("/", async (req, res, next) => {
                 const hashKey = `${employee.latitude}-${employee.longitude}-${client.latitude}-${client.longitude}-${method}`;
 
                 // If the cache doesn't have this information
-                if (!Cache.has(hashKey)) {
+                if (!cache.has(hashKey)) {
                     await setDelay(() => {
                         let routePromise = null;
 
@@ -51,7 +51,7 @@ router.post("/", async (req, res, next) => {
                         empId: employee.id,
                         cliId: client.id,
                         routePromise: new Promise((res) => {
-                            res(Cache.read(hashKey));
+                            res(cache.read(hashKey));
                         }),
                         wasInCache: true,
                         hashKey,
@@ -115,7 +115,7 @@ router.post("/", async (req, res, next) => {
 
                 // If it wasn't in the cache, put it in
                 if (!cur.wasInCache) {
-                    Cache.write(cur.hashKey, contents[i]);
+                    cache.write(cur.hashKey, contents[i]);
                 }
 
                 return acc;

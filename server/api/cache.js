@@ -108,4 +108,6 @@ class Cache {
     }
 }
 
-module.exports = Cache;
+const cache = new Cache();
+
+module.exports = cache;
