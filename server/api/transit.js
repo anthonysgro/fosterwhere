@@ -3,6 +3,8 @@ const router = express.Router();
 const axios = require("axios");
 require("dotenv").config();
 
+const cache = new Map();
+
 const setDelay = (cb, timeout = 0) => {
     return new Promise((resolve) => {
         setTimeout(() => {
@@ -26,19 +28,36 @@ router.post("/", async (req, res, next) => {
             for (const client of clients) {
                 const { method } = employee;
 
-                await setDelay(() => {
-                    let routePromise = null;
+                const hashKey = `${employee.latitude}-${employee.longitude}-${client.latitude}-${client.longitude}-${method}`;
 
-                    routePromise = axios.get(
-                        `https://maps.googleapis.com/maps/api/directions/json?origin=${employee.latitude},${employee.longitude}&destination=${client.latitude},${client.longitude}&mode=${method}&departure_time=now&key=${process.env.GOOGLE_DIRECTIONS_KEY}`,
-                    );
+                // If the cache doesn't have this information
+                if (!cache.has(hashKey)) {
+                    await setDelay(() => {
+                        let routePromise = null;
 
+                        routePromise = axios.get(
+                            `https://maps.googleapis.com/maps/api/directions/json?origin=${employee.latitude},${employee.longitude}&destination=${client.latitude},${client.longitude}&mode=${method}&departure_time=now&key=${process.env.GOOGLE_DIRECTIONS_KEY}`,
+                        );
+
+                        routesToProcess.push({
+                            empId: employee.id,
+                            cliId: client.id,
+                            routePromise,
+                            wasInCache: false,
+                            hashKey,
+                        });
+                    }, 10);
+                } else {
                     routesToProcess.push({
                         empId: employee.id,
                         cliId: client.id,
-                        routePromise,
+                        routePromise: new Promise((res) => {
+                            res(cache.get(hashKey));
+                        }),
+                        wasInCache: true,
+                        hashKey,
                     });
-                }, 10);
+                }
             }
         }
 
@@ -95,6 +114,11 @@ router.post("/", async (req, res, next) => {
                     travelDistance: parseFloat(distance.value.toFixed(2)),
                 });
 
+                // If it wasn't in the cache, put it in
+                if (!cur.wasInCache) {
+                    cache.set(cur.hashKey, contents[i]);
+                }
+
                 return acc;
             }, []);
         });
@@ -122,7 +146,7 @@ router.post("/", async (req, res, next) => {
         // Send back the map of employees to clients with travel info
         res.send(finalObj);
     } catch (err) {
-        console.error(err);
+        // console.error(err);
         next(err);
     }
 });
