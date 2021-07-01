@@ -1,9 +1,8 @@
 const express = require("express");
 const router = express.Router();
 const axios = require("axios");
+const Cache = require("./cache");
 require("dotenv").config();
-
-const cache = new Map();
 
 const setDelay = (cb, timeout = 0) => {
     return new Promise((resolve) => {
@@ -31,7 +30,7 @@ router.post("/", async (req, res, next) => {
                 const hashKey = `${employee.latitude}-${employee.longitude}-${client.latitude}-${client.longitude}-${method}`;
 
                 // If the cache doesn't have this information
-                if (!cache.has(hashKey)) {
+                if (!Cache.has(hashKey)) {
                     await setDelay(() => {
                         let routePromise = null;
 
@@ -46,13 +45,13 @@ router.post("/", async (req, res, next) => {
                             wasInCache: false,
                             hashKey,
                         });
-                    }, 10);
+                    }, 25);
                 } else {
                     routesToProcess.push({
                         empId: employee.id,
                         cliId: client.id,
                         routePromise: new Promise((res) => {
-                            res(cache.get(hashKey));
+                            res(Cache.read(hashKey));
                         }),
                         wasInCache: true,
                         hashKey,
@@ -77,7 +76,7 @@ router.post("/", async (req, res, next) => {
                         "ZERO_RESULTS",
                     ].includes(googleResponse.status)
                 ) {
-                    if (googleResponse === "ZERO_RESULTS") {
+                    if (googleResponse.status === "ZERO_RESULTS") {
                         let thisEmployee = null;
                         for (const employee of employees) {
                             if (employee.id === cur.empId) {
@@ -116,7 +115,7 @@ router.post("/", async (req, res, next) => {
 
                 // If it wasn't in the cache, put it in
                 if (!cur.wasInCache) {
-                    cache.set(cur.hashKey, contents[i]);
+                    Cache.write(cur.hashKey, contents[i]);
                 }
 
                 return acc;
@@ -146,7 +145,6 @@ router.post("/", async (req, res, next) => {
         // Send back the map of employees to clients with travel info
         res.send(finalObj);
     } catch (err) {
-        // console.error(err);
         next(err);
     }
 });
