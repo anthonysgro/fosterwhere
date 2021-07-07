@@ -556,6 +556,21 @@ function ExcelDropzone() {
                             </p>
                             <ul>
                                 <li>
+                                    Use common strings
+                                    <ul>
+                                        <li>
+                                            Type same string for emp and clients
+                                        </li>
+                                        <li>
+                                            Use "unassigned" for clients without
+                                            a group
+                                        </li>
+                                    </ul>
+                                </li>
+                            </ul>
+                            <p>--OR--</p>
+                            <ul>
+                                <li>
                                     Any integer:
                                     <ul>
                                         <li>Start at 1</li>
@@ -565,7 +580,6 @@ function ExcelDropzone() {
                                         <li>Do not skip a number</li>
                                     </ul>
                                 </li>
-                                <li>unassigned</li>
                             </ul>
                         </div>
                     </div>

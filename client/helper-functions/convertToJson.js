@@ -4,20 +4,34 @@ import _ from "lodash";
 const convertToJson = (csv) => {
     const lines = csv.split("\n");
     let result = [];
+    const groups = [];
     const headers = lines[0].split(",");
 
     for (let i = 1; i < lines.length; i++) {
         let obj = {};
+
         const currentline = lines[i].split(",");
         for (let j = 0; j < headers.length; j++) {
+            const header = headers[j].toLowerCase();
             if (currentline[j]) {
-                if (currentline[j] === "null") {
-                    obj[headers[j].toLowerCase()] = null;
+                // Handles group insertion to accomodate any input for group (not just integers)
+                if (header === "group") {
+                    // If there is an unassigned...
+                    if (currentline[j] === "unassigned") {
+                        obj[header] = null;
+                    } else {
+                        if (!groups.includes(currentline[j])) {
+                            groups.push(currentline[j]);
+                        }
+                        obj[header] = groups.indexOf(currentline[j]);
+                    }
                 } else {
-                    obj[headers[j].toLowerCase()] = currentline[j].replaceAll(
-                        "~",
-                        ",",
-                    );
+                    // Handles all other cases of insertion
+                    if (currentline[j] === "null") {
+                        obj[header] = null;
+                    } else {
+                        obj[header] = currentline[j].replaceAll("~", ",");
+                    }
                 }
             }
         }
