@@ -12,7 +12,7 @@ export const loadingReducer = (state = initialState, action) => {
         return (state = { message: "", isLoading: false });
     } else if (action.type === DROP_FILE) {
         return (state = {
-            message: "Calculating distances...",
+            message: "Calculating distances... this may take up to a minute.",
             isLoading: true,
         });
     } else {
