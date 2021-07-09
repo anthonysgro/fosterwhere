@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const nodeGeocoder = require("node-geocoder");
+const { setDelay } = require("./helper-functions");
 require("dotenv").config();
 
 router.put("/", async (req, res, next) => {
@@ -17,16 +18,18 @@ router.put("/", async (req, res, next) => {
         let geocodedData = [];
         let i = 0;
         for (const dataItem of data) {
+            // Sets a delay so we don't bombard google with too frequent requests
+            await setDelay(() => {
+                // push in promises for each entry, will resolve concurrently later
+                const latLngPromise = geoCoder.geocode(dataItem.address);
+
+                geocodedData.push({
+                    id: i,
+                    ...dataItem,
+                    latLngPromise,
+                });
+            }, 25);
             i++;
-
-            // push in promises for each entry, will resolve concurrently later
-            const latLngPromise = geoCoder.geocode(dataItem.address);
-
-            geocodedData.push({
-                id: i,
-                ...dataItem,
-                latLngPromise,
-            });
         }
 
         // Resolve all requests concurrently so it doesn't take very long!
