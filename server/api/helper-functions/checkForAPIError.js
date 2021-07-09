@@ -5,7 +5,6 @@ const { zeroResults, overQueryLimit, requestDenied } = require("../errors");
 
 function checkForAPIError(data, employees, employee, clients, client) {
     const { status, error_message } = data;
-    console.log(data);
 
     // Error handling
     if (status === "REQUEST_DENIED") {
