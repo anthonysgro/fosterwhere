@@ -2,16 +2,12 @@ const express = require("express");
 const router = express.Router();
 const axios = require("axios");
 const cache = require("./cache");
+const {
+    fetchRoutes,
+    checkForAPIError,
+    formatTransitResponse,
+} = require("./helper-functions");
 require("dotenv").config();
-
-const setDelay = (cb, timeout = 0) => {
-    return new Promise((resolve) => {
-        setTimeout(() => {
-            cb();
-            resolve();
-        }, timeout);
-    });
-};
 
 router.post("/", async (req, res, next) => {
     try {
@@ -21,129 +17,63 @@ router.post("/", async (req, res, next) => {
         const employees = data.filter((item) => item.type === "employee");
         const clients = data.filter((item) => item.type === "client");
 
-        // Create an array of promises so we can process all at the same time
-        let routesToProcess = [];
-        for (const employee of employees) {
-            for (const client of clients) {
-                const { method } = employee;
-
-                const hashKey = `${employee.latitude}-${employee.longitude}-${client.latitude}-${client.longitude}-${method}`;
-
-                // If the cache doesn't have this information
-                if (!cache.has(hashKey)) {
-                    await setDelay(() => {
-                        let routePromise = null;
-
-                        routePromise = axios.get(
-                            `https://maps.googleapis.com/maps/api/directions/json?origin=${employee.latitude},${employee.longitude}&destination=${client.latitude},${client.longitude}&mode=${method}&departure_time=now&key=${process.env.GOOGLE_DIRECTIONS_KEY}`,
-                        );
-
-                        routesToProcess.push({
-                            empId: employee.id,
-                            cliId: client.id,
-                            routePromise,
-                            wasInCache: false,
-                            hashKey,
-                        });
-                    }, 25);
-                } else {
-                    routesToProcess.push({
-                        empId: employee.id,
-                        cliId: client.id,
-                        routePromise: new Promise((res) => {
-                            res(cache.read(hashKey));
-                        }),
-                        wasInCache: true,
-                        hashKey,
-                    });
-                }
-            }
-        }
+        // Gets back an array of all route promises, whether they are in the cache or from Google API
+        const routesToProcess = await fetchRoutes(employees, clients, cache);
 
         // Process all promises concurrently so we don't have to wait for each
-        let newData = [];
         await Promise.all(
             routesToProcess.map((entry) => entry.routePromise),
         ).then((contents) => {
-            newData = routesToProcess.reduce((acc, cur, i) => {
-                const googleResponse = contents[i].data;
-                let error = null;
+            const dataWithRouteInfo = routesToProcess.reduce((acc, cur, i) => {
+                let [travelTime, travelDistance] = ["", ""];
 
-                if (
-                    [
-                        "REQUEST_DENIED",
-                        "OVER_QUERY_LIMIT",
-                        "ZERO_RESULTS",
-                    ].includes(googleResponse.status)
-                ) {
-                    if (googleResponse.status === "ZERO_RESULTS") {
-                        let thisEmployee = null;
-                        for (const employee of employees) {
-                            if (employee.id === cur.empId) {
-                                thisEmployee = employee;
-                                break;
-                            }
-                        }
+                // If route was not in cache, we have work to do
+                if (!cur.wasInCache) {
+                    const googleResponse = contents[i].data;
 
-                        let thisClient = null;
-                        for (const client of clients) {
-                            if (client.id === cur.cliId) {
-                                thisClient = client;
-                                break;
-                            }
-                        }
+                    // Check for errors from Google
+                    checkForAPIError(
+                        googleResponse,
+                        employees,
+                        cur.empId,
+                        clients,
+                        cur.cliId,
+                    );
 
-                        error = Error(
-                            `This form of travel not available for employee ${thisEmployee.name} and client #${thisClient.name} route`,
-                        );
-                    } else {
-                        error = Error(googleResponse.error_message);
-                    }
-                    error.status = 400;
-                    throw error;
+                    // Retrieve duration and distance, parse values in correct format
+                    const { duration, distance } =
+                        googleResponse.routes[0].legs[0];
+
+                    travelTime = parseFloat((duration.value / 60).toFixed(2));
+                    travelDistance = parseFloat(distance.value.toFixed(2));
+
+                    // Write this information to the cache
+                    cache.write(
+                        cur.hashKey,
+                        `${travelTime}%20${travelDistance}`,
+                    );
+                } else {
+                    // If we had this information in the cache, we can just pull it in the correct format
+                    [travelTime, travelDistance] = contents[i]
+                        .split("%20")
+                        .map((val) => parseFloat(val));
                 }
 
-                const { duration, distance } = googleResponse.routes[0].legs[0];
-
-                // Convert from seconds to correct format
+                // Push final values into return array
                 acc.push({
                     empId: cur.empId,
                     cliId: cur.cliId,
-                    travelTime: parseFloat((duration.value / 60).toFixed(2)),
-                    travelDistance: parseFloat(distance.value.toFixed(2)),
+                    travelTime,
+                    travelDistance,
                 });
-
-                // If it wasn't in the cache, put it in
-                if (!cur.wasInCache) {
-                    cache.write(cur.hashKey, contents[i]);
-                }
 
                 return acc;
             }, []);
+
+            // Send back the map of employees to clients with travel info
+            const employeeClientMap = formatTransitResponse(dataWithRouteInfo);
+            res.send(employeeClientMap);
         });
-
-        // Change that to the format we want
-        let finalObj = {};
-        for (const entry of newData) {
-            const { empId, cliId, travelTime, travelDistance } = entry;
-
-            if (finalObj.hasOwnProperty(empId)) {
-                finalObj[empId][cliId] = {
-                    travelTime,
-                    travelDistance,
-                };
-            } else {
-                finalObj[empId] = {
-                    [cliId]: {
-                        travelTime,
-                        travelDistance,
-                    },
-                };
-            }
-        }
-
-        // Send back the map of employees to clients with travel info
-        res.send(finalObj);
     } catch (err) {
         next(err);
     }
