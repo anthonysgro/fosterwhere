@@ -24,51 +24,58 @@ router.post("/", async (req, res, next) => {
         await Promise.all(
             routesToProcess.map((entry) => entry.routePromise),
         ).then((contents) => {
-            const dataWithRouteInfo = routesToProcess.reduce((acc, cur, i) => {
-                let [travelTime, travelDistance] = ["", ""];
+            const dataWithRouteInfo = routesToProcess.reduce(
+                (acc, empCliMapping, i) => {
+                    const { empId, cliId, hashKey, wasInCache } = empCliMapping;
 
-                // If route was not in cache, we have work to do
-                if (!cur.wasInCache) {
-                    const googleResponse = contents[i].data;
+                    let [travelTime, travelDistance] = ["", ""];
 
-                    // Check for errors from Google
-                    checkForAPIError(
-                        googleResponse,
-                        employees,
-                        cur.empId,
-                        clients,
-                        cur.cliId,
-                    );
+                    // If route was not in cache, we have work to do
+                    if (!wasInCache) {
+                        const apiData = contents[i].data;
 
-                    // Retrieve duration and distance, parse values in correct format
-                    const { duration, distance } =
-                        googleResponse.routes[0].legs[0];
+                        // Check for errors from Google API
+                        checkForAPIError(
+                            apiData,
+                            employees,
+                            empId,
+                            clients,
+                            cliId,
+                        );
 
-                    travelTime = parseFloat((duration.value / 60).toFixed(2));
-                    travelDistance = parseFloat(distance.value.toFixed(2));
+                        // Retrieve duration and distance, parse values in correct format
+                        const { duration, distance } =
+                            apiData.routes[0].legs[0];
 
-                    // Write this information to the cache
-                    cache.write(
-                        cur.hashKey,
-                        `${travelTime}%20${travelDistance}`,
-                    );
-                } else {
-                    // If we had this information in the cache, we can just pull it in the correct format
-                    [travelTime, travelDistance] = contents[i]
-                        .split("%20")
-                        .map((val) => parseFloat(val));
-                }
+                        travelTime = parseFloat(
+                            (duration.value / 60).toFixed(2),
+                        );
+                        travelDistance = parseFloat(distance.value.toFixed(2));
 
-                // Push final values into return array
-                acc.push({
-                    empId: cur.empId,
-                    cliId: cur.cliId,
-                    travelTime,
-                    travelDistance,
-                });
+                        // Write this information to the cache
+                        cache.write(
+                            hashKey,
+                            `${travelTime}%20${travelDistance}`,
+                        );
+                    } else {
+                        // If we had this information in the cache, we can just pull it in the correct format
+                        [travelTime, travelDistance] = contents[i]
+                            .split("%20")
+                            .map((val) => parseFloat(val));
+                    }
 
-                return acc;
-            }, []);
+                    // Push final values into return array
+                    acc.push({
+                        empId,
+                        cliId,
+                        travelTime,
+                        travelDistance,
+                    });
+
+                    return acc;
+                },
+                [],
+            );
 
             // Send back the map of employees to clients with travel info
             const employeeClientMap = formatTransitResponse(dataWithRouteInfo);

@@ -12,25 +12,26 @@ const convertToJson = (csv) => {
 
         const currentline = lines[i].split(",");
         for (let j = 0; j < headers.length; j++) {
-            const header = headers[j].toLowerCase();
-            if (currentline[j]) {
+            const header = headers[j].toLowerCase().trim();
+            const currentEntry = !!currentline[j] ? currentline[j].trim() : "";
+            if (currentEntry) {
                 // Handles group insertion to accomodate any input for group (not just integers)
                 if (header === "group") {
                     // If there is an unassigned...
-                    if (currentline[j] === "unassigned") {
+                    if (currentEntry === "unassigned") {
                         obj[header] = null;
                     } else {
-                        if (!groups.includes(currentline[j])) {
-                            groups.push(currentline[j]);
+                        if (!groups.includes(currentEntry)) {
+                            groups.push(currentEntry);
                         }
-                        obj[header] = groups.indexOf(currentline[j]);
+                        obj[header] = groups.indexOf(currentEntry);
                     }
                 } else {
                     // Handles all other cases of insertion
-                    if (currentline[j] === "null") {
+                    if (currentEntry === "null") {
                         obj[header] = null;
                     } else {
-                        obj[header] = currentline[j].replaceAll("~", ",");
+                        obj[header] = currentEntry.replaceAll("~", ",");
                     }
                 }
             }

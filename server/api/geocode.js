@@ -51,7 +51,7 @@ router.put("/", async (req, res, next) => {
                     return arr;
                 }, []);
             })
-            .catch((err) => console.error(err));
+            .catch((err) => next(err));
 
         res.send(newData);
     } catch (err) {
