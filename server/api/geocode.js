@@ -19,10 +19,9 @@ router.put("/", async (req, res, next) => {
                     let [latitude, longitude] = ["", ""];
 
                     if (!wasInCache) {
-                        const geoData = contents[i][0];
                         [latitude, longitude] = [
-                            geoData.latitude,
-                            geoData.longitude,
+                            contents[i][0].latitude,
+                            contents[i][0].longitude,
                         ];
 
                         // Write this information to the cache
