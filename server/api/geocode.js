@@ -2,6 +2,7 @@ const express = require("express");
 const router = express.Router();
 const { fetchCoordinates } = require("./helper-functions");
 const cache = require("./cache");
+const { addressNotFound } = require("./errors");
 require("dotenv").config();
 
 router.put("/", async (req, res, next) => {
@@ -14,9 +15,11 @@ router.put("/", async (req, res, next) => {
         await Promise.all(geocodedData.map((entry) => entry.latLngPromise))
             .then((contents) => {
                 const newData = geocodedData.reduce((arr, cur, i) => {
-                    const { wasInCache, hashKey } = cur;
+                    const { wasInCache, hashKey, name, address } = cur;
 
                     let [latitude, longitude] = ["", ""];
+                    console.log(contents[i]);
+                    if (!contents[i].length) throw addressNotFound(cur);
 
                     if (!wasInCache) {
                         [latitude, longitude] = [
