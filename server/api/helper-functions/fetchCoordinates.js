@@ -1,5 +1,6 @@
 const nodeGeocoder = require("node-geocoder");
 const setDelay = require("./setDelay");
+const parseAddress = require("./parseAddress");
 
 async function fetchCoordinates(data, cache) {
     const googleOptions = {
@@ -12,13 +13,16 @@ async function fetchCoordinates(data, cache) {
     let geocodedData = [];
 
     for (let i = 0; i < data.length; i++) {
-        const hashKey = `${data[i].address}`;
+        const address = parseAddress(data[i].address);
+        data[i].address = address;
+
+        const hashKey = `${address}`;
 
         // Fetch Latitude and Longitude from either Google API or Cache
         let [latLngPromise, wasInCache] = [null, false];
         if (!cache.has(hashKey)) {
             await setDelay(() => {
-                latLngPromise = geoCoder.geocode(data[i].address);
+                latLngPromise = geoCoder.geocode(address);
             }, 25);
         } else {
             latLngPromise = new Promise((res) => {

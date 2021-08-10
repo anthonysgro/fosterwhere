@@ -18,7 +18,7 @@ router.put("/", async (req, res, next) => {
                     const { wasInCache, hashKey, name, address } = cur;
 
                     let [latitude, longitude] = ["", ""];
-                    console.log(contents[i]);
+
                     if (!contents[i].length) throw addressNotFound(cur);
 
                     if (!wasInCache) {
