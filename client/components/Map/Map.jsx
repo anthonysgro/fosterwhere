@@ -15,6 +15,8 @@ import COLORS from "./colors";
 import Marker from "./Marker.jsx";
 import Loading from "../Loading.jsx";
 
+const GOOGLE_CLIENT_KEY = "AIzaSyAj0xOuDNjewo1RSTYVap126YZAZihv0CQ";
+
 class SimpleMap extends Component {
     constructor(props) {
         super(props);
@@ -189,7 +191,7 @@ class SimpleMap extends Component {
             >
                 <GoogleMapReact
                     bootstrapURLKeys={{
-                        key: "AIzaSyB7GThzCAYNkygjoSDUKQywStp7Cf5pXrw",
+                        key: GOOGLE_CLIENT_KEY,
                     }}
                     center={center}
                     defaultZoom={11}

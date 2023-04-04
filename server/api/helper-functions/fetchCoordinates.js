@@ -5,7 +5,7 @@ const parseAddress = require("./parseAddress");
 async function fetchCoordinates(data, cache) {
     const googleOptions = {
         provider: "google",
-        apiKey: process.env.GOOGLE_KEY,
+        apiKey: process.env.GOOGLE_SERVER_KEY,
     };
 
     const geoCoder = nodeGeocoder(googleOptions);
